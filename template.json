@@ -1,0 +1,129 @@
+{
+  "Actor": {
+    "types": ["character", "npc", "monster"],
+    "templates": {
+      
+      "playable": {
+        "secondary-skill": {
+          "name": "baker"
+        },
+        "ability-scores": {
+          "phys": {
+            "value": 10,
+            "combat-bonus": 0,
+            "armor-allowed": "all"
+          },
+          "dex": {
+            "value": 10,
+            "combat-bonus": 0,
+            "ac-mod": 0
+          },
+          "comp": {
+            "value": 10,
+            "bonus-language-count": 0,
+            "literate":true,
+            "xp-bonus-human": 0,
+            "xp-bonus-nonhuman": 0
+          },
+          "cha": {
+            "value": 10,
+            "save-bonus": 0,
+            "reaction-mod": 0,
+            "max-retainers": 0,
+            "base-loyalty": 0
+          }
+      },
+        "class": {
+          "xp": {
+            "value": 0
+          },
+          "level": {
+            "value": 0
+          },
+          "name": {
+            "value": "Normal Human"
+          }
+        },
+        "weapons-allowed": {
+          "value": []
+        },
+        "armor-allowed": {
+          "value": []
+        }
+      },
+    
+      "creature": {
+        "saves": {
+          "pd": {
+            "value": 20
+          },
+          "pp": {
+            "value": 20
+          },
+          "bw": {
+            "value": 20
+          },
+          "lm": {
+            "value": 20
+          },
+          "cm": {
+            "value": 20
+          }
+        },
+        "combat": {
+          "ac": {
+            "value": 10,
+            "has-shield": false
+          },
+          "hp": {
+            "value": 0,
+            "min": 0,
+            "max": 10
+          }
+        },
+        "movement": {
+          "tactical": 0,
+          "overland": 0,
+          "fly": 0,
+          "burrow": 0,
+          "climb": 0,
+          "swim":0
+        },
+        "vision": {
+          "darkvision": false,
+          "low-light": false,
+          "true-sight": false
+        },
+        "alignment": {
+          "value": "Neutral"
+        },
+        "size": {
+          "value": "Size"
+        }
+      }
+    },
+    
+    "character": {
+      "templates": ["playable", "creature"],
+      "background": {
+        "biography": "biography",
+        "appearance": "appearance"
+      }
+    },
+    
+    "npc": {
+      "templates": ["playable", "creature"],
+      "loyalty": {
+        "value": 0
+      },
+      "role": {
+        "value": "guard"
+      }
+    },
+    
+    "monster": {
+      "templates": ["creature"],
+      "description": "none"
+    }
+  }
+}
