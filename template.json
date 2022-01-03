@@ -5,32 +5,20 @@
       
       "playable": {
         "secondary-skill": {
-          "name": "baker"
+          "name": "Baker"
         },
         "ability-scores": {
           "phys": {
-            "value": 10,
-            "combat-bonus": 0,
-            "armor-allowed": "all"
+            "value": 10
           },
           "dex": {
-            "value": 10,
-            "combat-bonus": 0,
-            "ac-mod": 0
+            "value": 10
           },
           "comp": {
-            "value": 10,
-            "bonus-language-count": 0,
-            "literate":true,
-            "xp-bonus-human": 0,
-            "xp-bonus-nonhuman": 0
+            "value": 10
           },
           "cha": {
-            "value": 10,
-            "save-bonus": 0,
-            "reaction-mod": 0,
-            "max-retainers": 0,
-            "base-loyalty": 0
+            "value": 10
           }
       },
         "class": {
@@ -38,7 +26,7 @@
             "value": 0
           },
           "level": {
-            "value": 0
+            "value": 1
           },
           "name": {
             "value": "Normal Human"
@@ -73,7 +61,7 @@
         "combat": {
           "ac": {
             "value": 10,
-            "has-shield": false
+            "other-value": 10
           },
           "hp": {
             "value": 0,
@@ -81,24 +69,8 @@
             "max": 10
           }
         },
-        "movement": {
-          "tactical": 0,
-          "overland": 0,
-          "fly": 0,
-          "burrow": 0,
-          "climb": 0,
-          "swim":0
-        },
-        "vision": {
-          "darkvision": false,
-          "low-light": false,
-          "true-sight": false
-        },
-        "alignment": {
-          "value": "Neutral"
-        },
-        "size": {
-          "value": "Size"
+        "languages": {
+          "value": []
         }
       }
     },
@@ -108,7 +80,8 @@
       "background": {
         "biography": "biography",
         "appearance": "appearance"
-      }
+      },
+      "isNPC": false
     },
     
     "npc": {
@@ -116,14 +89,86 @@
       "loyalty": {
         "value": 0
       },
-      "role": {
-        "value": "guard"
-      }
+      "isNPC": true
     },
     
     "monster": {
       "templates": ["creature"],
-      "description": "none"
+      "description": "description",
+      "alignment": "Chaotic",
+      "movement": {
+          "tactical": 30,
+          "overland": 20,
+          "fly": 0,
+          "burrow": 0,
+          "climb": 0,
+          "swim":0
+        }
+     }
+  },
+  "Item": {
+    "types": ["weapon", "armor", "equipment", "loot", "currency", "spell", "logistic"],
+    "templates": {
+      "physicalItem": {
+        "qty": 1,
+        "qtyPerSlot": 1,
+        "unitSlot": 1
+      },
+      "describable": {
+        "description": "An item's description goes here"
+      },
+      "currency": {
+        "coins": {
+          "gp": 0,
+          "sp": 0,
+          "cp": 0
+        },
+        "gems": {
+          "sp10": 0,
+          "sp25": 0,
+          "sp50": 0,
+          "sp100": 0,
+          "sp250": 0,
+          "sp500": 0,
+          "sp1000": 0,
+          "sp2500": 0,
+          "sp5000": 0
+        }
+      }
+    },
+    "weapon": {
+      "templates": ["physicalItem", "describable"],
+      "properties":[false,false,false,false,false,false,false,false,false,false],
+      "bonus": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "armor": {
+      "templates": ["physicalItem", "describable"],
+      "properties":[],
+      "baseAC": 10,
+      "minPhys": 8,
+      "isShield": false
+    },
+    "equipment": {
+      "templates": ["physicalItem", "describable"],
+      "resourceDie": 8
+    },
+    "loot": {
+     "templates": ["physicalItem", "describable"],
+     "value": 0
+    },
+    "currency":{
+      "template": ["currency", "describable"]
+    },
+    "spell": {
+      "templates": ["describable"],
+      "level": 1
+    },
+    "logistic": {
+      "templates": ["physicalItem", "describable"],
+      "investment": 0
     }
   }
 }

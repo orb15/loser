@@ -1,5 +1,7 @@
-import LoserCharacterSheet from "./module/character-sheet.js";
-
+import LoserCharacterSheet from "./apps/sheets/actors/character-sheet.js";
+import LoserEquipmentItemSheet from "./apps/sheets/items/equipment-sheet.js";
+import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
+import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
 // -----------------------------
 // Hooks - Initialization
 // -----------------------------
@@ -13,10 +15,32 @@ Hooks.once("init", function(){
   Actors.registerSheet("loser", LoserCharacterSheet, {
     types: ["character"],
     makeDefault: true,
-    label: "Character Sheet"
+    label: "Player Character Sheet"
   });
   
-  //TODO: register sheets for NPC and Monsters here
+  //register NPC sheet
+    Actors.registerSheet("loser", LoserCharacterSheet, {
+    types: ["npc"],
+    makeDefault: true,
+    label: "NPC Character Sheet"
+  });
+  
+  
+  Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet("loser", LoserEquipmentItemSheet, {
+    types: ["equipment"],
+    makeDefault: true,
+    label: "Item - Equipment"
+  });
+
+  Items.registerSheet("loser", LoserWeaponItemSheet, {
+    types: ["weapon"],
+    makeDefault: true,
+    label: "Item - Weapon"
+  });
+  
+  // Preload Handlebars Templates
+  return preloadHandlebarsTemplates();
   
   console.log("LoseR | Init Hook complete");
 });

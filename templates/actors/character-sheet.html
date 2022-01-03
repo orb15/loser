@@ -1,0 +1,150 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- core details --}}
+  <div class="flexrow core-details">
+    <img class="pic" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
+    <div class="flexcol facts">
+    
+      <input class="charname" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+      
+      <div class="flexrow basics">
+          <input class="charclass" name="data.class.name.value" type="text" value="{{data.class.name.value}}" placeholder="Class"/>
+          <input class="charlevel" name="data.class.level.value" type="number" value="{{data.class.level.value}}" min="0" placeholder="1" data-dtype="Number"/>
+          <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
+           <input class="charalign" type="text" value="{{data.computed.alignment}}" placeholder="Alignment" readonly/>
+          <input class="charsecskill" name="data.secondary-skill.name" type="text" value="{{data.secondary-skill.name}}" placeholder="Secondary Skill"/>
+      </div>
+     
+      <div class="flexrow">
+        <ul class="flexrow attributes">
+          <li class="attribute health">
+              <h4 class="attribute-name box-title">Hit Points</h4>
+              <div class="attribute-value multiple">
+                  <input name="data.combat.hp.value" type="number"
+                         value="{{data.combat.hp.value}}" placeholder="10"
+                         data-dtype="Number" min="0" title="Current Hit Points">
+                  <span class="sep"> / </span>
+                  <input name="data.combat.hp.max" type="number" min="0"
+                         value="{{data.combat.hp.max}}" placeholder="10" 
+                         data-dtype="Number" title="Max Hit Points">
+              </div>
+              <footer class="attribute-footer">
+                <span>Current</span>
+                <span class="sep"> / </span>
+                <span>Max</span>
+              </footer>
+          </li>
+          <li class="attribute armorclass">
+              <h4 class="attribute-name box-title">AC</h4>
+              <div class="attribute-value multiple">
+                  <input name="data.combat.ac.value" type="number" min="0"
+                         value="{{data.combat.ac.value}}" placeholder="10"
+                         data-dtype="Number" title="Base AC">
+                  <span class="sep"> / </span>
+                  <input name="data.combat.ac.other-value" type="number" min="0"
+                         value="{{data.combat.ac.other-value}}" placeholder="10" 
+                         data-dtype="Number" title="Other AC">
+              </div>
+              <footer class="attribute-footer">
+                <span>Base</span>
+                <span class="sep"> / </span>
+                <span>Other</span>
+              </footer>
+          </li>
+          <li class="attribute movement">
+              <h4 class="attribute-name box-title">Movement</h4>
+              <div class="attribute-value multiple">
+                  <input type="text" value="{{data.computed.movement.tactical}}" placeholder="30"
+                         data-dtype="Number" title="Tactical ft" readonly>
+                  <span class="sep"> / </span>
+                  <input type="text" value="{{data.computed.movement.overland}}" placeholder="20" 
+                         data-dtype="Number" title="Overland mi" readonly>
+              </div>
+              <footer class="attribute-footer">
+                <span>ft</span>
+                <span class="sep"> / </span>
+                <span>mi</span>
+              </footer>
+          </li>         
+        </ul>
+        <div class="flexcol other-attributes">
+          <span>Vision Type: {{data.computed.vision}}</span>
+          <span>Size: {{data.computed.charsize}}</span>
+          {{#data.isNPC}}
+          <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
+          {{/data.isNPC}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Character Sheet Navigation --}}
+  <nav class="sheet-navigation tabs" data-group="primary">
+      <a class="item active" data-tab="core">Basics</a>
+      <a class="item" data-tab="inventory">Inventory</a>
+      <a class="item" data-tab="spellbook">Spellbook</a>
+      <a class="item" data-tab="notes">Notes</a>
+  </nav>
+  
+  
+  <section class="sheet-body">
+
+    {{!-- Ability Scores, Saves, Traits --}}
+    <div class="tab attributes flexrow sst" data-group="primary" data-tab="core">
+  
+      <ul class="flexcol ability-scores">
+        <li class="flexrow ability-score phys">
+          <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
+          <input name="data.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{data.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
+          <span class="ability-text">{{data.computed.phys.text}}</span>
+        </li>
+        <li class="flexrow ability-score dex">
+          <h4 class="rollable event-ability-name" data-ability="dex">DEX</h4>
+          <input name="data.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{data.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
+          <span class="ability-text">{{data.computed.dex.text}}</span>
+        </li>
+        <li class="flexrow ability-score comp">
+          <h4 class="rollable event-ability-name" data-ability="comp">COMP</h4>
+          <input name="data.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{data.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
+          <span class="ability-text">{{data.computed.comp.text}}</span>
+        </li>
+        <li class="flexrow ability-score cha">
+          <h4 class="rollable event-ability-name" data-ability="cha">CHA</h4>
+          <input name="data.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{data.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
+          <span class="ability-text">{{data.computed.cha.text}}</span>
+        </li>
+      </ul>
+      
+      <ul class="flexcol saves">
+        <li class="flexrow save poison">
+          <h4 class="rollable event-saves-name" data-save="pd">Poison / Death</h4>
+          <input name="data.saves.pd.value" type="number" min="2" value="{{data.saves.pd.value}}" placeholder="20" data-dtype="Number">
+        </li>
+        <li class="flexrow save petpoly">
+          <h4 class="rollable event-saves-name" data-save="pp">Petrify / Polymorph</h4>
+          <input class="pp" name="data.saves.pp.value" type="number" min="2" value="{{data.savespp.value}}" placeholder="20" data-dtype="Number">
+        </li>
+        <li class="flexrow save breath">
+          <h4 class="rollable event-saves-name" data-save="bw">Breath Weapon</h4>
+          <input name="data.saves.bw.value" type="number" min="2" value="{{data.saves.bw.value}}" placeholder="20" data-dtype="Number">
+        </li>
+        <li class="flexrow save law">
+          <h4 class="rollable event-saves-name" data-save="lm"">Law Magic</h4>
+          <input name="data.saves.lm.value" type="number" min="2" value="{{data.saves.lm.value}}" placeholder="20" data-dtype="Number">
+        </li>
+        <li class="flexrow save chaos">
+          <h4 class="rollable event-saves-name" data-save="cm"">Chaos Magic</h4>
+          <input name="data.saves.cm.value" type="number" min="2" value="{{data.ability-scores.cm.value}}" placeholder="20" data-dtype="Number">
+        </li>
+      </ul>
+
+    </div>
+
+    {{!-- Inventory Tab --}}
+    <div class="tab inventory flexcol" data-group="primary" data-tab="inventory">
+        {{> "systems/loser/templates/actors/parts/actor-inventory.html"}}
+    </div>
+    
+  </section>
+
+</form>

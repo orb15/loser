@@ -18,9 +18,6 @@
   font-size: 20px;
   font-weight: 700;
 }
-/* ----------------------------------------- */
-/*  Sheet Styles                             */
-/* ----------------------------------------- */
 
 /* ----------------------------------------- */
 /*  Flexbox                                  */
@@ -51,20 +48,73 @@
 /*  loser app                                */
 /* ----------------------------------------- */
 .loser {
+}
+.loser .window-content {
   height: 100%;
   width: 100%;
   padding: 0px;
   margin: 0px;
-}
-.loser .window-content {
-  font-size: 13px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 15px;
 }
 
 /* ----------------------------------------- */
 /*  sheet                                    */
 /* ----------------------------------------- */
-loser.sheet {
+.loser.sheet {
   
+}
+
+.loser.sheet span.sep {
+  flex: none;
+  margin: 0 1px;
+  display: inline;
+  position: relative;
+  color: #7a7971;
+  font-weight: normal;
+}
+
+.loser.sheet input:read-only,
+.loser.sheet textarea:read-only {
+  border: none;
+}
+
+.loser.sheet .rollable:hover {
+  cursor: pointer;
+}
+.loser.sheet h4.rollable:hover,
+.loser.sheet .rollable:hover > h4 {
+  color: #000;
+  text-shadow: 0 0 10px red;
+}
+
+.loser.sheet .window-content .tab {
+  height: 100%;
+  overflow-y: auto;
+  align-content: flex-start;
+}
+
+.loser.sheet .sheet-navigation {
+  flex: 0 0 30px;
+  margin-bottom: 5px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.loser.sheet .sheet-navigation .item {
+  height: 30px;
+  line-height: 32px;
+  margin: 0 24px;
+  border-bottom: 3px solid #b5b3a4;
+}
+.loser.sheet .sheet-navigation .item.active {
+  border-bottom: 3px solid #44191A;
+}
+
+.loser.sheet .form-group.stacked label.checkbox,
+.loser.sheet .form-group.stacked label.radio {
+  flex: auto;
+  text-align: left;
 }
 
 /* ----------------------------------------- */
@@ -78,54 +128,378 @@ loser.sheet {
 /*  playable                                */
 /* ----------------------------------------- */
 .loser.sheet.actor.playable {
-
+  min-width: 720px;
+  min-height: 680px;
 }
 
 .loser.sheet.actor.playable .core-details {
   border-bottom: 2px groove #eeede0;
   flex: 0 0 164px;
+  height: 164px;
 }
 
 .loser.sheet.actor.playable .core-details img.pic {
   flex: 0 0 160px;
   max-width: 160px;
   height: 160px;
+  border: none;
+  border-right: 2px groove #eeede0;
 }
 
 .loser.sheet.actor.playable .core-details .facts {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .loser.sheet.actor.playable .core-details .facts .charname {
   font-size: 24px;
   flex: 0 0 24px;
+  margin-top: 4px;
 }
 
-.loser.sheet.actor.playable .core-details .details {
-
+.loser.sheet.actor.playable .basics {
+  flex: 1 0 auto;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  max-height: 36px;
 }
 
-.loser.sheet.actor.playable .core-details .details label {
-  margin: 3px;
-  font-size: 10px;
+.loser.sheet.actor.playable .basics .charclass {
+  flex: 1 0 100px;
+  width: 100px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .basics .charlevel {
+  flex: 1 0 20px;
   width: 20px;
+  margin-right: 4px;
 }
 
-.loser.sheet.actor.playable .core-details .details span{
-  margin: 3px;
+.loser.sheet.actor.playable .basics .charxp {
+  flex: 1 0 40px;
+  margin-right: 4px;
 }
 
-.loser.sheet.actor.playable .core-details .class-details {
-
+.loser.sheet.actor.playable .basics .charalign {
+  flex: 1 0 100px;
+  width: 100px;
+  margin-right: 4px;
 }
 
-.loser.sheet.actor.playable .core-details .other-details {
+.loser.sheet.actor.playable .basics .charsecskill {
+  flex: 1 0 100px;
+  width: 100px;
+  margin: none;
+}
+
+.loser.sheet.actor.playable ul.attributes {
+  flex: 0 0 80px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 400px;
+}
+
+.loser.sheet.actor.playable ul.attributes li.attribute {
+  height: 80px;
+  margin: 0 5px 0 0;
+  border: 2px groove #eeede0;
+  border-radius: 4px;
+  text-align: center;
+  padding-bottom: 12px;
+}
+.loser.sheet.actor.playable ul.attributes li.attribute:last-child {
+  margin: 0;
+}
+.loser.sheet.actor.playable ul.attributes li.attribute .attribute-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 28px;
+  line-height: 28px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.loser.sheet.actor.playable ul.attributes li.attribute .attribute-value > * {
+  font-weight: 400;
+  font-size: 24px;
+}
+.loser.sheet.actor.playable ul.attributes li.attribute .attribute-value.multiple input {
+  flex: 0 0 33%;
+}
+.loser.sheet.actor.playable ul.attributes li.attribute .attribute-footer {
+  flex: 0 0 18px;
+  margin-top: -1px;
+  line-height: 18px;
+  font-family: "Signika", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.loser.sheet.actor.playable h4.box-title {
+  height: 18px;
+  line-height: 16px;
+  margin: 4px 8px 2px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #4b4a44;
+  border-bottom: 1px solid #c9c7b8;
+  white-space: nowrap;
+}
+
+.loser.sheet.actor.playable .other-attributes {
+  flex: 1 0 60px;
+  width: 60px;
+  margin-left: 10px;
+}
+
+.loser.sheet.actor.playable .other-attributes .loyalty {
+  width: 30px;
+}
+
+.loser.sheet.actor.playable .sst {
+  flex: 1 0 auto;
+  border-bottom: 2px groove #eeede0;
+  padding: 0;
+  margin: 0;
+  margin-top: 8px;
+  max-height: 260px;
+}
+
+.loser.sheet.actor.playable .sst ul {
+  flex: 1 0 250px;
+  list-style: none;
+  height: 250px;
+}
+
+.loser.sheet.actor.playable .sst .ability-scores {
+  flex: 1 0 250px;
+  width:250px;
+  border-right: 2px groove #eeede0;
+}
+
+.loser.sheet.actor.playable .sst .ability-score li {
+  flex: 1 0 auto;
+}
+
+.loser.sheet.actor.playable .sst .ability-score h4 {
+  flex: 1 0 50px;
+  font-size: 32px;
+  max-width: 50px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.loser.sheet.actor.playable .sst .ability-score input {
+  flex: 1 0 50px;
+  font-size: 32px;
+  max-width: 50px;
+  margin-top: 14px;
+  margin-right: 10px;
+}
+
+.loser.sheet.actor.playable .sst .ability-score span {
+  flex: 1 0 200px;
+  font-size: 12px;
+  max-height: 100px;
+  border: 1px solid;
+}
+
+.loser.sheet.actor.playable .sst .saves {
+  flex: 1 0 auto;
+  margin-right: 8px;
+}
+
+.loser.sheet.actor.playable .sst .save h4 {
+  flex: 1 0 100px;
+  font-size: 20px;
+  max-width: 100px;
+  margin-right: 10px;
+}
+
+.loser.sheet.actor.playable .sst .save input {
+  flex: 1 0 50px;
+  font-size: 24px;
+  max-width: 50px;
+}
+
+.loser.sheet.actor.playable .sst .save input.pp {
+  margin-top: 6px;
+}
+
+/* ----------------------------------------- */
+/* Partial - Inventory                       */
+
+.loser.sheet.actor.playable .inventory-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 24px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .header .slots {
+  text-align: right;
+  padding-right: 20px;
 }
 
 
 /* ----------------------------------------- */
-/*  character                                */
+/*  Item                                     */
 /* ----------------------------------------- */
-loser.sheet.actor.playable.character {
+.loser.sheet.item {
+  margin: 0;
+  padding: 0;
+  min-width: 450px;
+  min-height: 380px;
+}
 
+.loser.sheet.item .core-details {
+  border-bottom: 2px groove #eeede0;
+  flex: 0 0 81px;
+  height: 81px;
+}
+
+.loser.sheet.item .core-details img.pic {
+  flex: 0 0 80px;
+  max-width: 80px;
+  height: 80px;
+  border: none;
+  border-right: 2px groove #eeede0;
+}
+
+.loser.sheet.item .core-details .basics {
+  margin-top: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.loser.sheet.item .itemname {
+  font-size: 42px;
+  min-height: 48px;
+}
+.loser.sheet.item .iteminfo {
+  font-size: 24px;
+  margin-top: 4px;
+}
+
+.loser.sheet.item .iteminfo .slots {
+  text-align: right;
+  margin-left: 4px;
+}
+
+.loser.sheet.item .phys-desc {
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-family: Verdana, Helvetica, sans-serif;
+  border-bottom: 2px groove #eeede0;
+}
+
+.loser.sheet.item .phys-desc .phys-stack {
+  flex: 0 0 130px;
+  max-height: 130px;
+}
+
+.loser.sheet.item .phys-desc .phys-detail {
+  flex: 0 0 40px;
+  max-width: 150px;
+  max-height: 40px;
+  border: none;
+  border-right: 2px groove #eeede0;
+}
+
+.loser.sheet.item .phys-desc .phys-detail span {
+  flex: 0 0 80px;
+  min-width: 80px;
+  font-weight: 300;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.loser.sheet.item .phys-desc .phys-detail input {
+  max-width: 40px;
+}
+
+.loser.sheet.item .phys-desc .desc-detail {
+  margin-left: 8px;
+  margin-right: 8px;
+  min-height: 130px;
+}
+
+.loser.sheet.item .phys-desc .desc-detail .editor-content{
+  min-height: 130px;
+}
+
+.loser.sheet.item .item-properties {
+  margin-left: 8px;
+  font-size: 20px;
+  border-bottom: 2px groove #eeede0;
+}
+
+.loser.sheet.item .item-properties label.checkbox {
+  flex: 0 0 98px;
+  font-size: 14px;
+}
+
+/* ----------------------------------------- */
+/*  Equipment                                */
+/* ----------------------------------------- */
+.loser.sheet.item .equipment {
+  font-size: 14px;
+  font-style: normal;
+  font-family: Verdana, Helvetica, sans-serif;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
+
+.loser.sheet.item .equipment.resource-die {
+  margin-top: 4px;
+}
+
+.loser.sheet.item .equipment .title {
+  flex: 1 0 100px;
+  max-width: 100px;
+  margin-top: 4px;
+}
+
+.loser.sheet.item .equipment .d1 {
+  flex: 1 0 20px;
+  max-width: 20px;
+  margin-top: 4px;
+}
+.loser.sheet.item .equipment .die-size {
+  flex: 1 0 50px;
+  max-width: 50px;
+}
+
+/* ----------------------------------------- */
+/*  Weapon                                   */
+/* ----------------------------------------- */
+.loser.sheet.item .weapon.bonus {
+  margin-top: 4px;
+  margin-left: 8px;
+}
+
+.loser.sheet.item .weapon .title {
+  flex: 1 0 100px;
+  max-width: 100px;
+  margin-top: 4px;
+  font-size: 20px;
+}
+
+.loser.sheet.item .weapon.bonus .weapon-bonus{
+  flex: 1 0 50px;
+  max-width: 50px;
+  margin-top: 4px;
 }

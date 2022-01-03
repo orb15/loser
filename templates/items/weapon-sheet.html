@@ -1,0 +1,20 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{> "systems/loser/templates/items/parts/physdesc-partial-sheet.html" }}
+  
+  {{!-- Weapon Properties --}}
+  <div class="flexrow form-group stacked item-properties">
+      <label>Weapon Properties</label>
+      {{#each data.propertyNames as |name prop|}}
+      <label class="checkbox">
+        <input type="checkbox" name="data.properties.{{prop}}" {{checked (lookup ../data.properties prop)}}/> {{ name }}
+      </label>
+      {{/each}}
+  </div>
+
+  <div class="flexrow weapon bonus">
+    <span class="title">Weapon Bonus</span>
+    <input name="data.bonus" class="weapon-bonus" type="number" value="{{data.bonus}}" placeholder="0" data-dtype="Number" min="-5" max="5"/> 
+  </div>
+  
+</form>
