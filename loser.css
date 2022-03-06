@@ -345,11 +345,20 @@
 .loser.sheet.actor.playable .inventory-partial .header {
   border-bottom: 2px groove #eeede0;
   font-size: 24px;
+  max-height: 40px;
 }
 
 .loser.sheet.actor.playable .inventory-partial .header .slots {
   text-align: right;
   padding-right: 20px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
 }
 
 

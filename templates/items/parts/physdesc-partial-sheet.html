@@ -17,16 +17,20 @@
   {{#data.hasSlots}}
     <div class="flexcol phys-stack">
       <div class="flexrow phys-detail">
-        <span>Unit Slots</span>
-        <input name="data.unitSlot" type="number" value="{{data.unitSlot}}" placeholder="1" data-dtype="Number" min="0"/> 
+        {{#data.usesUnitSlot}}
+          <span>Unit Slots</span>
+          <input name="data.unitSlot" type="number" value="{{data.unitSlot}}" placeholder="1" data-dtype="Number" min="0"/>
+        {{/data.usesUnitSlot}} 
       </div>
       <div class="flexrow phys-detail">
         <span>Qty</span>
         <input name="data.qty" type="number" value="{{data.qty}}" placeholder="1" data-dtype="Number" min="0"/> 
       </div>
       <div class="flexrow phys-detail">
+        {{#data.usesQtyPerSlot}}
         <span>Qty Per Slot</span>
-        <input name="data.qtyPerSlot" type="number" value="{{data.qtyPerSlot}}" placeholder="1" data-dtype="Number" min="1"/> 
+        <input name="data.qtyPerSlot" type="number" value="{{data.qtyPerSlot}}" placeholder="1" data-dtype="Number" min="1"/>
+        {{/data.usesQtyPerSlot}} 
       </div>
    </div>
   {{/data.hasSlots}}

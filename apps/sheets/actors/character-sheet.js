@@ -101,7 +101,16 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
           break;
         case "equipment":
           inventory.equipment.items.push(item);
-          inventory.equipment.slots += Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.equipment.slots += item.slots
+
+          //note if this item has a resource die associated with it
+          if (item.data.resourceDie > 0) {
+            item.hasResourceDie = true
+          } else {
+            item.hasResourceDie = false
+          }
+
           break;
         case "loot":
           inventory.loot.items.push(item);
@@ -111,7 +120,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
           inventory.currency.items.push(item);
           inventory.currency.slots += Utils.calcSlots(item);
           break;
-      } 
+      }
     })
 
     //sort the various arrays by slots used then by name
@@ -126,20 +135,14 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   
   _inventorySorter(a, b) {
     
-    const aQty = a.data.qty
-    const aPerSlots = a.data.qtyPerSlot > 0 ? a.data.qtyPerSlot : 1;
-    const aSlots = Math.ceil(aQty/aPerSlots)
-
-    const bQty = b.data.qty
-    const bPerSlots = b.data.qtyPerSlot > 0 ? b.data.qtyPerSlot : 1;
-    const bSlots = Math.ceil(bQty/bPerSlots)
-
+    const aSlots = a.slots;
+    const bSlots = b.slots;
 
     if (aSlots > bSlots) {return -1;}
     if (bSlots > aSlots) {return 1;}
     
-    const lcNameA = a.name.toLowerCase()
-    const lcNameB = b.name.toLowerCase()
+    const lcNameA = a.name.toLowerCase();
+    const lcNameB = b.name.toLowerCase();
 
     if (lcNameA < lcNameB) {return -1;}
     if (lcNameB < lcNameA) {return 1;}

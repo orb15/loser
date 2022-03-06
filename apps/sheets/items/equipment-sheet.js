@@ -21,6 +21,11 @@ export default class LoserEquipmentItemSheet extends LoserItemSheetBase {
     
     //note if a resource die is used for this equipment
     data.data.hasResourceDie = data.data.resourceDie > 0 ? true : false;
+
+    //items managed by resource die never use "qty Per Slot" weight approach 
+    if (data.data.hasResourceDie) {
+      data.data.usesQtyPerSlot = false
+    }
     
     return data;
   }

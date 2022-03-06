@@ -30,9 +30,19 @@ export default class LoserItemSheetBase extends ItemSheet {
     //in the template. I spent far too long sorting this out in the debugger since the 5e stuff
     //didn't seem to be working for me exactly as I expected. I guess this is a hybrid approach?
     const itemData = data.data;  
+
+    itemData.data.usesUnitSlot = false;
+    itemData.data.usesQtyPerSlot = false;
     
+    //track if an item has slots, and if so, does it use unit slot or sty/slot approach
     if (itemData.data.hasOwnProperty("qty")) {
       itemData.data.hasSlots = true
+      if (itemData.data.unitSlot > 0) {
+        itemData.data.usesUnitSlot = true;
+      }
+      if (itemData.data.qtyPerSlot > 0) {
+        itemData.data.usesQtyPerSlot = true;
+      } 
     } else {
       itemData.data.hasSlots = false
     }

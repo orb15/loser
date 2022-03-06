@@ -18,8 +18,11 @@
           <li class="flexrow">
             <div class="item-image" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
             <div class="item-name">{{this.name}}</div>
-            {{#this.data.resourceDie}}<div class="item-resource-die">die: {{this.data.resourceDie}}</div>{{/this.data.resourceDie}}
+            <div class="item-quantity">Qty: {{this.data.qty}}</div>
+            <div class="item-resource-die">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
             <div class="item-slots">slots: {{this.slots}}</div>
+            <div><a class="item-control item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
+            <div><a class="item-control item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
           </li>
         {{/each}}
       </ul>
