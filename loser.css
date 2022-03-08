@@ -353,12 +353,37 @@
   padding-right: 20px;
 }
 
-.loser.sheet.actor.playable .inventory-partial .item-image {
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 18px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .header .slots {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .item .drop {
+  margin-top: 6px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .item-image {
   flex: 0 0 30px;
   height: 30px;
   background-size: 30px;
   border: none;
   margin-right: 5px;
+}
+
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .item-name {
+  flex: 1 0 150px;
+  min-width: 150px;
 }
 
 

@@ -66,6 +66,10 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //Ability Score Changes - onChange
     html.find(".event-ability-value").change(this._onChangeAbilityScore.bind(this))
 
+    //Inventory - Item Edit & Delete icons
+    html.find(".item-edit").click(this._onItemEdit.bind(this));
+    html.find(".item-delete").click(this._onItemDelete.bind(this));
+
 
     //establish default listeners
     super.activateListeners(html);
@@ -176,5 +180,19 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     let abilityName = event.currentTarget.dataset.ability;
     let abilityValue = event.currentTarget.value
     console.log(abilityName + " has the new value: " + abilityValue);
+  }
+
+  _onItemEdit(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    return item.sheet.render(true);
+  }
+
+  _onItemDelete(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    if ( item ) return item.delete();
   }
 }
