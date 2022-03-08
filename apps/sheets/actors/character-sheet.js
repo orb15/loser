@@ -97,11 +97,13 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       switch(item.type) {
         case "weapon":
           inventory.weapon.items.push(item);
-          inventory.weapon.slots += Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.weapon.slots += item.slots;
           break;
         case "armor":
           inventory.armor.items.push(item);
-          inventory.armor.slots += Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.armor.slots +=item.slots;
           break;
         case "equipment":
           inventory.equipment.items.push(item);
@@ -118,11 +120,13 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
           break;
         case "loot":
           inventory.loot.items.push(item);
-          inventory.loot.slots += Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.loot.slots += item.slots;
           break;
         case "currency":
           inventory.currency.items.push(item);
-          inventory.currency.slots += Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.currency.slots += item.slots;
           break;
       }
     })
