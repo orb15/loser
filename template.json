@@ -161,7 +161,7 @@
      "value": 0
     },
     "currency":{
-      "template": ["currency", "describable"]
+      "templates": ["currency", "describable"]
     },
     "spell": {
       "templates": ["describable"],

@@ -34,8 +34,8 @@ export default class LoserItemSheetBase extends ItemSheet {
     itemData.data.usesUnitSlot = false;
     itemData.data.usesQtyPerSlot = false;
     
-    //track if an item has slots, and if so, does it use unit slot or sty/slot approach
-    if (itemData.data.hasOwnProperty("qty")) {
+    //track if an item has slots, and if so, does it use unit slot or qty/slot approach
+    if (itemData.data.hasOwnProperty("qty") || itemData.type == "currency") {
       itemData.data.hasSlots = true
       if (itemData.data.unitSlot > 0) {
         itemData.data.usesUnitSlot = true;
@@ -60,9 +60,4 @@ export default class LoserItemSheetBase extends ItemSheet {
     return data;
   }
   
-  //returns the path to the HTML-based character sheet.
-  //@Override ItemSheet
-  get template(){
-    return "systems/loser/templates/items/equipment-sheet.html";
-  }
 }

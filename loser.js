@@ -3,6 +3,7 @@ import LoserEquipmentItemSheet from "./apps/sheets/items/equipment-sheet.js";
 import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
 import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
 import LoserLootItemSheet from "./apps/sheets/items/loot-sheet.js";
+import LoserCurrencyItemSheet from "./apps/sheets/items/currency-sheet.js";
 import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
 // -----------------------------
 // Hooks - Initialization
@@ -51,6 +52,12 @@ Hooks.once("init", function(){
     types: ["loot"],
     makeDefault: true,
     label: "Item - Loot"
+  });
+
+  Items.registerSheet("loser", LoserCurrencyItemSheet, {
+    types: ["currency"],
+    makeDefault: true,
+    label: "Item - Currency"
   });
   
   // Preload Handlebars Templates

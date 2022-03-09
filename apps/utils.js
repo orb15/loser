@@ -7,12 +7,6 @@ export default class Utils {
 
     const data = item.data
 
-    //prevent div by 0
-    const qtyPerSlot = data.qtyPerSlot >= 1 ? data.qtyPerSlot : 1
-
-    //prevent negative qty
-    const qty = data.qty >= 0 ? data.qty : 0
-
     //non-currency items use unit weight first, or if this value is 0, base total slots on quantitity and qty per slot
     switch (item.type) {
       case "weapon":
@@ -20,6 +14,12 @@ export default class Utils {
       case "equipment":
       case "loot":
       case "logistic":
+
+        //prevent div by 0
+        const qtyPerSlot = data.qtyPerSlot >= 1 ? data.qtyPerSlot : 1
+
+        //prevent negative qty
+        const qty = data.qty >= 0 ? data.qty : 0
 
         //unit slots are default calculation if set
         if (data.unitSlot >= 1) {
@@ -32,10 +32,10 @@ export default class Utils {
 
       //currency weight is based on increments of 50 coins and 100 gems both rounded down
       case "currency":
-        const coins = itemData.gp + itemData.sp + itemData.cp;
-        const gems = itemData.sp10 + itemData.sp25 + itemData.sp50 + 
-          itemData.sp100 + itemData.sp250 + itemData.sp500 + 
-          itemData.sp1000 + itemData.sp2500 + itemData.sp5000;
+        const coins = data.coins.gp + data.coins.sp + data.coins.cp;
+        const gems = data.gems.sp10 +  data.gems.sp25 +  data.gems.sp50 + 
+        data.gems.sp100 +  data.gems.sp250 +  data.gems.sp500 + 
+        data.gems.sp1000 +  data.gems.sp2500 +  data.gems.sp5000;
         return Math.floor(coins / 50) + Math.floor(gems / 100);
 
       default:
