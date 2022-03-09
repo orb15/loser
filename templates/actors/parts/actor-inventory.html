@@ -32,7 +32,7 @@
 
       <div class="header flexrow">
         Armor
-        <span class="slots">Slots: {{data.inventory.weapon.slots}}</span>
+        <span class="slots">Slots: {{data.inventory.armor.slots}}</span>
       </div>
       <ul>
         {{#each data.inventory.armor.items}}
@@ -49,8 +49,6 @@
           </li>
         {{/each}}
       </ul>
-
-      
 
       <div class="header flexrow">
         Equipment
@@ -72,8 +70,26 @@
         {{/each}}
       </ul>
     </div>
-    
 
+    <div class="header flexrow">
+      Loot
+      <span class="slots">Slots: {{data.inventory.loot.slots}}</span>
+    </div>
+    <ul>
+      {{#each data.inventory.loot.items}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
   </div>
 
 </div>
