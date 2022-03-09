@@ -4,7 +4,7 @@
   
   {{!-- Weapon Properties --}}
   <div class="flexrow form-group stacked item-properties">
-      <label>Weapon Properties</label>
+      <label>Armor Properties</label>
       {{#each data.propertyNames as |name prop|}}
       <label class="checkbox">
         <input type="checkbox" name="data.properties.{{prop}}" {{checked (lookup ../data.properties prop)}}/> {{ name }}
@@ -12,7 +12,17 @@
       {{/each}}
   </div>
 
-  <div class="flexrow  details">
+  <div class="flexrow details">
+    <span class="title">Minimum PHYS</span>
+    <input name="data.minPhys" class="value" type="number" value="{{data.minPhys}}" placeholder="0" data-dtype="Number" min="0" max="18"/> 
+  </div>
+
+  <div class="flexrow details">
+    <span class="title">Ac Modifier</span>
+    <input name="data.baseAC" class="value" type="number" value="{{data.baseAC}}" placeholder="0" data-dtype="Number" min="0" max="30"/> 
+  </div>
+
+  <div class="flexrow details">
     <span class="title">Magic Bonus</span>
     <input name="data.bonus" class="value" type="number" value="{{data.bonus}}" placeholder="0" data-dtype="Number" min="-5" max="5"/> 
   </div>

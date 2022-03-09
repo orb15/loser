@@ -520,19 +520,36 @@
 /* ----------------------------------------- */
 /*  Weapon                                   */
 /* ----------------------------------------- */
-.loser.sheet.item .weapon.bonus {
-  margin-top: 4px;
-  margin-left: 8px;
-}
-
-.loser.sheet.item .weapon .title {
+.loser.sheet.item.weapon .details .title {
   flex: 1 0 100px;
   max-width: 100px;
   margin-top: 4px;
+  margin-left: 8px;
   font-size: 20px;
 }
 
-.loser.sheet.item .weapon.bonus .weapon-bonus{
+.loser.sheet.item.weapon .details .value {
+  flex: 1 0 50px;
+  max-width: 50px;
+  margin-top: 4px;
+}
+
+/* ----------------------------------------- */
+/*  Armor                                    */
+/* ----------------------------------------- */
+.loser.sheet.item.armor {
+  min-height: 430px;
+}
+
+.loser.sheet.item.armor .details .title {
+  flex: 1 0 100px;
+  max-width: 100px;
+  margin-top: 4px;
+  margin-left: 8px;
+  font-size: 20px;
+}
+
+.loser.sheet.item.armor .details .value {
   flex: 1 0 50px;
   max-width: 50px;
   margin-top: 4px;

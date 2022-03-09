@@ -146,9 +146,10 @@
     },
     "armor": {
       "templates": ["physicalItem", "describable"],
-      "properties":[],
+      "properties":[false,false,false,false],
       "baseAC": 10,
       "minPhys": 8,
+      "bonus": 0,
       "isShield": false
     },
     "equipment": {

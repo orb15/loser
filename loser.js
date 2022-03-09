@@ -1,6 +1,7 @@
 import LoserCharacterSheet from "./apps/sheets/actors/character-sheet.js";
 import LoserEquipmentItemSheet from "./apps/sheets/items/equipment-sheet.js";
 import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
+import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
 import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
 // -----------------------------
 // Hooks - Initialization
@@ -37,6 +38,12 @@ Hooks.once("init", function(){
     types: ["weapon"],
     makeDefault: true,
     label: "Item - Weapon"
+  });
+
+  Items.registerSheet("loser", LoserArmorItemSheet, {
+    types: ["armor"],
+    makeDefault: true,
+    label: "Item - Armor"
   });
   
   // Preload Handlebars Templates
