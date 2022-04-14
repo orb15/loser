@@ -1,6 +1,6 @@
 import LoserItemSheetBase from "./base-sheet.js";
 
-// This class provides core functionality for the Equipment Item Sheet
+// This class provides core functionality for the Armor Item Sheet
 export default class LoserArmorItemSheet extends LoserItemSheetBase {
   constructor(...args) {
     super(...args);
