@@ -541,3 +541,35 @@
 .loser.sheet.item.armor {
   min-height: 430px;
 }
+
+/* ----------------------------------------- */
+/*  Currency                                 */
+/* ----------------------------------------- */
+.loser.sheet.item.currency {
+  min-height: 550px;
+}
+
+.loser.sheet.item.currency .phys-desc .desc-detail {
+  margin-left: 8px;
+  margin-right: 8px;
+  min-height: 60px;
+}
+
+.loser.sheet.item.currency .coins-and-gems {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.loser.sheet.item.currency .coins-and-gems span.title {
+  font-weight: 700;
+  margin-top: 4px;
+  font-size: 24px;
+}
+
+.loser.sheet.item.currency .coins-and-gems span.denom-title {
+  margin-top: 4px;
+  text-align: right;
+  margin-right: 3px;
+}

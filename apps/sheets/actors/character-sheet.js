@@ -41,8 +41,8 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     data.data.inventory = inventory;
 
-    //data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items)
-    data.data.totalCurrency = 3280.68;
+    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items)
+    //data.data.totalCurrency = 3280.68;
 
     return data;
   }
@@ -160,10 +160,38 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   }
 
   _countTotalCurrency(currencyItems) {
+
+    if(currencyItems.length == 0) {
+      return 0;
+    } 
     
-    return currencyItems.reduce(function (sum, item) {
-      return sum
+    let allItems =  currencyItems.reduce(function (sum, item) {
+      let i = item.data;
+      sum.data.coins.gp += i.coins.gp;
+      sum.data.coins.sp += i.coins.sp;
+      sum.data.coins.cp += i.coins.cp;
+
+      sum.data.gems.sp10 += i.gems.sp10;
+      sum.data.gems.sp25 += i.gems.sp25;
+      sum.data.gems.sp50 += i.gems.sp50;
+
+      sum.data.gems.sp100 += i.gems.sp100;
+      sum.data.gems.sp250 += i.gems.sp250;
+      sum.data.gems.sp500 += i.gems.sp500;
+
+      sum.data.gems.sp1000 += i.gems.sp1000;
+      sum.data.gems.sp2500 += i.gems.sp2500;
+      sum.data.gems.sp5000 += i.gems.sp5000;
+
+      return sum;
     })
+
+    let total = (allItems.data.coins.gp * 10) + (allItems.data.coins.sp) + (allItems.data.coins.cp / 10);
+    total += (allItems.data.gems.sp10 * 10) + (allItems.data.gems.sp25 * 25) + (allItems.data.gems.sp50 * 50);
+    total += (allItems.data.gems.sp100 * 100) + (allItems.data.gems.sp250 * 250) + (allItems.data.gems.sp50 * 500);
+    total += (allItems.data.gems.sp1000 * 1000) + (allItems.data.gems.sp2500 * 2500) + (allItems.data.gems.sp500 * 5000);
+    
+    return total;
   }
 
   _onRollAbilityTest(event) {
