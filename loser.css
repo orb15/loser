@@ -47,8 +47,6 @@
 /* ----------------------------------------- */
 /*  loser app                                */
 /* ----------------------------------------- */
-.loser {
-}
 .loser .window-content {
   height: 100%;
   width: 100%;
@@ -61,10 +59,6 @@
 /* ----------------------------------------- */
 /*  sheet                                    */
 /* ----------------------------------------- */
-.loser.sheet {
-  
-}
-
 .loser.sheet span.sep {
   flex: none;
   margin: 0 1px;
@@ -82,6 +76,11 @@
 .loser.sheet .rollable:hover {
   cursor: pointer;
 }
+
+.loser.sheet a.rollable:hover {
+  text-shadow: 0 0 10px red;
+}
+
 .loser.sheet h4.rollable:hover,
 .loser.sheet .rollable:hover > h4 {
   color: #000;
@@ -120,9 +119,6 @@
 /* ----------------------------------------- */
 /*  actor                                    */
 /* ----------------------------------------- */
-.loser.sheet.actor {
-
-}
 
 /* ----------------------------------------- */
 /*  playable                                */
@@ -386,6 +382,70 @@
   min-width: 150px;
 }
 
+/* ----------------------------------------- */
+/* Partial - Spells                          */
+
+.loser.sheet.actor.playable .spells-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .spells-partial .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 24px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 18px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .drop {
+  margin-top: 6px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .item-image:hover {
+  cursor: pointer;
+  background-size: 40px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .item-name {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .range {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .range .times-mem {
+  margin-left: 8px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .range .spell-mem {
+  margin-left: 8px;
+}
+
+.loser.sheet.actor.playable .spells-partial .spell-list .range .spell-demem {
+  margin-left: 4px;
+}
 
 /* ----------------------------------------- */
 /*  Item                                     */
@@ -570,6 +630,31 @@
 
 .loser.sheet.item.currency .coins-and-gems span.denom-title {
   margin-top: 4px;
+  text-align: right;
+  margin-right: 3px;
+}
+
+/* ----------------------------------------- */
+/*  Spell                                    */
+/* ----------------------------------------- */
+.loser.sheet.item.spell {
+  min-height: 430px;
+}
+
+.loser.sheet.item.spell .phys-desc .desc-detail {
+  margin-left: 8px;
+  margin-right: 8px;
+  min-height: 60px;
+}
+
+.loser.sheet.item.spell .details {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.loser.sheet.item.currency .details span {
   text-align: right;
   margin-right: 3px;
 }

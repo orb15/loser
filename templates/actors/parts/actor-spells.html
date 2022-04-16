@@ -1,0 +1,165 @@
+
+<div class= "spells-partial flexcol">
+
+  {{#data.isSpellcaster}}
+
+  {{!-- Header --}}
+  <div class="flexrow header">
+    Spell List: {{data.spellbook.list}}
+  </div>
+
+  <div class="spell-list">
+
+    <div class="header flexrow">
+      <span>Level 1</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.0.memorized}} / {{data.spellbook.0.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.0.remaining}} / {{data.spellbook.0.maxUses}}</span>
+    </div>
+
+    <ul>
+      {{#each data.spellbook.0.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <ul>
+      {{#each data.spellbook.1.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+    
+    <ul>
+      {{#each data.spellbook.2.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <ul>
+      {{#each data.spellbook.3.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <ul>
+      {{#each data.spellbook.4.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <ul>
+      {{#each data.spellbook.5.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image cast-spell-bind" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="range drop memorize">
+            {{#this.data.mustMemorize}}
+            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            <a class="spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
+            <a class="spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
+            {{/this.data.mustMemorize}}
+          </div>
+          <div class="uncast drop">
+            <a class="rollable uncast-spell-bind">Uncast</a>
+          </div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+  {{else}}
+  No spellcasting capabilities
+  {{/data.isSpellcaster}}
+
+
+</div>

@@ -72,20 +72,23 @@
         "languages": {
           "value": []
         }
+      },
+      "featured": {
+        "features": []
       }
     },
     
     "character": {
-      "templates": ["playable", "creature"],
+      "templates": ["playable", "creature","featured"],
       "background": {
-        "biography": "biography",
-        "appearance": "appearance"
+        "biography": "Biography goes here",
+        "appearance": "Describe your chracter here"
       },
       "isNPC": false
     },
     
     "npc": {
-      "templates": ["playable", "creature"],
+      "templates": ["playable", "creature", "featured"],
       "loyalty": {
         "value": 0
       },
@@ -93,9 +96,10 @@
     },
     
     "monster": {
-      "templates": ["creature"],
+      "templates": ["creature", "featured"],
       "description": "description",
-      "alignment": "Chaotic",
+      "alignment": "chaotic",
+      "isSpellcaster": false,
       "movement": {
           "tactical": 30,
           "overland": 20,
@@ -107,7 +111,7 @@
      }
   },
   "Item": {
-    "types": ["weapon", "armor", "equipment", "loot", "currency", "spell", "logistic"],
+    "types": ["weapon", "armor", "equipment", "loot", "currency", "spell", "feature", "logistic"],
     "templates": {
       "physicalItem": {
         "qty": 1,
@@ -156,6 +160,9 @@
       "templates": ["physicalItem", "describable"],
       "resourceDie": 8
     },
+    "feature": {
+      "templates": ["describable"]
+    },
     "loot": {
      "templates": ["physicalItem", "describable"],
      "value": 0
@@ -165,7 +172,10 @@
     },
     "spell": {
       "templates": ["describable"],
-      "level": 1
+      "level": 1,
+      "spellList": "None",
+      "timesMemorized": 0,
+      "timesCast": 0
     },
     "logistic": {
       "templates": ["physicalItem", "describable"],

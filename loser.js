@@ -4,16 +4,30 @@ import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
 import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
 import LoserLootItemSheet from "./apps/sheets/items/loot-sheet.js";
 import LoserCurrencyItemSheet from "./apps/sheets/items/currency-sheet.js";
+import LoserSpellItemSheet from "./apps/sheets/items/spell-sheet.js";
 import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
+import {LOSER} from "./config.js";
+
+
+
 // -----------------------------
 // Hooks - Initialization
 // -----------------------------
 
 Hooks.once("init", function(){
+
+  console.log(`LoseR | Begin Initinitialization\n${LOSER.ASCII}`);
+
+  // ================================
+  //  Register LOSER-specific CONFIG
+  // ================================
+  CONFIG.LOSER = LOSER;
+
+  // ================================
+  //  Register Sheets
+  // ================================
   
-  console.log("LoseR | Begin Init Hook...");
-  
-  //unregister the core / builtin actor sheet and register my character actor sheet subclass
+  //unregister the core / builtin actor sheet and register the character actor sheet subclass
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("loser", LoserCharacterSheet, {
     types: ["character"],
@@ -59,9 +73,23 @@ Hooks.once("init", function(){
     makeDefault: true,
     label: "Item - Currency"
   });
+
+  Items.registerSheet("loser", LoserSpellItemSheet, {
+    types: ["spell"],
+    makeDefault: true,
+    label: "Item - Spell"
+  });
   
-  // Preload Handlebars Templates
+
+  // ================================
+  //  Post-Init Logging
+  // ================================
+  console.log("LoseR | Initialization Complete");
+
+  // ================================
+  //  Preload Handlebars Templates
+  // ================================
   return preloadHandlebarsTemplates();
   
-  console.log("LoseR | Init Hook complete");
+
 });
