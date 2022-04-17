@@ -22,7 +22,6 @@
         </span>
       <span>Remaining Spells: {{data.spellbook.0.remaining}} / {{data.spellbook.0.maxUses}}</span>
     </div>
-
     <ul>
       {{#each data.spellbook.0.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
@@ -45,6 +44,18 @@
       {{/each}}
     </ul>
 
+    <div class="header flexrow">
+      <span>Level 2</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.1.memorized}} / {{data.spellbook.1.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.1.remaining}} / {{data.spellbook.1.maxUses}}</span>
+    </div>
     <ul>
       {{#each data.spellbook.1.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
@@ -66,7 +77,19 @@
         </li>
       {{/each}}
     </ul>
-    
+
+    <div class="header flexrow">
+      <span>Level 3</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.2.memorized}} / {{data.spellbook.2.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.2.remaining}} / {{data.spellbook.2.maxUses}}</span>
+    </div>
     <ul>
       {{#each data.spellbook.2.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
@@ -89,6 +112,18 @@
       {{/each}}
     </ul>
 
+    <div class="header flexrow">
+      <span>Level 4</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.3.memorized}} / {{data.spellbook.3.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.3.remaining}} / {{data.spellbook.3.maxUses}}</span>
+    </div>
     <ul>
       {{#each data.spellbook.3.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
@@ -111,6 +146,18 @@
       {{/each}}
     </ul>
 
+    <div class="header flexrow">
+      <span>Level 5</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.4.memorized}} / {{data.spellbook.4.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.4.remaining}} / {{data.spellbook.4.maxUses}}</span>
+    </div>    
     <ul>
       {{#each data.spellbook.4.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
@@ -133,6 +180,18 @@
       {{/each}}
     </ul>
 
+    <div class="header flexrow">
+      <span>Level 6</span>
+      <span>Memorized:
+        {{#data.spellbook.mustMemorize}} 
+          {{data.spellbook.5.memorized}} / {{data.spellbook.5.maxUses}}
+        {{/data.spellbook.mustMemorize}}
+        {{^data.spellbook.mustMemorize}} 
+          NA
+        {{/data.spellbook.mustMemorize}}
+        </span>
+      <span>Remaining Spells: {{data.spellbook.5.remaining}} / {{data.spellbook.5.maxUses}}</span>
+    </div>
     <ul>
       {{#each data.spellbook.5.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
