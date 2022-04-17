@@ -100,9 +100,11 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     super.activateListeners(html);
   }
 
+  //hanlder when an item is dropped on this sheet
    //@Override <Unknown - undocumented API?>
    async _onDropItemCreate(itemData) {
 
+    //check dragged item type and conditionally reject it
     let validType = true;
     switch(itemData.type) {
       case "logistic":
@@ -114,12 +116,12 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
           validType = false;
         }
     }
-    
     if(!validType) {
       return ui.notifications.warn("This character cannot carry items of type: " + itemData.type);
     }
 
-     super._onDropItemCreate(itemData);
+    //default to the handler to create the embedded document
+    super._onDropItemCreate(itemData);
    }
 
   /* -------------------------------------------------------------
