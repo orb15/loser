@@ -100,6 +100,28 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     super.activateListeners(html);
   }
 
+   //@Override <Unknown - undocumented API?>
+   async _onDropItemCreate(itemData) {
+
+    let validType = true;
+    switch(itemData.type) {
+      case "logistic":
+        validType = false; //logistics are never allowed on characters
+        break;
+      
+      case "spell":
+        if(!this.isSpellcaster) {
+          validType = false;
+        }
+    }
+    
+    if(!validType) {
+      return ui.notifications.warn("This character cannot carry items of type: " + itemData.type);
+    }
+
+     super._onDropItemCreate(itemData);
+   }
+
   /* -------------------------------------------------------------
    Spellbook (Inventory) Methods
   ----------------------------------------------------------------*/
