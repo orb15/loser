@@ -156,7 +156,8 @@
       "resourceDie": 8
     },
     "feature": {
-      "templates": ["describable"]
+      "templates": ["describable"],
+      "catagory": "other"
     },
     "loot": {
      "templates": ["physicalItem", "describable"],

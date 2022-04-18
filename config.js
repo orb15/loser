@@ -539,5 +539,13 @@ LOSER.Abilities = {
     "17": "Magical Save Modifier: +2|NPC Reactions: +1|Max Retainers: 6|Base Loyalty: 9",
     "18": "Magical Save Modifier: +3|NPC Reactions: +2|Max Retainers: 7|Base Loyalty: 10",
   }
-
 };
+
+//---------------------------------------------------------------
+// Features
+//---------------------------------------------------------------
+  LOSER.FeatureCategories = {
+    "class": "Class",
+    "language": "Language",
+    "other": "Other"
+  };

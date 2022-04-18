@@ -12,24 +12,21 @@
           <span class="slots">Slots: {{data.slots}}</span>
         {{/data.hasSlots}}
       </div>
-    </div>       
+    </div>
+        
   </div>
-
+  
   <div class="phys-desc">
     <div class="desc-detail">
       {{editor content=data.description target="data.description" button=true owner=true editable=true}}
     </div>
   </div>
 
-  <div class="flexrow details">
-    <span class="title">Spell List</span>
-    <select name="data.spellList">
-      {{selectOptions data.config.SpellLists selected=data.spellList blank="-- Required --"}}
-    </select>
-    <span class="title right">Level</span>
-    <select name="data.level">
-      {{selectOptions data.config.SpellLevels selected=data.level blank="-- Required --"}}
+  <div class="flexrow  details">
+    <span class="title">Category</span>
+    <select name="data.category">
+      {{selectOptions data.config.FeatureCategories selected=data.category blank="-- Required --"}}
     </select>
   </div>
-
+  
 </form>

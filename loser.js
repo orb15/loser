@@ -5,6 +5,7 @@ import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
 import LoserLootItemSheet from "./apps/sheets/items/loot-sheet.js";
 import LoserCurrencyItemSheet from "./apps/sheets/items/currency-sheet.js";
 import LoserSpellItemSheet from "./apps/sheets/items/spell-sheet.js";
+import LoserFeatureItemSheet from "./apps/sheets/items/feature-sheet.js";
 import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
 import {LOSER} from "./config.js";
 
@@ -78,6 +79,12 @@ Hooks.once("init", function(){
     types: ["spell"],
     makeDefault: true,
     label: "Item - Spell"
+  });
+
+  Items.registerSheet("loser", LoserFeatureItemSheet, {
+    types: ["feature"],
+    makeDefault: true,
+    label: "Item - Feature"
   });
   
 

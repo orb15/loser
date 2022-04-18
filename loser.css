@@ -451,6 +451,48 @@
 }
 
 /* ----------------------------------------- */
+/* Partial - Features                          */
+
+.loser.sheet.actor.playable .features-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 18px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .spell-list .item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .drop {
+  margin-top: 6px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .item-image:hover {
+  cursor: pointer;
+  background-size: 40px;
+}
+
+.loser.sheet.actor.playable .features-partial .features-list .item-name {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+/* ----------------------------------------- */
 /*  Item                                     */
 /* ----------------------------------------- */
 .loser.sheet.item {
@@ -647,13 +689,25 @@
 }
 
 .loser.sheet.item.spell .details {
-  margin-left: 8px;
-  margin-right: 8px;
   margin-top: 4px;
-  margin-bottom: 4px;
 }
 
-.loser.sheet.item.currency .details span {
+.loser.sheet.item.spell .right {
   text-align: right;
   margin-right: 3px;
+}
+
+.loser.sheet.item.spell select {
+  max-width: 100px;
+}
+
+/* ----------------------------------------- */
+/*  Feature                                  */
+/* ----------------------------------------- */
+
+.loser.sheet.item.feature .details {
+  margin-top: 4px;
+}
+.loser.sheet.item.feature select {
+  max-width: 150px;
 }

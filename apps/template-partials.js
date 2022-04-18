@@ -6,6 +6,8 @@ export const preloadHandlebarsTemplates = async function() {
     // Actor Sheet Partials
     "systems/loser/templates/actors/parts/actor-inventory.html",
     "systems/loser/templates/actors/parts/actor-spells.html",
+    "systems/loser/templates/actors/parts/actor-features.html",
+
 
     // Item Sheet Partials
     "systems/loser/templates/items/parts/physdesc-partial-sheet.html",

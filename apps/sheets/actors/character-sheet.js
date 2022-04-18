@@ -77,6 +77,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       data.data.spellbook = spellbook;
     }
 
+    //build this character's feature list - features are just Items, handled like Inventory
+    data.data.features = this._buildFeatures(allItems);
+
     //add the LOSER config to make building select boxes easy
     data.data.config = CONFIG.LOSER;
 
@@ -167,6 +170,43 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //default to the handler to create the embedded document
     super._onDropItemCreate(itemData);
    }
+
+  /* -------------------------------------------------------------
+   Features (Inventory) Methods
+  ----------------------------------------------------------------*/
+  _buildFeatures(allItems) {
+    const allFeatures = {
+      "class": {"features": []},
+      "language": {"features": []},
+      "other": {"features": []},
+    };
+
+    //coallate features by category
+    allItems.map(item => {
+
+      if(item.type === "feature") {
+        allFeatures[item.data.category].features.push(item);
+      }
+
+    });
+
+    //sort features
+    allFeatures.class.features.sort();
+    allFeatures.language.features.sort();
+    allFeatures.other.features.sort();
+
+    return allFeatures;
+  }
+
+  _featureSorter(a,b) {
+    const aName = a.name.toLowerCase();
+    const bName = b.name.toLowerCase();
+
+    if (aName > bName) {return 1;}
+    if (bName > aName) {return -1;}
+
+    return 0;
+  }
 
   /* -------------------------------------------------------------
    Spellbook (Inventory) Methods
@@ -605,7 +645,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     const totalSlots = this.dataCache.data.totalSlots;
     let breakPoint1 = 9;
     let breakPoint2 = 10;
-    let breakpoint3 = 15;
+    let breakPoint3 = 15;
 
     //fighter gets 2 extra slots in each catagory
     if(this.dataCache.data.className === "fighter") {
