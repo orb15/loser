@@ -755,3 +755,33 @@
 .loser.sheet.item.feature select {
   max-width: 150px;
 }
+
+/* ----------------------------------------- */
+/*  Logistic                                 */
+/* ----------------------------------------- */
+.loser.sheet.item.logistic {
+  min-height: 430px;
+}
+
+.loser.sheet.item.logistic .phys-desc .desc-detail {
+  margin-left: 8px;
+  margin-right: 8px;
+  min-height: 60px;
+}
+
+.loser.sheet.item.logistic .details {
+  margin-top: 4px;
+}
+
+.loser.sheet.item.logistic .right {
+  text-align: right;
+  margin-right: 3px;
+}
+
+.loser.sheet.item.logistic .currency {
+  min-width: 150px;
+}
+
+.loser.sheet.item.logistic input {
+  max-width: 100px;
+}

@@ -6,6 +6,8 @@ import LoserLootItemSheet from "./apps/sheets/items/loot-sheet.js";
 import LoserCurrencyItemSheet from "./apps/sheets/items/currency-sheet.js";
 import LoserSpellItemSheet from "./apps/sheets/items/spell-sheet.js";
 import LoserFeatureItemSheet from "./apps/sheets/items/feature-sheet.js";
+import LoserLogisticItemSheet from "./apps/sheets/items/logistic-sheet.js";
+
 import { preloadHandlebarsTemplates } from "./apps/template-partials.js";
 import {LOSER} from "./config.js";
 
@@ -86,8 +88,13 @@ Hooks.once("init", function(){
     makeDefault: true,
     label: "Item - Feature"
   });
-  
 
+  Items.registerSheet("loser", LoserLogisticItemSheet, {
+    types: ["logistic"],
+    makeDefault: true,
+    label: "Item - Logistic"
+  });
+  
   // ================================
   //  Post-Init Logging
   // ================================

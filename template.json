@@ -174,8 +174,9 @@
       "timesCast": 0
     },
     "logistic": {
-      "templates": ["physicalItem", "describable"],
-      "investment": 0
+      "templates": ["describable"],
+      "investment": 0,
+      "slots":0
     }
   }
 }
