@@ -80,7 +80,7 @@
     
     "character": {
       "templates": ["playable", "creature","featured"],
-      "background": {
+      "notes": {
         "biography": "Biography goes here",
         "appearance": "Describe your chracter here"
       },

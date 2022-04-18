@@ -149,11 +149,11 @@
           <input name="data.saves.bw.value" type="number" min="2" value="{{data.saves.bw.value}}" placeholder="20" data-dtype="Number">
         </li>
         <li class="flexrow save law">
-          <h4 class="rollable event-saves-name" data-save="lm"">Law Magic</h4>
+          <h4 class="rollable event-saves-name" data-save="lm">Law Magic</h4>
           <input name="data.saves.lm.value" type="number" min="2" value="{{data.saves.lm.value}}" placeholder="20" data-dtype="Number">
         </li>
         <li class="flexrow save chaos">
-          <h4 class="rollable event-saves-name" data-save="cm"">Chaos Magic</h4>
+          <h4 class="rollable event-saves-name" data-save="cm">Chaos Magic</h4>
           <input name="data.saves.cm.value" type="number" min="2" value="{{data.saves.cm.value}}" placeholder="20" data-dtype="Number">
         </li>
       </ul>
@@ -173,6 +173,11 @@
     {{!-- Features Tab --}}
     <div class="tab spells flexcol" data-group="primary" data-tab="features">
         {{> "systems/loser/templates/actors/parts/actor-features.html"}}
+    </div>
+
+    {{!-- Notes Tab --}}
+    <div class="tab spells flexcol" data-group="primary" data-tab="notes">
+        {{> "systems/loser/templates/actors/parts/actor-notes.html"}}
     </div>
     
   </section>

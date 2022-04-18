@@ -451,7 +451,7 @@
 }
 
 /* ----------------------------------------- */
-/* Partial - Features                          */
+/* Partial - Features                        */
 
 .loser.sheet.actor.playable .features-partial {
   margin-left: 8px;
@@ -465,7 +465,7 @@
   max-height: 40px;
 }
 
-.loser.sheet.actor.playable .features-partial .features-list .spell-list .item {
+.loser.sheet.actor.playable .features-partial .features-list .features-list .item {
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -491,6 +491,50 @@
   flex: 1 0 150px;
   min-width: 150px;
 }
+
+/* ----------------------------------------- */
+/* Partial - Notes                           */
+
+.loser.sheet.actor.playable .notes-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .notes-partial .wrapper {
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 12px;
+  font-style: normal;
+  border-bottom: 2px groove #eeede0;
+}
+
+.loser.sheet.actor.playable .notes-partial .wrapper .title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.loser.sheet.actor.playable .notes-partial .editor {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 4px;
+  min-height: 130px;
+  font-size: 12px;
+  font-style: normal;
+  font-family: Verdana, Helvetica, sans-serif;
+}
+
+.loser.sheet.actor.playable .notes-partial .editor .editor-content {
+  min-height: 130px;
+}
+
+.loser.sheet.actor.playable .notes-partial .editor .tox-toolbar__primary {
+  font-size: 12px;
+  font-style: normal;
+}
+
+
 
 /* ----------------------------------------- */
 /*  Item                                     */
@@ -576,7 +620,7 @@
   min-height: 130px;
 }
 
-.loser.sheet.item .phys-desc .desc-detail .editor-content{
+.loser.sheet.item .phys-desc .desc-detail .editor-content {
   min-height: 130px;
 }
 
