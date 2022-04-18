@@ -1,3 +1,4 @@
+import { LOSER } from "../../../config.js";
 import Utils from "../../utils.js"
 import LoserActorSheetBase from "./base-sheet.js";
 
@@ -72,6 +73,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.vision = this._getVision(className);
     data.data.alignment = this._getAlignment(className);
     data.data.size = this._getSize(className);
+    data.data.bab = this._getBab(className, classLevel);
 
     //set ability score text
     let rawTxt = CONFIG.LOSER.Abilities.phys[data.data["ability-scores"].phys.value];
@@ -527,5 +529,19 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   //parses ability score text into a useful output
   _parseAbilityText(rawText) {
     return rawText.split("|");
+  }
+
+  //returns base attack bonus based on class/level
+  _getBab(className, level) {
+    if (className === undefined || className === "" || className === "normal-human") {
+      return "+0";
+    }
+
+    const stringLevel = level.toString();
+    if(stringLevel === "0") {
+      return "+0";
+    }
+
+    return CONFIG.LOSER.ClassBaB[className][stringLevel];
   }
 }
