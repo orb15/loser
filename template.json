@@ -143,18 +143,13 @@
     "weapon": {
       "templates": ["physicalItem", "describable"],
       "properties":[false,false,false,false,false,false,false,false,false,false],
-      "bonus": 0,
       "short": 0,
       "medium": 0,
       "long": 0
     },
     "armor": {
       "templates": ["physicalItem", "describable"],
-      "properties":[false,false,false,false],
-      "baseAC": 10,
-      "minPhys": 8,
-      "bonus": 0,
-      "isShield": false
+      "properties":[false,false,false,false]
     },
     "equipment": {
       "templates": ["physicalItem", "describable"],

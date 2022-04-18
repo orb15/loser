@@ -32,6 +32,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //note the character's class and level for use elsewhere
     let className = data.data.class.name.value;
+    data.data.className = className;
     className = this._normalizeClassName(className);
     const classLevel = data.data.class.level.value;
 
@@ -57,13 +58,12 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //note if this character is a spellcaster
     const isSpellcaster = this._isSpellcaster(className);
     data.data.isSpellcaster = isSpellcaster;
-    this.isSpellcaster = isSpellcaster;
+  
 
     //build this character'spellbook - note spells are just Items, handled similarly to Inventory
     if(data.data.isSpellcaster) {
       const spellbook = this._buildSpellbook(className, classLevel, allItems);
       data.data.spellbook = spellbook;
-      this.spellbook = spellbook;
     }
 
     //add the LOSER config to make building select boxes easy
@@ -85,6 +85,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     rawTxt = CONFIG.LOSER.Abilities.cha[data.data["ability-scores"].cha.value];
     data.data.chaText = this._parseAbilityText(rawTxt);
 
+    //cache all of this data in the charsheet object for easy reference in code below
+    this.dataCache = data;
+
     return data;
   }
   
@@ -104,9 +107,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //Saving Throws - onClick
     html.find(".event-saves-name").click(this._onRollSaveTest.bind(this));
     
-    //Ability Score Changes - onChange
-    html.find(".event-ability-value").change(this._onChangeAbilityScore.bind(this))
-
     //Inventory - Item Edit & Delete icons
     html.find(".item-edit").click(this._onItemEdit.bind(this));
     html.find(".item-delete").click(this._onItemDelete.bind(this));
@@ -128,18 +128,32 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //check dragged item type and conditionally reject it
     let validType = true;
+    let msg = "";
     switch(itemData.type) {
+
+      case "armor":
+        validType = this._hasPhysForArmorType(itemData.data.properties);
+        msg = "Insufficient PHYS to carry this item"
+        break;
+
       case "logistic":
         validType = false; //logistics are never allowed on characters
+        msg = "This type not allowed on Characters";
         break;
       
       case "spell":
-        if(!this.isSpellcaster) {
+        if(!this.dataCache.data.isSpellcaster) {
           validType = false;
+          msg = "This character is not a spellcaster";
+        } else {
+          validType = this._usesSpellList(itemData.data.spellList);
+          msg = "This spell is from the wrong spell list";
         }
+        break;
     }
+
     if(!validType) {
-      return ui.notifications.warn("This character cannot carry items of type: " + itemData.type);
+      return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
 
     //default to the handler to create the embedded document
@@ -342,12 +356,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     console.log("Making a " + save + " Saving Throw with target: " + targetValue);
   }
   
-  _onChangeAbilityScore(event) {
-    let abilityName = event.currentTarget.dataset.ability;
-    let abilityValue = event.currentTarget.value
-    console.log(abilityName + " has the new value: " + abilityValue);
-  }
-
   _onItemEdit(event) {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
@@ -394,7 +402,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //determine if we even cast the spell
     let spellWasCast = false;
-    if(this.spellbook.mustMemorize) {
+    if(this.dataCache.data.spellbook.mustMemorize) {
       if(item.data.data.timesMemorized > 0 && remaining > 0) {
         item.update({"data.timesMemorized": item.data.data.timesMemorized - 1});
         spellWasCast = true;
@@ -408,8 +416,8 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //bookkeeping on spell being cast
     if(spellWasCast) {
       item.update({"data.timesCast": item.data.data.timesCast + 1});
-      this.spellbook[level].cast += 1;
-      this.spellbook[level].remaining = this.spellbook[level].maxUses - this.spellbook[level].cast;
+      this.dataCache.data.spellbook[level].cast += 1;
+      this.dataCache.data.spellbook[level].remaining = this.dataCache.data.spellbook[level].maxUses - this.dataCache.data.spellbook[level].cast;
       
       //note last spell cast - prevent uncasting wrong spell
       this.lastSpellCastId = item.id;
@@ -432,12 +440,12 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
 
     if(remaining >= 0 && remaining < maxUses) {
-      if(this.spellbook.mustMemorize) {
+      if(this.dataCache.data.spellbook.mustMemorize) {
         item.update({"data.timesMemorized": item.data.data.timesMemorized + 1});
       }
       item.update({"data.timesCast": item.data.data.timesCast - 1});
-      this.spellbook[level].cast -= 1;
-      this.spellbook[level].remaining = maxUses - this.spellbook[level].cast;
+      this.dataCache.data.spellbook[level].cast -= 1;
+      this.dataCache.data.spellbook[level].remaining = maxUses - this.dataCache.data.spellbook[level].cast;
 
       this.lastSpellCastId = null;
 
@@ -460,17 +468,17 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //returns max spells allowed to be used at given level
   _maxSpellsForSpellLevel(level) {
-    return this.spellbook[level].maxUses;
+    return this.dataCache.data.spellbook[level].maxUses;
   }
 
   //returns the count of spells used at given level
   _spellsMemorizedForSpellLevel(level) {
-    return this.spellbook[level].memorized;
+    return this.dataCache.data.spellbook[level].memorized;
   }
 
   //returns the count of spells remaining at given level
   _spellsRemainingForSpellLevel(level) {
-    return this.spellbook[level].remaining;
+    return this.dataCache.data.spellbook[level].remaining;
   }
 
   //looks up spells available based on class and level
@@ -533,15 +541,52 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //returns base attack bonus based on class/level
   _getBab(className, level) {
-    if (className === undefined || className === "" || className === "normal-human") {
-      return "+0";
-    }
 
+    //no class, normal human and level 0 always have bab 0
     const stringLevel = level.toString();
-    if(stringLevel === "0") {
+    if (className === undefined || className === "" || 
+    className === "normal-human" || stringLevel === "0") {
       return "+0";
     }
 
     return CONFIG.LOSER.ClassBaB[className][stringLevel];
+  }
+
+  //returns true if this character uses the supplied spell list
+  _usesSpellList(spellList) {
+    if(!this.dataCache.data.isSpellcaster) {
+      return false;
+    }
+
+    const actualList = CONFIG.LOSER.Spellcasters[this.dataCache.data.className].spellList;
+    return spellList === actualList;
+  }
+
+  //returns true if this character has high enough PHYS to carry the armor
+  _hasPhysForArmorType(armorProps) {
+    const phys = this.dataCache.data["ability-scores"].phys.value;
+    const isShield = armorProps[0];
+
+    //quick exit
+    if(phys >= 9 || isShield) {
+      return true;
+    }
+
+    //check the details
+    const isLight = armorProps[1];
+    const isMedium = armorProps[2];
+    const isHeavy = armorProps[3];
+
+    if(isLight && phys >= 4) {
+      return true
+    }
+    if (isMedium && phys >= 6) {
+      return true;
+    }
+    if (isHeavy && phys >= 9) {
+      return true;
+    }
+
+    return false;
   }
 }
