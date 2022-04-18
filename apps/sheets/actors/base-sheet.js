@@ -38,63 +38,56 @@ export default class LoserActorSheetBase extends ActorSheet {
   }
 
   /* -------------------------------------------------------------
-    Useful Methods
+    Utility Methods
   ----------------------------------------------------------------*/
 
-  /*
-  let modifiers = 9;
-let r = new Roll('1d20');
-await r.evaluate();
-let rawRoll = r.total;
-let total = rawRoll + modifiers;
-let msgContent = `<h2><span style='color:Purple'>Ursirion Spell Attack</span></h2></br>`;
-let evalTxt = `<h3>Rolled: ${rawRoll}</br>Modifiers: ${modifiers}</br>Usirion's Total: ${total}</h3>`
-msgContent = msgContent + evalTxt;
-var chatData = {
-   type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-   roll: r,
-   user: game.user._id,
-   speaker: ChatMessage.getSpeaker(),
-   content: msgContent};
+  //displays a chat message dedicated to a spell being cast (or uncast)
+  displayChatMessageForSpellcasting(spellItem, uncast, withDescription) {
 
-ChatMessage.create(chatData, {});
-  */
+    if(spellItem.type != "spell") {
+      return;
+    }
 
- displayChatMessageForSpellcasting(spellItem, uncast, withDescription) {
+    if(uncast === undefined) {
+      uncast = false;
+    }
 
-  if(spellItem.type != "spell") {
-    return;
-  }
+    if(withDescription === undefined) {
+      withDescription = false
+    }
 
-  if(uncast === undefined) {
-    uncast = false;
-  }
+    const casterName = spellItem.actor.name;
+    const spellName = spellItem.data.name;
+    let description = "";
+    const image = spellItem.data.img;
+    let msgContent = "";
 
-  if(withDescription === undefined) {
-    withDescription = false
-  }
+    if(withDescription) {
+      description = spellItem.data.data.description;
+    }
 
-  const casterName = spellItem.actor.name;
-  const spellName = spellItem.data.name;
-  let description = "";
-  const image = spellItem.data.img;
-  let msgContent = "";
+    if(uncast) {
+      msgContent = casterName + ` UNCASTS a spell: ` + spellName;
+    } else {
+      msgContent = casterName + ` casts a spell: ` + spellName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
+    }
 
-  if(withDescription) {
-    description = spellItem.data.data.description;
-  }
+    const chatData = {
+      type: CONST.CHAT_MESSAGE_TYPES.IC,
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker(),
+      content: msgContent};
 
-  if(uncast) {
-    msgContent = casterName + ` UNCASTS a spell: ` + spellName;
-  } else {
-    msgContent = casterName + ` casts a spell: ` + spellName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
-  }
+    ChatMessage.create(chatData, {});
+ }
 
+ //displays a generic chat message
+ displayGeneralChatMessage(msg) {
   const chatData = {
     type: CONST.CHAT_MESSAGE_TYPES.IC,
     user: game.user._id,
     speaker: ChatMessage.getSpeaker(),
-    content: msgContent};
+    content: msg};
  
   ChatMessage.create(chatData, {});
  }

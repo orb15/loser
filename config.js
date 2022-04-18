@@ -20,9 +20,7 @@ LOSER.MaxSpellMemorizeCount = 5;
 // Character Basics
 //---------------------------------------------------------------
 LOSER.Backgrounds = {
-  "animal-handler": "Animal Handler",
   "blacksmith": "Blacksmith",
-  "bowyer": "Bowyer",
   "carpenter": "Carpenter",
   "cook": "Cook",
   "farmer": "Farmer",
@@ -34,9 +32,11 @@ LOSER.Backgrounds = {
   "potter": "Potter",
   "rope-maker": "Rope Maker",
   "sailor": "Sailor",
+  "stablehand": "Stablehand",
   "tailor": "Tailor",
   "temple-ward": "Temple Ward",
   "urchin": "Urchin",
+  "waitstaff": "Waitstaff",
   "woodcutter": "Woodcutter"
 };
 

@@ -30,6 +30,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //start with baseline data
     const data = super.getData()
 
+    //cache all of this data in the charsheet object for easy reference in code below
+    this.dataCache = data;
+
     //note the character's class and level for use elsewhere
     let className = data.data.class.name.value;
     data.data.className = className;
@@ -51,6 +54,14 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
     inventory.loot.slots +inventory.weapon.slots;
     data.data.inventory = inventory;
+
+    //warn on excessive slots used
+    this._warnOnExcessiveSlotsUsed();
+
+    //calculate movement based on slot encumberence
+    const moveRates = this._calculateMovement();
+    data.data.moveTactical = moveRates[0];
+    data.data.moveOverland = moveRates[1];
 
     //total amount of currency carried by character
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
@@ -84,9 +95,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.compText = this._parseAbilityText(rawTxt);
     rawTxt = CONFIG.LOSER.Abilities.cha[data.data["ability-scores"].cha.value];
     data.data.chaText = this._parseAbilityText(rawTxt);
-
-    //cache all of this data in the charsheet object for easy reference in code below
-    this.dataCache = data;
 
     return data;
   }
@@ -246,7 +254,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
           break;
         case "armor":
           inventory.armor.items.push(item);
-          item.slots = Utils.calcSlots(item);
+          item.slots = Utils.calcSlots(item, this.dataCache.data.className);
           inventory.armor.slots +=item.slots;
           break;
         case "equipment":
@@ -588,5 +596,72 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
 
     return false;
+  }
+
+  //calculates movement rates based on all factors
+  _calculateMovement() {
+    let moveRates = [];
+
+    const totalSlots = this.dataCache.data.totalSlots;
+    let breakPoint1 = 9;
+    let breakPoint2 = 10;
+    let breakpoint3 = 15;
+
+    //fighter gets 2 extra slots in each catagory
+    if(this.dataCache.data.className === "fighter") {
+      breakPoint1 +=2;
+      breakPoint2 +=2;
+      breakPoint3 +=2;
+    }
+    
+    let tactical = 0;
+    let overland = 0;
+    if(totalSlots <= breakPoint1) {
+      tactical = 40;
+      overland = 25;
+    } else if(totalSlots == breakPoint2) {
+      tactical = 30;
+      overland = 20;
+    } else if(totalSlots <= breakPoint3) {
+      tactical = 20;
+      overland = 15;
+    } else {
+      tactical = 10;
+      overland = 10;
+    }
+
+    //fighter gets a move bump
+    if(this.dataCache.data.className === "fighter") {
+      tactical += 5;
+    }
+    
+    moveRates = [tactical,overland];
+    return moveRates;
+  }
+
+  //prints a warning and chatlog message if character is overloaded
+  _warnOnExcessiveSlotsUsed() {
+    const totalSlots = this.dataCache.data.totalSlots;
+    const className = this.dataCache.data.className;
+
+    let needsWarning = false;
+    let msg = "";
+
+    if(className === "fighter" && totalSlots > 27) {
+      needsWarning = true;
+      msg = "Exceeded maximum allowed slots for a fighter (27)"
+    } else if(className === "heflin" && totalSlots > 12) {
+      needsWarning = true;
+      msg = "Exceeded maximum allowed slots for a heflin (12)";
+    } else if(totalSlots > 25) {
+      needsWarning = true;
+      msg = "Exceeded maximum allowed slots for any character (25)";
+    }
+
+    if(needsWarning) {
+      ui.notifications.warn(`${msg}`);
+      this.displayGeneralChatMessage(msg);
+    }
+
   }
 }
