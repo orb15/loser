@@ -14,7 +14,7 @@
           </select>
           <input class="charlevel" name="data.class.level.value" type="number" value="{{data.class.level.value}}" min="0" placeholder="1" data-dtype="Number"/>
           <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
-          <input class="charalign" type="text" value="{{data.computed.alignment}}" placeholder="Alignment" readonly/>
+          <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
           <select class="charsecskill" name="data.secondary-skill.name">
             {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Required --"}}
           </select>
@@ -73,8 +73,8 @@
           </li>         
         </ul>
         <div class="flexcol other-attributes">
-          <span>Vision Type: {{data.computed.vision}}</span>
-          <span>Size: {{data.computed.charsize}}</span>
+          <span>Vision Type: {{data.vision}}</span>
+          <span>Size: {{data.size}}</span>
           {{#data.isNPC}}
           <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
           {{/data.isNPC}}
@@ -102,22 +102,38 @@
         <li class="flexrow ability-score phys">
           <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
           <input name="data.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{data.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
-          <span class="ability-text">{{data.computed.phys.text}}</span>
+          <ul class="txt-details">
+            {{#each data.physText}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
         </li>
         <li class="flexrow ability-score dex">
           <h4 class="rollable event-ability-name" data-ability="dex">DEX</h4>
           <input name="data.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{data.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
-          <span class="ability-text">{{data.computed.dex.text}}</span>
+          <ul class="txt-details">
+            {{#each data.dexText}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
         </li>
         <li class="flexrow ability-score comp">
           <h4 class="rollable event-ability-name" data-ability="comp">COMP</h4>
           <input name="data.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{data.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
-          <span class="ability-text">{{data.computed.comp.text}}</span>
+          <ul class="txt-details">
+            {{#each data.compText}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
         </li>
         <li class="flexrow ability-score cha">
           <h4 class="rollable event-ability-name" data-ability="cha">CHA</h4>
           <input name="data.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{data.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
-          <span class="ability-text">{{data.computed.cha.text}}</span>
+          <ul class="txt-details">
+            {{#each data.chaText}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
         </li>
       </ul>
       

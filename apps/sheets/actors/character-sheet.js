@@ -68,6 +68,21 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //add the LOSER config to make building select boxes easy
     data.data.config = CONFIG.LOSER;
 
+    //set some specifics based on character class
+    data.data.vision = this._getVision(className);
+    data.data.alignment = this._getAlignment(className);
+    data.data.size = this._getSize(className);
+
+    //set ability score text
+    let rawTxt = CONFIG.LOSER.Abilities.phys[data.data["ability-scores"].phys.value];
+    data.data.physText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.dex[data.data["ability-scores"].dex.value];
+    data.data.dexText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.comp[data.data["ability-scores"].comp.value];
+    data.data.compText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.cha[data.data["ability-scores"].cha.value];
+    data.data.chaText = this._parseAbilityText(rawTxt);
+
     return data;
   }
   
@@ -419,6 +434,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
         item.update({"data.timesMemorized": item.data.data.timesMemorized + 1});
       }
       item.update({"data.timesCast": item.data.data.timesCast - 1});
+      this.spellbook[level].cast -= 1;
       this.spellbook[level].remaining = maxUses - this.spellbook[level].cast;
 
       this.lastSpellCastId = null;
@@ -434,8 +450,8 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //true if class is a spellcasting class
   _isSpellcaster(className) {
-    if (className === undefined) {
-      return false
+    if (this._noClassDefined(className)) {
+      return false;
     }
     return CONFIG.LOSER.ClassDetails[className].isSpellcaster;
   }
@@ -462,6 +478,35 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     return casterData.table[stringLevel];
   }
 
+  _getVision(className) {
+    if (this._noClassDefined(className)) {
+      return "Normal";
+    }
+    return CONFIG.LOSER.ClassDetails[className].vision;
+  }
+
+  _getAlignment(className) {
+    if (this._noClassDefined(className)) {
+      return "Neutral";
+    }
+    return CONFIG.LOSER.ClassDetails[className].alignment;
+  }
+
+  _getSize(className) {
+    if (this._noClassDefined(className)) {
+      return "Medium";
+    }
+    return CONFIG.LOSER.ClassDetails[className].size;
+  }
+
+  //true of no specific class selected
+  _noClassDefined(className) {
+    if (className === undefined || className === "") {
+      return true;
+    }
+    return false;
+  }
+
   //standardizes class name
   _normalizeClassName(className) {
 
@@ -477,5 +522,10 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
 
     return className
+  }
+
+  //parses ability score text into a useful output
+  _parseAbilityText(rawText) {
+    return rawText.split("|");
   }
 }
