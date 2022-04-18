@@ -37,24 +37,26 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //note the items carried by the character for use elsewhere
     let allItems = data.actor.items;
     
-    //prep the inventory - divide by catagory and sort appropriately
-    const inventory = this._prepareInventory(allItems)
-
 
     // prep the info actually going to the template
     // Note the use of data.data here. Data.data is sent to the template, where it is de-referenced
     // as just 'data' to access what is stored here
 
+    //prep the inventory - divide by catagory and sort appropriately
+    const inventory = this._prepareInventory(allItems)
+
     //total slots carried by a character - note that a character can't carry logistical items
     data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
-      inventory.loot.slots +inventory.weapon.slots;
-
+    inventory.loot.slots +inventory.weapon.slots;
     data.data.inventory = inventory;
 
+    //total amount of currency carried by character
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
     //note if this character is a spellcaster
-    data.data.isSpellcaster =this._isSpellcaster(className);
+    const isSpellcaster = this._isSpellcaster(className);
+    data.data.isSpellcaster = isSpellcaster;
+    this.isSpellcaster = isSpellcaster;
 
     //build this character'spellbook - note spells are just Items, handled similarly to Inventory
     if(data.data.isSpellcaster) {
@@ -62,6 +64,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       data.data.spellbook = spellbook;
       this.spellbook = spellbook;
     }
+
+    //add the LOSER config to make building select boxes easy
+    data.data.config = CONFIG.LOSER;
 
     return data;
   }
@@ -136,12 +141,12 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     const spellbook = {
       "list": CONFIG.LOSER.Spellcasters[className].spellList,
       "mustMemorize":  CONFIG.LOSER.Spellcasters[className].memorizes,
-      "0": {"level": 1, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[0], "spells":[]},
-      "1": {"level": 2, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[1], "spells":[]},
-      "2": {"level": 3, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[2], "spells":[]},
-      "3": {"level": 4, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[3], "spells":[]},
-      "4": {"level": 5, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[4], "spells":[]},
-      "5": {"level": 6, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[5], "spells":[]}       
+      "1": {"level": 1, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[0], "spells":[]},
+      "2": {"level": 2, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[1], "spells":[]},
+      "3": {"level": 3, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[2], "spells":[]},
+      "4": {"level": 4, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[3], "spells":[]},
+      "5": {"level": 5, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[4], "spells":[]},
+      "6": {"level": 6, "memorized": 0, "cast": 0, "remaining": 0, "maxUses": spellsPerLevel[5], "spells":[]}       
     };
 
     //push spells into their proper level, sum up times spells of this level have been memorized/used
@@ -156,17 +161,17 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     });
 
     //calc remaining spells each level
-    for(let i=0; i<=5; i++){
+    for(let i=1; i<=6; i++){
       spellbook[i].remaining = spellbook[i].maxUses - spellbook[i].cast;
     }
 
     //sort the spells
-    spellbook[0].spells.sort(this._spellSorter);
     spellbook[1].spells.sort(this._spellSorter);
     spellbook[2].spells.sort(this._spellSorter);
     spellbook[3].spells.sort(this._spellSorter);
     spellbook[4].spells.sort(this._spellSorter);
     spellbook[5].spells.sort(this._spellSorter);
+    spellbook[6].spells.sort(this._spellSorter);
 
     return spellbook;
   }
@@ -370,17 +375,29 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     const level = item.data.data.level
     const remaining = this._spellsRemainingForSpellLevel(level);
 
-    if(remaining > 0) {
-      if(this.spellbook.mustMemorize) {
+    //determine if we even cast the spell
+    let spellWasCast = false;
+    if(this.spellbook.mustMemorize) {
+      if(item.data.data.timesMemorized > 0 && remaining > 0) {
         item.update({"data.timesMemorized": item.data.data.timesMemorized - 1});
+        spellWasCast = true;
       }
-      item.update({"data.timesCast": item.data.data.timesCast + 1});
-      this.spellbook[level].remaining = this.spellbook[level].maxUses - this.spellbook[level].cast;
+    } else {
+      if(remaining > 0) {
+        spellWasCast = true;
+      }
+    }
 
+    //bookkeeping on spell being cast
+    if(spellWasCast) {
+      item.update({"data.timesCast": item.data.data.timesCast + 1});
+      this.spellbook[level].cast += 1;
+      this.spellbook[level].remaining = this.spellbook[level].maxUses - this.spellbook[level].cast;
+      
       //note last spell cast - prevent uncasting wrong spell
       this.lastSpellCastId = item.id;
 
-      this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
+       this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
     }
   }
 
@@ -417,7 +434,10 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //true if class is a spellcasting class
   _isSpellcaster(className) {
-    return CONFIG.LOSER.Classes[className].isSpellcaster;
+    if (className === undefined) {
+      return false
+    }
+    return CONFIG.LOSER.ClassDetails[className].isSpellcaster;
   }
 
   //returns max spells allowed to be used at given level

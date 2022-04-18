@@ -8,11 +8,16 @@
       <input class="charname" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
       
       <div class="flexrow basics">
-          <input class="charclass" name="data.class.name.value" type="text" value="{{data.class.name.value}}" placeholder="Class"/>
+        
+          <select class="charclass" name="data.class.name.value">
+            {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Required --"}}
+          </select>
           <input class="charlevel" name="data.class.level.value" type="number" value="{{data.class.level.value}}" min="0" placeholder="1" data-dtype="Number"/>
           <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
-           <input class="charalign" type="text" value="{{data.computed.alignment}}" placeholder="Alignment" readonly/>
-          <input class="charsecskill" name="data.secondary-skill.name" type="text" value="{{data.secondary-skill.name}}" placeholder="Secondary Skill"/>
+          <input class="charalign" type="text" value="{{data.computed.alignment}}" placeholder="Alignment" readonly/>
+          <select class="charsecskill" name="data.secondary-skill.name">
+            {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Required --"}}
+          </select>
       </div>
      
       <div class="flexrow">

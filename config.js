@@ -22,25 +22,40 @@ LOSER.MaxSpellMemorizeCount = 4;
 //---------------------------------------------------------------
 // Character Basics
 //---------------------------------------------------------------
-LOSER.BackgroundsList = [
-  "Animal Handler",
-  "Blacksmith",
-  "Bowyer",
-  "Carpenter",
-  "Cook",
-  "Farmer",
-  "Fisher",
-  "Hunter",
-  "Mason",
-  "Miner",
-  "Potter",
-  "Roper",
-  "Sailor",
-  "Tailor",
-  "Woodcutter"
-];
+LOSER.Backgrounds = {
+  "animal-handler": "Animal Handler",
+  "blacksmith": "Blacksmith",
+  "bowyer": "Bowyer",
+  "carpenter": "Carpenter",
+  "cook": "Cook",
+  "farmer": "Farmer",
+  "fisher": "Fisher",
+  "hunter": "Hunter",
+  "mason": "Mason",
+  "miner": "Miner",
+  "potter": "Potter",
+  "rope-maker": "Rope Maker",
+  "sailor": "Sailor",
+  "tailor": "Tailor",
+  "woodcutter": "Woodcutter"
+};
 
 LOSER.Classes = {
+  "bard": "Bard",
+  "beast-master": "Beast Master",
+  "druid": "Druid",
+  "dwarf": "Dwarf",
+  "elf": "Elf",
+  "fighter": "Fighter",
+  "heflin": "HEflin",
+  "illusionist": "Illusionist",
+  "normal-human": "Normal Human",
+  "paladin": "Paladin",
+  "warpriest": "Warpriest",
+  "wizard": "Wizard"
+};
+
+LOSER.ClassDetails = {
   "bard": {
     "isSpellcaster": true,
     "alignment": "true neutral"
@@ -135,17 +150,17 @@ LOSER.Spellcasters = {
 };
 
 LOSER.SpellLists = {
-  0: "druid",
-  1: "illusionist",
-  2: "warpriest",
-  3: "wizard"
+  "druid": "Druid",
+  "illusionist": "Illusionist",
+  "warpriest": "Warpriest",
+  "wizard": "Wizard"
 };
 
-LOSER.SpellLevels ={
-0: 1,
-1: 2,
-2: 3,
-3: 4,
-4: 5,
-5: 6
+LOSER.SpellLevels = {
+1: 1,
+2: 2,
+3: 3,
+4: 4,
+5: 5,
+6: 6
 };
