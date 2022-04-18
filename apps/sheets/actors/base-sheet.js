@@ -7,7 +7,7 @@ export default class LoserActorSheetBase extends ActorSheet {
     super(...args);
   }
 
-    /* -------------------------------------------------------------
+  /* -------------------------------------------------------------
     Overrides and Core Methods
   ----------------------------------------------------------------*/
 
@@ -35,6 +35,29 @@ export default class LoserActorSheetBase extends ActorSheet {
     data.data = actorData.data;
 
     return data;
+  }
+
+  /* -------------------------------------------------------------
+    EventHandlers
+  ----------------------------------------------------------------*/
+
+  _onShowFeature(event) {
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    
+    const featName = item.data.name;
+    let description = "";
+    const image = item.data.img;
+    let msgContent = "";
+
+    if(event.ctrlKey) {
+      description = item.data.data.description;
+      msgContent = featName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
+    } else {
+      msgContent = featName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;">`;
+    }
+
+    this.displayGeneralChatMessage(msgContent);
   }
 
   /* -------------------------------------------------------------

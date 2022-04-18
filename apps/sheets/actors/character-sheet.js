@@ -128,7 +128,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     html.find(".cast-spell-bind").click(this._onSpellCast.bind(this));
     html.find(".uncast-spell-bind").click(this._onSpellUncast.bind(this));
 
-
+    //Features - show feature
+    html.find(".show-feature-bind").click(this._onShowFeature.bind(this));
+    
     //establish default listeners
     super.activateListeners(html);
   }
@@ -500,7 +502,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       this.displayChatMessageForSpellcasting(item, true);
     }
   }
-
 
   /* -------------------------------------------------------------
     Utility and Helper Methods
