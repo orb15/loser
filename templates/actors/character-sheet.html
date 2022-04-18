@@ -8,16 +8,25 @@
       <input class="charname" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
       
       <div class="flexrow basics">
-        
+          {{#unless data.isMonster}}
           <select class="charclass" name="data.class.name.value">
             {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Required --"}}
           </select>
           <input class="charlevel" name="data.class.level.value" type="number" value="{{data.class.level.value}}" min="0" placeholder="1" data-dtype="Number"/>
           <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
+          
           <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
+          {{/unless}}
+          {{#data.isMonster}}
+          <select class="charalign" name="data.alignment">
+            {{selectOptions data.config.Alignments selected=data.alignment blank="-- Required --"}}
+          </select>
+          {{/data.isMonster}}
+          {{#unless data.isMonster}}
           <select class="charsecskill" name="data.secondary-skill.name">
             {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Required --"}}
           </select>
+          {{/unless}}
       </div>
      
       <div class="flexrow">
@@ -70,6 +79,7 @@
               </footer>
           </li>         
         </ul>
+        {{#unless data.isMonster}}
         <div class="flexcol other-attributes">
           <span>Vision Type: {{data.vision}}</span>
           <span>BAB: {{data.bab}}</span>
@@ -77,6 +87,7 @@
           <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
           {{/data.isNPC}}
         </div>
+        {{/unless}}
       </div>
     </div>
   </div>
@@ -85,17 +96,25 @@
   <nav class="sheet-navigation tabs" data-group="primary">
       <a class="item active" data-tab="core">Basics</a>
       <a class="item" data-tab="inventory">Inventory</a>
+      {{#unless data.isMonster}}
       <a class="item" data-tab="features">Features</a>
       <a class="item" data-tab="spells">Spellbook</a>
       <a class="item" data-tab="notes">Notes</a>
+      {{/unless}}
+      {{#data.isMonster}}
+      <a class="item" data-tab="capabilities">Capabilities</a>
+      {{/data.isMonster}}
   </nav>
   
   
   <section class="sheet-body">
 
     {{!-- Ability Scores, Saves, Traits --}}
+
+
     <div class="tab attributes flexrow sst" data-group="primary" data-tab="core">
-  
+      
+      {{#unless data.isMonster}}
       <ul class="flexcol ability-scores">
         <li class="flexrow ability-score phys">
           <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
@@ -134,6 +153,7 @@
           </ul>
         </li>
       </ul>
+      {{/unless}}
       
       <ul class="flexcol saves">
         <li class="flexrow save poison">

@@ -5,7 +5,7 @@
       
       "playable": {
         "secondary-skill": {
-          "name": "Baker"
+          "name": "-- Required --"
         },
         "ability-scores": {
           "phys": {
@@ -31,12 +31,6 @@
           "name": {
             "value": "Normal Human"
           }
-        },
-        "weapons-allowed": {
-          "value": []
-        },
-        "armor-allowed": {
-          "value": []
         }
       },
     
@@ -65,51 +59,44 @@
           },
           "hp": {
             "value": 0,
-            "min": 0,
             "max": 10
           }
-        },
-        "languages": {
-          "value": []
         }
-      },
-      "featured": {
-        "features": []
       }
     },
     
     "character": {
-      "templates": ["playable", "creature","featured"],
+      "templates": ["playable", "creature"],
       "notes": {
         "biography": "Biography goes here",
         "appearance": "Describe your chracter here"
       },
-      "isNPC": false
+      "isNPC": false,
+      "isMonster": false,
+      "isPC": true
     },
     
     "npc": {
-      "templates": ["playable", "creature", "featured"],
+      "templates": ["playable", "creature"],
       "loyalty": {
         "value": 0
       },
-      "isNPC": true
+      "isNPC": true,
+      "isMonster": false,
+      "isPC": false
     },
     
     "monster": {
-      "templates": ["creature", "featured"],
-      "description": "description",
-      "alignment": "chaotic",
-      "isSpellcaster": false,
-      "movement": {
-          "tactical": 30,
-          "overland": 20,
-          "fly": 0,
-          "burrow": 0,
-          "climb": 0,
-          "swim":0
-        }
-     }
+      "templates": ["playable", "creature"],
+      "loyalty": {
+        "value": 0
+      },
+      "isNPC": false,
+      "isMonster": true,
+      "isPC": false
+    }
   },
+
   "Item": {
     "types": ["weapon", "armor", "equipment", "loot", "currency", "spell", "feature", "logistic"],
     "templates": {
@@ -176,7 +163,7 @@
     "logistic": {
       "templates": ["describable"],
       "investment": 0,
-      "slots":0
+      "reservedSlots":0
     }
   }
 }

@@ -1,5 +1,4 @@
-
-
+import Utils from "../../utils.js"
 
 // This class provides base functionality for all Actor sheets
 export default class LoserActorSheetBase extends ActorSheet {
@@ -34,14 +33,185 @@ export default class LoserActorSheetBase extends ActorSheet {
     data.actor = actorData;
     data.data = actorData.data;
 
+    //common data code for all sheets
+
+    //cache all of this data in the charsheet object for easy reference in code below
+    this.dataCache = data;
+
+    //add the LOSER config to make building select boxes easy
+    data.data.config = CONFIG.LOSER;
+
+    // Note the use of data.data here. Data.data is sent to the template, where it is de-referenced
+    // as just 'data' to access what is stored here
+
+    //note the items carried by the character for use elsewhere
+    let allItems = data.actor.items;
+
+    //prep the inventory - divide by catagory and sort appropriately
+    const inventory = this._prepareInventory(allItems)
+
+    //total slots carried by a character
+    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
+    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
+    data.data.inventory = inventory;
+
+    //warn on excessive slots used
+    this._warnOnExcessiveSlotsUsed();
+
+    //total amount of currency carried by character
+    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+
     return data;
+  }
+
+    //Establish listeners for events on the character sheet
+  //@Override Application
+  activateListeners(html) {
+    
+
+    //Saving Throws - onClick
+    html.find(".event-saves-name").click(this._onRollSaveTest.bind(this));
+    
+    //Inventory - Item Edit & Delete icons
+    html.find(".item-edit").click(this._onItemEdit.bind(this));
+    html.find(".item-delete").click(this._onItemDelete.bind(this));
+    html.find(".show-item-bind").click(this._onShowItem.bind(this))
+
+    //establish default listeners
+    super.activateListeners(html);
+  }
+
+  /* -------------------------------------------------------------
+   Inventory Methods
+  ----------------------------------------------------------------*/
+
+  //organize inventory for display
+  _prepareInventory(allItems) {
+
+    //prepare an organized inventory
+    const inventory = {
+      "weapon": {"slots": 0,"items": [],"type": "weapon"},
+      "armor": {"slots": 0,"items": [],"type": "armor"},
+      "equipment": {"slots": 0,"items": [],"type": "equipment"},
+      "loot": {"slots": 0,"items": [],"type": "loot"},
+      "currency": {"slots": 0,"items": [],"type": "currency"},
+      "logistics": {"slots": 0,"items": [],"type": "logistic"},
+    };
+
+    allItems.map(item => {
+
+      switch(item.type) {
+        case "weapon":
+          inventory.weapon.items.push(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.weapon.slots += item.slots;
+          break;
+        case "armor":
+          inventory.armor.items.push(item);
+          item.slots = Utils.calcSlots(item, this.dataCache.data.className);
+          inventory.armor.slots +=item.slots;
+          break;
+        case "equipment":
+          inventory.equipment.items.push(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.equipment.slots += item.slots
+
+          //note if this item has a resource die associated with it
+          if (item.data.resourceDie > 0) {
+            item.hasResourceDie = true
+          } else {
+            item.hasResourceDie = false
+          }
+
+          break;
+        case "loot":
+          inventory.loot.items.push(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.loot.slots += item.slots;
+          break;
+        case "currency":
+          inventory.currency.items.push(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.currency.slots += item.slots;
+          break;
+        case "logistic":
+          inventory.logistics.items.push(item);
+          item.slots = Utils.calcSlots(item);
+          inventory.logistics.slots += item.slots;
+          break;
+      }
+    })
+
+    //sort the various arrays by slots used then by name
+    inventory.weapon.items.sort(this._inventorySorter)
+    inventory.armor.items.sort(this._inventorySorter)
+    inventory.equipment.items.sort(this._inventorySorter)
+    inventory.loot.items.sort(this._inventorySorter)
+    inventory.currency.items.sort(this._inventorySorter)
+    inventory.logistics.items.sort(this._inventorySorter)
+
+    return inventory
+  }
+  
+  //sort by slots then name
+  _inventorySorter(a, b) {
+    
+    const aSlots = a.slots;
+    const bSlots = b.slots;
+
+    if (aSlots > bSlots) {return -1;}
+    if (bSlots > aSlots) {return 1;}
+    
+    const lcNameA = a.name.toLowerCase();
+    const lcNameB = b.name.toLowerCase();
+
+    if (lcNameA < lcNameB) {return -1;}
+    if (lcNameB < lcNameA) {return 1;}
+
+    return 0;
+    
+  }
+
+  _countTotalCurrency(currencyItems) {
+
+    if(currencyItems.length == 0) {
+      return 0;
+    } 
+    
+    let allItems =  currencyItems.reduce(function (sum, item) {
+      let i = item.data;
+      sum.data.coins.gp += i.coins.gp;
+      sum.data.coins.sp += i.coins.sp;
+      sum.data.coins.cp += i.coins.cp;
+
+      sum.data.gems.sp10 += i.gems.sp10;
+      sum.data.gems.sp25 += i.gems.sp25;
+      sum.data.gems.sp50 += i.gems.sp50;
+
+      sum.data.gems.sp100 += i.gems.sp100;
+      sum.data.gems.sp250 += i.gems.sp250;
+      sum.data.gems.sp500 += i.gems.sp500;
+
+      sum.data.gems.sp1000 += i.gems.sp1000;
+      sum.data.gems.sp2500 += i.gems.sp2500;
+      sum.data.gems.sp5000 += i.gems.sp5000;
+
+      return sum;
+    })
+
+    let total = (allItems.data.coins.gp * 10) + (allItems.data.coins.sp) + (allItems.data.coins.cp / 10);
+    total += (allItems.data.gems.sp10 * 10) + (allItems.data.gems.sp25 * 25) + (allItems.data.gems.sp50 * 50);
+    total += (allItems.data.gems.sp100 * 100) + (allItems.data.gems.sp250 * 250) + (allItems.data.gems.sp50 * 500);
+    total += (allItems.data.gems.sp1000 * 1000) + (allItems.data.gems.sp2500 * 2500) + (allItems.data.gems.sp5000 * 5000);
+    
+    return total;
   }
 
   /* -------------------------------------------------------------
     EventHandlers
   ----------------------------------------------------------------*/
 
-  _onShowFeature(event) {
+  _onShowItem(event) {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     

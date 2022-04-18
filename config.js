@@ -47,7 +47,7 @@ LOSER.Classes = {
   "dwarf": "Dwarf",
   "elf": "Elf",
   "fighter": "Fighter",
-  "heflin": "HEflin",
+  "heflin": "Heflin",
   "illusionist": "Illusionist",
   "normal-human": "Normal Human",
   "paladin": "Paladin",
@@ -457,6 +457,13 @@ LOSER.SpellLevels = {
 5: 5,
 6: 6
 };
+
+LOSER.Alignments = {
+  "chaotic": "Chaotic",
+  "neutral": "Neutral",
+  "lawful": "Lawful",
+  "true-neutral": "True Neutral"
+}
 
 //---------------------------------------------------------------
 // Ability Scores

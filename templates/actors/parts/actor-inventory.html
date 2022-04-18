@@ -108,6 +108,28 @@
         </li>
       {{/each}}
     </ul>
+
+    {{#data.isMonster}}
+    <div class="header flexrow">
+      Logistical Items
+      <span class="slots">Slots: {{data.inventory.logistic.slots}}</span>
+    </div>
+    <ul>
+      {{#each data.inventory.logistics.items}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="item-quantity drop">{{#this.hasQty}}Qty: {{this.data.qty}}{{/this.hasQty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-control flexrow drop">
+            <div><a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
+            <div><a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+    {{/data.isMonster}}
   
   </div>  
 

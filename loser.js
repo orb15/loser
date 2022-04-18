@@ -1,4 +1,5 @@
 import LoserCharacterSheet from "./apps/sheets/actors/character-sheet.js";
+import LoserMonsterSheet from "./apps/sheets/actors/monster-sheet.js";
 import LoserEquipmentItemSheet from "./apps/sheets/items/equipment-sheet.js";
 import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
 import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
@@ -44,8 +45,15 @@ Hooks.once("init", function(){
     makeDefault: true,
     label: "NPC Character Sheet"
   });
+
+  //register Monster sheet
+  Actors.registerSheet("loser", LoserMonsterSheet, {
+    types: ["monster"],
+    makeDefault: true,
+    label: "Monster Character Sheet"
+  });
   
-  
+  //register all the item sheets
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("loser", LoserEquipmentItemSheet, {
     types: ["equipment"],

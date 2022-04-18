@@ -782,6 +782,14 @@
   min-width: 150px;
 }
 
-.loser.sheet.item.logistic input {
+.loser.sheet.item.logistic .details input {
   max-width: 100px;
+}
+
+/* ----------------------------------------- */
+/*  monster                                  */
+/* ----------------------------------------- */
+.loser.sheet.actor.monster {
+  min-width: 720px;
+  min-height: 680px;
 }

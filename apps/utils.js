@@ -13,8 +13,6 @@ export default class Utils {
       case "armor":
       case "equipment":
       case "loot":
-      case "logistic":
-
         //prevent negative qty
         const qty = data.qty >= 0 ? data.qty : 0
 
@@ -53,6 +51,9 @@ export default class Utils {
         data.gems.sp100 +  data.gems.sp250 +  data.gems.sp500 + 
         data.gems.sp1000 +  data.gems.sp2500 +  data.gems.sp5000;
         return Math.floor(coins / 50) + Math.floor(gems / 100);
+
+      case "logistic":
+        return data.reservedSlots;
 
       default:
         return 0

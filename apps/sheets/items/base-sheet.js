@@ -35,7 +35,7 @@ export default class LoserItemSheetBase extends ItemSheet {
     itemData.data.usesQtyPerSlot = false;
     
     //track if an item has slots, and if so, does it use unit slot or qty/slot approach
-    if (itemData.data.hasOwnProperty("qty") || itemData.type == "currency") {
+    if (itemData.data.hasOwnProperty("qty") || itemData.type === "currency" || itemData.type === "logistic") {
       itemData.data.hasSlots = true
       if (itemData.data.unitSlot > 0) {
         itemData.data.usesUnitSlot = true;
