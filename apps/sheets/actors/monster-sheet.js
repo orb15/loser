@@ -28,6 +28,23 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     //start with baseline data
     const data = super.getData()
 
+    //note the items carried by the character for use elsewhere
+    let allItems = data.actor.items;
+
+    //prep the inventory - divide by catagory and sort appropriately
+    const inventory = this._prepareInventory(allItems)
+
+    //total slots carried by a character
+    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
+    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
+    data.data.inventory = inventory;
+
+    //total amount of currency carried by character
+    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+
+    //build "capabilities" data - everything but core inventory
+    data.data.capabilities = this._buildCapabilities(data.actor.items);
+
     return data;
   }
   
@@ -41,15 +58,54 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
   //@Override Application
   activateListeners(html) {
       
-    //Saving Throws - onClick
-    html.find(".event-saves-name").click(this._onRollSaveTest.bind(this));
-    
-    //Inventory - Item Edit & Delete icons
-    html.find(".item-edit").click(this._onItemEdit.bind(this));
-    html.find(".item-delete").click(this._onItemDelete.bind(this));
+    //Capabilities - Click
+    html.find(".event-capability-img").click(this._onShowItem.bind(this));
 
     //establish default listeners
     super.activateListeners(html);
+  }
+
+  /* -------------------------------------------------------------
+    Capabilities
+  ----------------------------------------------------------------*/
+  _buildCapabilities(allItems) {
+
+    const capabilities = {
+      "feature": {"features":[], "type": "feature"},
+      "spell": {"spells":[], "type": "spell"},  
+    };
+
+    allItems.map(item => {
+      switch(item.type) {
+
+        case "feature":
+          capabilities["feature"].features.push(item);
+          break;
+
+        case "spell":
+          capabilities["spell"].spells.push(item);
+          break;
+      }
+
+    });
+
+    //sort the spells
+    capabilities["feature"].features.sort(this._capabilitySorter);
+    capabilities["spell"].spells.sort(this._capabilitySorter);
+
+    return capabilities;
+  }
+
+  //sort spells by name
+  _capabilitySorter(a,b) {
+
+    const aName = a.name.toLowerCase();
+    const bName = b.name.toLowerCase();
+
+    if (aName > bName) {return 1;}
+    if (bName > aName) {return -1;}
+
+    return 0;
   }
 
   /* -------------------------------------------------------------
@@ -89,19 +145,4 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     Utility and Helper Methods
   ----------------------------------------------------------------*/
 
-  //prints a warning and chatlog message if character is overloaded
-  _warnOnExcessiveSlotsUsed() {
-    const totalSlots = this.dataCache.data.totalSlots;
-    const className = this.dataCache.data.className;
-
-    let needsWarning = false;
-    let msg = "";
-
-    //TODO: probbaly need to do something here for beasts of burden
-    if(needsWarning) {
-      ui.notifications.warn(`${msg}`);
-      this.displayGeneralChatMessage(msg);
-    }
-
-  }
 }

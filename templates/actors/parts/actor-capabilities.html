@@ -1,0 +1,37 @@
+<div class= "capabilities-partial flexcol">
+
+  <div class="features-list">
+
+    <div class="header flexrow">
+      <span>Features</span>
+    </div>
+    <ul>
+      {{#each data.capabilities.feature.features}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image event-capability-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="item-control flexrow drop">
+            <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <div class="header flexrow">
+      <span>Spells</span>
+    </div>
+    <ul>
+      {{#each data.capabilities.spell.spells}}
+        <li class="item flexrow" data-item-id='{{this._id}}'>
+          <div class="item-image event-capability-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
+          <div class="item-name drop">{{this.name}}</div>
+          <div class="item-control flexrow drop">
+            <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+</div>

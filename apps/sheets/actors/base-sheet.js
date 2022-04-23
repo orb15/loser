@@ -35,31 +35,14 @@ export default class LoserActorSheetBase extends ActorSheet {
 
     //common data code for all sheets
 
-    //cache all of this data in the charsheet object for easy reference in code below
+    //cache all of this data in the charsheet object for easy reference in any charsheet
     this.dataCache = data;
-
-    //add the LOSER config to make building select boxes easy
-    data.data.config = CONFIG.LOSER;
 
     // Note the use of data.data here. Data.data is sent to the template, where it is de-referenced
     // as just 'data' to access what is stored here
 
-    //note the items carried by the character for use elsewhere
-    let allItems = data.actor.items;
-
-    //prep the inventory - divide by catagory and sort appropriately
-    const inventory = this._prepareInventory(allItems)
-
-    //total slots carried by a character
-    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
-    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
-    data.data.inventory = inventory;
-
-    //warn on excessive slots used
-    this._warnOnExcessiveSlotsUsed();
-
-    //total amount of currency carried by character
-    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+    //add the LOSER config to make building select boxes easy
+    data.data.config = CONFIG.LOSER;
 
     return data;
   }
@@ -68,14 +51,13 @@ export default class LoserActorSheetBase extends ActorSheet {
   //@Override Application
   activateListeners(html) {
     
-
-    //Saving Throws - onClick
+    //Saving Throws
     html.find(".event-saves-name").click(this._onRollSaveTest.bind(this));
     
-    //Inventory - Item Edit & Delete icons
-    html.find(".item-edit").click(this._onItemEdit.bind(this));
-    html.find(".item-delete").click(this._onItemDelete.bind(this));
-    html.find(".show-item-bind").click(this._onShowItem.bind(this))
+    //Inventory
+    html.find(".event-item-edit").click(this._onItemEdit.bind(this));
+    html.find(".event-item-delete").click(this._onItemDelete.bind(this));
+    html.find(".event-inventory-img").click(this._onShowItem.bind(this));
 
     //establish default listeners
     super.activateListeners(html);

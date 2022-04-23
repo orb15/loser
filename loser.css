@@ -380,6 +380,11 @@
   margin-right: 5px;
 }
 
+.loser.sheet.actor.playable .inventory-partial .inventory-lists .item-image:hover {
+  cursor: pointer;
+  background-size: 40px;
+}
+
 .loser.sheet.actor.playable .inventory-partial .inventory-lists .item-name {
   flex: 1 0 150px;
   min-width: 150px;
@@ -488,6 +493,48 @@
 }
 
 .loser.sheet.actor.playable .features-partial .features-list .item-name {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+/* ----------------------------------------- */
+/* Partial - Capabilities                        */
+
+.loser.sheet.actor.playable .capabilities-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .capabilities-partial .features-list .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 18px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .capabilities-partiall .features-list .features-list .item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.loser.sheet.actor.playable .capabilities-partial .features-list .drop {
+  margin-top: 6px;
+}
+
+.loser.sheet.actor.playable .capabilities-partial .features-list .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.loser.sheet.actor.playable .capabilities-partial .features-list .item-image:hover {
+  cursor: pointer;
+  background-size: 40px;
+}
+
+.loser.sheet.actor.playable .capabilities-partial .features-list .item-name {
   flex: 1 0 150px;
   min-width: 150px;
 }

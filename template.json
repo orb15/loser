@@ -144,7 +144,7 @@
     },
     "feature": {
       "templates": ["describable"],
-      "catagory": "other"
+      "category": "other"
     },
     "loot": {
      "templates": ["physicalItem", "describable"],

@@ -10,21 +10,23 @@
       <div class="flexrow basics">
           {{#unless data.isMonster}}
           <select class="charclass" name="data.class.name.value">
-            {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Required --"}}
+            {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Class --"}}
           </select>
-          <input class="charlevel" name="data.class.level.value" type="number" value="{{data.class.level.value}}" min="0" placeholder="1" data-dtype="Number"/>
+          <select class="charlevel" name="data.class.level.value">
+            {{selectOptions data.config.CharacterLevels selected=data.class.level.value blank="-- Level --"}}
+          </select>
           <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
           
           <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
           {{/unless}}
           {{#data.isMonster}}
           <select class="charalign" name="data.alignment">
-            {{selectOptions data.config.Alignments selected=data.alignment blank="-- Required --"}}
+            {{selectOptions data.config.Alignments selected=data.alignment blank="-- Alignment --"}}
           </select>
           {{/data.isMonster}}
           {{#unless data.isMonster}}
           <select class="charsecskill" name="data.secondary-skill.name">
-            {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Required --"}}
+            {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Secondary Skill --"}}
           </select>
           {{/unless}}
       </div>
@@ -191,13 +193,18 @@
     </div>
 
     {{!-- Features Tab --}}
-    <div class="tab spells flexcol" data-group="primary" data-tab="features">
+    <div class="tab features flexcol" data-group="primary" data-tab="features">
         {{> "systems/loser/templates/actors/parts/actor-features.html"}}
     </div>
 
     {{!-- Notes Tab --}}
-    <div class="tab spells flexcol" data-group="primary" data-tab="notes">
+    <div class="tab notes flexcol" data-group="primary" data-tab="notes">
         {{> "systems/loser/templates/actors/parts/actor-notes.html"}}
+    </div>
+
+    {{!-- Capabilities Tab --}}
+    <div class="tab capabilities flexcol" data-group="primary" data-tab="capabilities">
+        {{> "systems/loser/templates/actors/parts/actor-capabilities.html"}}
     </div>
     
   </section>

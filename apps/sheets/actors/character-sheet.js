@@ -41,8 +41,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //note the items carried by the character for use elsewhere
     let allItems = data.actor.items;
     
-    // prep the info actually going to the template
-
     //build this character's feature list - features are just Items, handled like Inventory
     data.data.features = this._buildFeatures(allItems);
 
@@ -51,6 +49,30 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.alignment = this._getAlignment(className);
     data.data.size = this._getSize(className);
     data.data.bab = this._getBab(className, classLevel);
+
+    //prep the inventory - divide by catagory and sort appropriately
+    const inventory = this._prepareInventory(allItems)
+
+    //total slots carried by a character
+    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
+    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
+    data.data.inventory = inventory;
+
+    //warn on excessive slots used
+    this._warnOnExcessiveSlotsUsed();
+
+    //total amount of currency carried by character
+    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+
+    //build spellbook
+    if(isSpellcaster) {
+      data.data.spellbook = this._buildSpellbook(className, classLevel, allItems);
+    }
+
+    //calculate movement
+    const moveData = this._calculateMovement();
+    data.data.moveTactical = moveData[0];
+    data.data.moveOverland = moveData[1];
 
     //set ability score text
     let rawTxt = CONFIG.LOSER.Abilities.phys[data.data["ability-scores"].phys.value];
@@ -61,12 +83,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.compText = this._parseAbilityText(rawTxt);
     rawTxt = CONFIG.LOSER.Abilities.cha[data.data["ability-scores"].cha.value];
     data.data.chaText = this._parseAbilityText(rawTxt);
-
-    //build spellbook
-    if(isSpellcaster) {
-      data.data.spellbook = this._buildSpellbook(className, classLevel, allItems);
-
-    }
 
     return data;
   }
@@ -81,14 +97,17 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   //@Override Application
   activateListeners(html) {
     
-    //Ability Checks - onClick
+    //Ability Checks
     html.find(".event-ability-name").click(this._onRollAbilityTest.bind(this));
-    
+
+    //Features
+    html.find(".event-feature-img").click(this._onShowItem.bind(this));
+  
     //Spells - mem and de-mem icons, cast spells
-    html.find(".spell-mem").click(this._onSpellMemorize.bind(this));
-    html.find(".spell-demem").click(this._onSpellDememorize.bind(this));
-    html.find(".cast-spell-bind").click(this._onSpellCast.bind(this));
-    html.find(".uncast-spell-bind").click(this._onSpellUncast.bind(this));
+    html.find(".event-spell-mem").click(this._onSpellMemorize.bind(this));
+    html.find(".event-spell-demem").click(this._onSpellDememorize.bind(this));
+    html.find(".event-spell-img").click(this._onSpellCast.bind(this));
+    html.find(".event-uncast-spell").click(this._onSpellUncast.bind(this));
 
     //establish default listeners
     super.activateListeners(html);
@@ -96,15 +115,15 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //hanlder when an item is dropped on this sheet
    //@Override <Unknown - undocumented API?>
-   async _onDropItemCreate(itemData) {
+   async _onDropItemCreate(item) {
 
     //check dragged item type and conditionally reject it
     let validType = true;
     let msg = "";
-    switch(itemData.type) {
+    switch(item.type) {
 
       case "armor":
-        validType = this._hasPhysForArmorType(itemData.data.properties);
+        validType = this._hasPhysForArmorType(item.data.properties);
         msg = "Insufficient PHYS to carry this item"
         break;
 
@@ -112,13 +131,21 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
         validType = false; //logistics are never allowed on characters
         msg = "This type not allowed on Characters";
         break;
+
+      case "feature":
+        if(item.data.category === undefined || item.data.category === "") {
+          validType = false; //invalid item setup!
+          msg = "This feature is missing a category";
+        }
+
+        break;
       
       case "spell":
         if(!this.dataCache.data.isSpellcaster) {
           validType = false;
           msg = "This character is not a spellcaster";
         } else {
-          validType = this._usesSpellList(itemData.data.spellList);
+          validType = this._usesSpellList(item.data.spellList);
           msg = "This spell is from the wrong spell list";
         }
         break;
@@ -129,7 +156,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
 
     //default to the handler to create the embedded document
-    super._onDropItemCreate(itemData);
+    super._onDropItemCreate(item);
    }
 
   /* -------------------------------------------------------------
@@ -237,7 +264,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     let targetValue = event.currentTarget.nextElementSibling.value
     console.log(abilityName + " test with target: " + targetValue);
   }
- 
+
   _onRollSaveTest(event) {
     event.preventDefault();
     let save = event.currentTarget.dataset.save;
@@ -263,10 +290,11 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    const maxUses = this._maxSpellsForSpellLevel(item.data.data.level);
+    const level = item.data.data.level
+    const remaining = this._spellsRemainingForSpellLevel(level);
     const memorized = this._spellsMemorizedForSpellLevel(item.data.data.level);
     if(item.data.data.timesMemorized < CONFIG.LOSER.MaxSpellMemorizeCount &&
-      memorized < maxUses) {
+      memorized < remaining) {
       item.update({"data.timesMemorized": item.data.data.timesMemorized + 1});
     }
 
