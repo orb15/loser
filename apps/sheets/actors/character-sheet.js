@@ -258,34 +258,14 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   /* -------------------------------------------------------------
     Event Handlers
   ----------------------------------------------------------------*/
-  _onRollAbilityTest(event) {
+  
+ _onRollAbilityTest(event) {
     event.preventDefault();
     let abilityName = event.currentTarget.dataset.ability;
     let targetValue = event.currentTarget.nextElementSibling.value
-    console.log(abilityName + " test with target: " + targetValue);
-  }
-
-  _onRollSaveTest(event) {
-    event.preventDefault();
-    let save = event.currentTarget.dataset.save;
-    let targetValue = event.currentTarget.nextElementSibling.value
-    console.log("Making a " + save + " Saving Throw with target: " + targetValue);
+    return this._makeD20Test(abilityName, targetValue, true);
   }
   
-  _onItemEdit(event) {
-    event.preventDefault();
-    const li = event.currentTarget.closest(".item");
-    const item = this.actor.items.get(li.dataset.itemId);
-    return item.sheet.render(true);
-  }
-
-  _onItemDelete(event) {
-    event.preventDefault();
-    const li = event.currentTarget.closest(".item");
-    const item = this.actor.items.get(li.dataset.itemId);
-    if ( item ) return item.delete();
-  }
-
   _onSpellMemorize(event) {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");

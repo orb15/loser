@@ -1,0 +1,15 @@
+<div class="loser chat ability-save">
+
+  <div class="header">
+    <h3>{{titleText}}</h3>
+  </div>
+
+  <span>Target: {{targetValue}}</span><br/>
+  <span>Result: {{dieResult}}</span><br/>
+
+  {{#isSuccess}}
+  <span style="color:green;">Success!</span>
+  {{else}}
+  <span style="color: red;">Failure!</span>
+  {{/isSuccess}}
+</div>

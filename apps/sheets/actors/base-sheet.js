@@ -193,6 +193,20 @@ export default class LoserActorSheetBase extends ActorSheet {
     EventHandlers
   ----------------------------------------------------------------*/
 
+  _onItemEdit(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    return item.sheet.render(true);
+  }
+
+  _onItemDelete(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    if ( item ) return item.delete();
+  }
+
   _onShowItem(event) {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
@@ -212,9 +226,90 @@ export default class LoserActorSheetBase extends ActorSheet {
     this.displayGeneralChatMessage(msgContent);
   }
 
+  _onRollSaveTest(event) {
+    event.preventDefault();
+    let save = event.currentTarget.dataset.save;
+    let targetValue = event.currentTarget.nextElementSibling.value
+    return this._makeD20Test(save, targetValue, false);
+  }
+
   /* -------------------------------------------------------------
     Utility Methods
   ----------------------------------------------------------------*/
+
+  //performs a d20 roll for ability checks or saves
+  async _makeD20Test(saveOrAbilityName, targetValue, isRollUnder) {
+
+    let r = new Roll("1d20");
+
+    // Execute the roll
+    await r.evaluate({async: true});
+
+    //determine success
+    let isSuccess = false;
+    if(r.total <= targetValue && isRollUnder) {
+      isSuccess = true;
+    } else if(r.total >= targetValue && !isRollUnder) {
+      isSuccess = true;
+    }
+
+    //prep the template data and render the template
+    const chatTemplateData = {
+      titleText: this._createAbilityOrSaveTitleMessage(saveOrAbilityName),
+      targetValue: targetValue,
+      dieResult: r.total,
+      isSuccess: isSuccess
+    }
+    const html = await renderTemplate("systems/loser/templates/chat/ability-or-save.html", chatTemplateData);
+
+    const chatData = {
+      type:  CONST.CHAT_MESSAGE_TYPES.ROLL,
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker(),
+      content: html};
+
+    await r.toMessage(chatData);
+    return r;
+  }
+
+  _createAbilityOrSaveTitleMessage(saveOrAbilityName) {
+
+    let title = "";
+    switch (saveOrAbilityName) {
+
+      case "phys":
+        title = "Physical Ability Check";
+        break;
+      case "dex":
+        title = "Dexterity Ability Check";
+        break;
+      case "comp":
+        title = "Comprehension Ability Check";
+        break;
+      case "cha":
+        title = "Charisma Ability Check";
+        break;
+
+      case "pd":
+        title = "Poison or Death Save";
+        break;        
+      case "pp":
+        title = "Petrification or Polymorph Save";
+        break; 
+      case "bw":
+        title = "Breath Weapon Save";
+        break;
+      case "lm":
+        title = "Law Magic Save";
+        break;
+      case "cm":
+        title = "Chaos Magic Save";
+        break; 
+      default:
+        title = saveOrAbilityName;
+    }
+    return title;
+  }
 
   //displays a chat message dedicated to a spell being cast (or uncast)
   displayChatMessageForSpellcasting(spellItem, uncast, withDescription) {
@@ -253,7 +348,9 @@ export default class LoserActorSheetBase extends ActorSheet {
       speaker: ChatMessage.getSpeaker(),
       content: msgContent};
 
-    ChatMessage.create(chatData, {});
+
+
+    ChatMessage.create(chatData);
  }
 
  //displays a generic chat message
