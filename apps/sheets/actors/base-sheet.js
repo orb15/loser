@@ -53,7 +53,10 @@ export default class LoserActorSheetBase extends ActorSheet {
     
     //Saving Throws
     html.find(".event-saves-name").click(this._onRollSaveTest.bind(this));
-    
+
+    //Saving Throw Values
+    html.find(".event-save-value").change(this._onSaveValueChange.bind(this));
+
     //Inventory
     html.find(".event-item-edit").click(this._onItemEdit.bind(this));
     html.find(".event-item-delete").click(this._onItemDelete.bind(this));
@@ -231,6 +234,19 @@ export default class LoserActorSheetBase extends ActorSheet {
     let save = event.currentTarget.dataset.save;
     let targetValue = event.currentTarget.nextElementSibling.value
     return this._makeD20Test(save, targetValue, false);
+  }
+
+  _onSaveValueChange(event) {
+    event.preventDefault();
+    let proposedValue = event.currentTarget.value;
+    if(proposedValue > 20) {
+      event.currentTarget.value = 20;
+      return;
+    } else if(proposedValue < 2) {
+      event.currentTarget.value = 2;
+      return;
+    }
+    event.currentTarget.value = proposedValue;
   }
 
   /* -------------------------------------------------------------

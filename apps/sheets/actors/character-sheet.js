@@ -100,6 +100,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //Ability Checks
     html.find(".event-ability-name").click(this._onRollAbilityTest.bind(this));
 
+    //Ability Scores
+    html.find(".event-ability-value").change(this._onAbilityValueChange.bind(this));
+
     //Features
     html.find(".event-feature-img").click(this._onShowItem.bind(this));
   
@@ -265,7 +268,20 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     let targetValue = event.currentTarget.nextElementSibling.value
     return this._makeD20Test(abilityName, targetValue, true);
   }
-  
+
+  _onAbilityValueChange(event) {
+    event.preventDefault();
+    let proposedValue = event.currentTarget.value;
+    if(proposedValue > 18) {
+      event.currentTarget.value = 18;
+      return;
+    } else if(proposedValue < 3) {
+      event.currentTarget.value = 3;
+      return;
+    }
+    event.currentTarget.value = proposedValue;
+  }
+
   _onSpellMemorize(event) {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
