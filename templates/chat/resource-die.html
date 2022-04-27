@@ -1,0 +1,18 @@
+<div class="loser chat resource-die">
+
+  <div class="header">
+    <h3>{{titleText}}</h3>
+  </div>
+
+  <span>Result: {{dieResult}}</span><br/>
+
+  {{#isStable}}
+  <span style="color:green;">Resources unchanged. Die type is still: d{{newDieSize}}</span>
+  {{else}}
+    {{#isExpended}}
+    <span style="color: red;">Resources are fully consumed!</span>
+    {{else}}
+    <span style="color: red;">Resources are reduced. Die type is now: d{{newDieSize}}</span>
+    {{/isExpended}}
+  {{/isStable}}
+</div>

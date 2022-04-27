@@ -22,42 +22,40 @@ export default class LoserItemSheetBase extends ItemSheet {
   async getData(options) {
     
     //get base item data - this is whack. I am using the 5e approach here
+    //data.data seems to work for other documents but items need this weird treatment
+    //also see return below
     const data = super.getData(options);
-    
-    //itemData.data holds the template information (weirdly) yet it is accessed by the template 
-    //via data.<var>. This is why I have itemData.data = <val> everywhere below. These
-    //gyrations allow me to reference all of the template and calculated data as data.<x>
-    //in the template. I spent far too long sorting this out in the debugger since the 5e stuff
-    //didn't seem to be working for me exactly as I expected. I guess this is a hybrid approach?
-    const itemData = data.data;  
-
-    itemData.data.usesUnitSlot = false;
-    itemData.data.usesQtyPerSlot = false;
-    
-    //track if an item has slots, and if so, does it use unit slot or qty/slot approach
-    if (itemData.data.hasOwnProperty("qty") || itemData.type === "currency" || itemData.type === "logistic") {
-      itemData.data.hasSlots = true
-      if (itemData.data.unitSlot > 0) {
-        itemData.data.usesUnitSlot = true;
-      }
-      if (itemData.data.qtyPerSlot > 0) {
-        itemData.data.usesQtyPerSlot = true;
-      } 
-    } else {
-      itemData.data.hasSlots = false
-    }
-      
+    const itemData = data.data;
+       
     //note this item type
-    itemData.data.itemType = itemData.type.titleCase();
+    itemData.data.itemType =itemData.type.titleCase();
+
+    //handle various ways in which encumbrance can be calculated
+    //this approach allows a new item (which is always non-zero in each field we care about here)
+    //to show all relevant boxes, but as the item is customized, the item sheet updates to show
+    //only relevant input fields
+    itemData.data.usesUnitSlot = itemData.data.unitSlot > 0 ? true :false;
+    itemData.data.usesQtyPerSlot = itemData.data.qtyPerSlot > 0 ? true : false;
+    itemData.data.hasResourceDie = itemData.data.resourceDie >= 0 ? true : false;  //resource die might be 0 when resource is empty
+    itemData.data.hasSlots = false;
+
+    if(itemData.data.usesUnitSlot ||itemData. data.usesQtyPerSlot) {
+      itemData.data.hasSlots = true;
+    }
+
     
     //calc slot weight of this item (if any)
-    itemData.data.slots =  Utils.calcSlots(itemData);
-    
+    if(itemData.data.hasSlots) {
+      itemData.data.slots =  Utils.calcSlots(itemData);
+    } else {
+      itemData.data.slots = 0;
+    }
+
     // Re-define the template data references (backwards compatible)
+    // more 5e weirdness copied from the 5e 'sheet.js' base class
     data.item = itemData;
     data.data = itemData.data;
-    
     return data;
   }
-  
+
 }

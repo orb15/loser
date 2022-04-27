@@ -103,6 +103,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //Ability Scores
     html.find(".event-ability-value").change(this._onAbilityValueChange.bind(this));
 
+    //Inventory Resource Die
+    html.find(".event-resourcedie-value").click(this._onResourceDieClick.bind(this));
+    
     //Features
     html.find(".event-feature-img").click(this._onShowItem.bind(this));
   
@@ -366,6 +369,30 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
   }
 
+  _onResourceDieClick(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+
+    const resourceDieValue = item.data.data.resourceDie;
+    const itemName = item.name;
+
+    //safety
+    if(resourceDieValue === undefined || resourceDieValue === "N/A") {
+      return;
+    }
+
+    //inform the room on empty resource use - naughty player :)
+    if(resourceDieValue === "0") {
+      const msg = "Item: " + itemName + " has 0 Resource Die uses available and should not have been used!"
+      ui.notifications.warn(`${msg}`); 
+      this.displayGeneralChatMessage(msg);
+      return;
+    }
+
+    return this._makResourceDieTest(itemName, item, resourceDieValue);
+  }
+
   /* -------------------------------------------------------------
     Utility and Helper Methods
   ----------------------------------------------------------------*/
@@ -566,6 +593,65 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       ui.notifications.warn(`${msg}`);
       this.displayGeneralChatMessage(msg);
     }
+  }
 
+  //performs a Resource Die test
+  async _makResourceDieTest(itemName, item, currentDieSize) {
+    
+    const dieFormula = "1d" + currentDieSize;
+    let r = new Roll(dieFormula);
+
+    // Execute the roll
+    await r.evaluate({async: true});
+
+    //determine outcome
+    let isStable = true;
+    let isExpended = false;
+    let newDieSize = currentDieSize;
+    if(r.total <= 2) {
+      isStable = false;
+      switch(currentDieSize){
+        case "4":
+          newDieSize = "0";
+          isExpended = true;
+          break;
+        case "6":
+          newDieSize = "4";
+          break;
+        case "8":
+          newDieSize = "6";
+          break;
+        case "10":
+          newDieSize = "8";
+          break;
+        case "12":
+          newDieSize = "10";
+          break;
+      }
+    }
+
+    //prep the template data and render the template
+    const chatTemplateData = {
+      titleText: "Resource Test for " + itemName,
+      dieResult: r.total,
+      isStable: isStable,
+      isExpended: isExpended,
+      newDieSize: newDieSize
+    }
+    const html = await renderTemplate("systems/loser/templates/chat/resource-die.html", chatTemplateData);
+
+    const chatData = {
+      type:  CONST.CHAT_MESSAGE_TYPES.ROLL,
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker(),
+      content: html};
+
+    //post the message (also show die roll)
+    await r.toMessage(chatData);
+    
+    //note the change if any
+    item.update({"data.resourceDie": newDieSize});
+
+    return r;
   }
 }

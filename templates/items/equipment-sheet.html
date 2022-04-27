@@ -6,7 +6,9 @@
   <div class="flexrow resource-die equipment">
     <span class="title">Resource Die</span>
     <span class="d1">1d</span>
-    <input name="data.resourceDie" class="die-size" type="number" value="{{data.resourceDie}}" placeholder="8" data-dtype="Number" min="4" max="20"/> 
+    <select class="die-size" name="data.resourceDie">
+      {{selectOptions data.config.ResourceDice selected=data.resourceDie blank="8"}}
+    </select>
   </div>
   {{/data.hasResourceDie}}
   

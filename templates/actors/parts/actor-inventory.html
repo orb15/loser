@@ -58,7 +58,7 @@
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
-          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-resource-die drop rollable event-resourcedie-value">{{#this.hasResourceDie}}<a>die: {{this.data.resourceDie}}</a>{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">slots: {{this.slots}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
