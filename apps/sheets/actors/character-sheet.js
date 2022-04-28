@@ -115,6 +115,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     html.find(".event-spell-img").click(this._onSpellCast.bind(this));
     html.find(".event-uncast-spell").click(this._onSpellUncast.bind(this));
 
+    //Button Town
+    html.find(".event-recover-spells").click(this._onRecoverSpells.bind(this));
+
     //establish default listeners
     super.activateListeners(html);
   }
@@ -393,6 +396,48 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     return this._makResourceDieTest(itemName, item, resourceDieValue);
   }
 
+  _onRecoverSpells(event) {
+    event.preventDefault();
+
+    //safety
+    if(!this.dataCache.data.isSpellcaster) {
+      return;
+    }
+
+    const spellbook = this.dataCache.data.spellbook;
+
+    spellbook["1"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+    spellbook["2"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+    spellbook["3"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+    spellbook["4"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+    spellbook["5"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+    spellbook["16"].spells.map(spell => {
+      const item = this.actor.items.get(spell._id);
+      item.update({"data.timesMemorized": 0});
+      item.update({"data.timesCast": 0});
+    })
+  }
+
   /* -------------------------------------------------------------
     Utility and Helper Methods
   ----------------------------------------------------------------*/
@@ -654,4 +699,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     return r;
   }
+
 }
+

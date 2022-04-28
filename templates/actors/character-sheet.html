@@ -114,71 +114,81 @@
     {{!-- Ability Scores, Saves, Traits --}}
 
 
-    <div class="tab attributes flexrow sst" data-group="primary" data-tab="core">
+    <div class="tab attributes" data-group="primary" data-tab="core">
+
+      <div class="flexrow sst">
       
-      {{#unless data.isMonster}}
-      <ul class="flexcol ability-scores">
-        <li class="flexrow ability-score phys">
-          <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
-          <input name="data.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{data.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
-          <ul class="txt-details">
-            {{#each data.physText}}
-            <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        </li>
-        <li class="flexrow ability-score dex">
-          <h4 class="rollable event-ability-name" data-ability="dex">DEX</h4>
-          <input name="data.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{data.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
-          <ul class="txt-details">
-            {{#each data.dexText}}
-            <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        </li>
-        <li class="flexrow ability-score comp">
-          <h4 class="rollable event-ability-name" data-ability="comp">COMP</h4>
-          <input name="data.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{data.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
-          <ul class="txt-details">
-            {{#each data.compText}}
-            <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        </li>
-        <li class="flexrow ability-score cha">
-          <h4 class="rollable event-ability-name" data-ability="cha">CHA</h4>
-          <input name="data.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{data.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
-          <ul class="txt-details">
-            {{#each data.chaText}}
-            <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        </li>
-      </ul>
-      {{/unless}}
-      
-      <ul class="flexcol saves">
-        <li class="flexrow save poison">
-          <h4 class="rollable event-saves-name" data-save="pd">Poison / Death</h4>
-          <input name="data.saves.pd.value" class="event-save-value" type="number" min="2" value="{{data.saves.pd.value}}" placeholder="20" data-dtype="Number">
-        </li>
-        <li class="flexrow save petpoly">
-          <h4 class="rollable event-saves-name" data-save="pp">Petrify / Polymorph</h4>
-          <input name="data.saves.pp.value" class="event-save-value" type="number" min="2" value="{{data.saves.pp.value}}" placeholder="20" data-dtype="Number">
-        </li>
-        <li class="flexrow save breath">
-          <h4 class="rollable event-saves-name" data-save="bw">Breath Weapon</h4>
-          <input name="data.saves.bw.value" class="event-save-value" type="number" min="2" value="{{data.saves.bw.value}}" placeholder="20" data-dtype="Number">
-        </li>
-        <li class="flexrow save law">
-          <h4 class="rollable event-saves-name" data-save="lm">Law Magic</h4>
-          <input name="data.saves.lm.value" class="event-save-value" type="number" min="2" value="{{data.saves.lm.value}}" placeholder="20" data-dtype="Number">
-        </li>
-        <li class="flexrow save chaos">
-          <h4 class="rollable event-saves-name" data-save="cm">Chaos Magic</h4>
-          <input name="data.saves.cm.value" class="event-save-value" type="number" min="2" value="{{data.saves.cm.value}}" placeholder="20" data-dtype="Number">
-        </li>
-      </ul>
+        {{#unless data.isMonster}}
+        <ul class="flexcol ability-scores">
+          <li class="flexrow ability-score phys">
+            <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
+            <input name="data.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{data.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
+            <ul class="txt-details">
+              {{#each data.physText}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </li>
+          <li class="flexrow ability-score dex">
+            <h4 class="rollable event-ability-name" data-ability="dex">DEX</h4>
+            <input name="data.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{data.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
+            <ul class="txt-details">
+              {{#each data.dexText}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </li>
+          <li class="flexrow ability-score comp">
+            <h4 class="rollable event-ability-name" data-ability="comp">COMP</h4>
+            <input name="data.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{data.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
+            <ul class="txt-details">
+              {{#each data.compText}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </li>
+          <li class="flexrow ability-score cha">
+            <h4 class="rollable event-ability-name" data-ability="cha">CHA</h4>
+            <input name="data.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{data.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
+            <ul class="txt-details">
+              {{#each data.chaText}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </li>
+        </ul>
+        {{/unless}}
+        
+        <ul class="flexcol saves">
+          <li class="flexrow save poison">
+            <h4 class="rollable event-saves-name" data-save="pd">Poison / Death</h4>
+            <input name="data.saves.pd.value" class="event-save-value" type="number" min="2" value="{{data.saves.pd.value}}" placeholder="20" data-dtype="Number">
+          </li>
+          <li class="flexrow save petpoly">
+            <h4 class="rollable event-saves-name" data-save="pp">Petrify / Polymorph</h4>
+            <input name="data.saves.pp.value" class="event-save-value" type="number" min="2" value="{{data.saves.pp.value}}" placeholder="20" data-dtype="Number">
+          </li>
+          <li class="flexrow save breath">
+            <h4 class="rollable event-saves-name" data-save="bw">Breath Weapon</h4>
+            <input name="data.saves.bw.value" class="event-save-value" type="number" min="2" value="{{data.saves.bw.value}}" placeholder="20" data-dtype="Number">
+          </li>
+          <li class="flexrow save law">
+            <h4 class="rollable event-saves-name" data-save="lm">Law Magic</h4>
+            <input name="data.saves.lm.value" class="event-save-value" type="number" min="2" value="{{data.saves.lm.value}}" placeholder="20" data-dtype="Number">
+          </li>
+          <li class="flexrow save chaos">
+            <h4 class="rollable event-saves-name" data-save="cm">Chaos Magic</h4>
+            <input name="data.saves.cm.value" class="event-save-value" type="number" min="2" value="{{data.saves.cm.value}}" placeholder="20" data-dtype="Number">
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="flexcol button-town">
+        {{#data.isSpellcaster}}
+        <a class="rollable event-recover-spells">Recover Spells</a>
+        {{/data.isSpellcaster}}
+      </div>
 
     </div>
 
