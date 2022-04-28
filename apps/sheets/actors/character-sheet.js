@@ -431,11 +431,13 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       item.update({"data.timesMemorized": 0});
       item.update({"data.timesCast": 0});
     })
-    spellbook["16"].spells.map(spell => {
+    spellbook["6"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
       item.update({"data.timesMemorized": 0});
       item.update({"data.timesCast": 0});
     })
+
+    this.displayGeneralChatMessage("Recovering Spells");
   }
 
   /* -------------------------------------------------------------
