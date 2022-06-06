@@ -1,3 +1,12 @@
+This work product (all files in this repository) is licensed as described below.
+There are two licenses in effect, depending on the file extension
+
+Files ending in .css, .html, .js, .json, or .md are licensed under the UNLICENSE.
+
+Files ending in .png are licensed under the CC BY 3.0 license.
+
+
+# The Unlicense
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
@@ -22,3 +31,6 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>
+
+# CC BY 3.0 License
+For the full text of this license, visit:  https://creativecommons.org/licenses/by/3.0/
