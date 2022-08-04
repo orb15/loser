@@ -63,6 +63,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     data.data.unencumberedLimit = CONFIG.LOSER.ClassDetails[data.data.className].baseCarry + (CONFIG.LOSER.WeightChangePerPhysMod * CONFIG.LOSER.PhysBonus[physScore]);
     data.data.encumberedLimit = data.data.unencumberedLimit * 2;
 
+    //tooltip for encumbrance limits
+    data.data.encumbranceTooltip = "Unencumbered up to: " + data.data.unencumberedLimit + " Max Carry: " + data.data.encumberedLimit + " lbs";
+
     //total amount of currency carried by character
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
@@ -157,8 +160,21 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
         break;
     }
 
+    //prevent character from adding an invalid type of item
     if(!validType) {
       return ui.notifications.warn(`Cannot carry this item: ${msg}`);
+    }
+
+    //prevent the character from going over the weight limit
+    const itemWeight = item.data.weight;
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.encumberedLimit) {
+      msg = "This item would exceed the character's max carry limit";
+      return ui.notifications.warn(`Cannot carry this item: ${msg}`);
+    }
+
+    //friendly reminder that the character is Encumbered but not yet at limit
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.unencumberedLimit) {
+      ui.notifications.warn(`Carrying this item will make the character Encumbered!`);
     }
 
     //default to the handler to create the embedded document
