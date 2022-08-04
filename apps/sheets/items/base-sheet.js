@@ -30,26 +30,9 @@ export default class LoserItemSheetBase extends ItemSheet {
     //note this item type
     itemData.data.itemType =itemData.type.titleCase();
 
-    //handle various ways in which encumbrance can be calculated
-    //this approach allows a new item (which is always non-zero in each field we care about here)
-    //to show all relevant boxes, but as the item is customized, the item sheet updates to show
-    //only relevant input fields
-    itemData.data.usesUnitSlot = itemData.data.unitSlot > 0 ? true :false;
-    itemData.data.usesQtyPerSlot = itemData.data.qtyPerSlot > 0 ? true : false;
-    itemData.data.hasResourceDie = itemData.data.resourceDie >= 0 ? true : false;  //resource die might be 0 when resource is empty
-    itemData.data.hasSlots = false;
+    //calc weight of this item (if any)
+    itemData.data.totalWeight =  Utils.calcSlots(itemData);
 
-    if(itemData.data.usesUnitSlot ||itemData. data.usesQtyPerSlot) {
-      itemData.data.hasSlots = true;
-    }
-
-    
-    //calc slot weight of this item (if any)
-    if(itemData.data.hasSlots) {
-      itemData.data.slots =  Utils.calcSlots(itemData);
-    } else {
-      itemData.data.slots = 0;
-    }
 
     // Re-define the template data references (backwards compatible)
     // more 5e weirdness copied from the 5e 'sheet.js' base class

@@ -3,14 +3,14 @@
   {{!-- Header --}}
   <div class="flexrow header">
     Available Currency: {{data.totalCurrency}}sp
-    <span class="slots">Total Slots: {{data.totalSlots}}</span>
+    <span class="slots">Total Weight: {{data.totalWeightCarried}}</span>
   </div>
 
   <div class="inventory-lists">
     
     <div class="header flexrow">
       Weapons
-      <span class="slots">Slots: {{data.inventory.weapon.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.weapon.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.weapon.items}}
@@ -19,7 +19,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
           <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
@@ -30,7 +30,7 @@
 
     <div class="header flexrow">
       Armor
-      <span class="slots">Slots: {{data.inventory.armor.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.armor.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.armor.items}}
@@ -39,7 +39,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
           <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
@@ -50,7 +50,7 @@
 
     <div class="header flexrow">
       Equipment
-      <span class="slots">Slots: {{data.inventory.equipment.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.equipment.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.equipment.items}}
@@ -59,7 +59,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
           <div class="item-resource-die drop rollable event-resourcedie-value">{{#this.hasResourceDie}}<a>die: {{this.data.resourceDie}}</a>{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
@@ -71,7 +71,7 @@
 
     <div class="header flexrow">
       Loot
-      <span class="slots">Slots: {{data.inventory.loot.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.loot.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.loot.items}}
@@ -80,7 +80,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
           <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
@@ -91,7 +91,7 @@
   
     <div class="header flexrow">
       Currency
-      <span class="slots">Slots: {{data.inventory.currency.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.currency.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.currency.items}}
@@ -100,7 +100,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">{{#this.hasQty}}Qty: {{this.data.qty}}{{/this.hasQty}}</div>
           <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>
@@ -112,7 +112,7 @@
     {{#data.isMonster}}
     <div class="header flexrow">
       Logistical Items
-      <span class="slots">Slots: {{data.inventory.logistic.slots}}</span>
+      <span class="slots">Weight: {{data.inventory.logistic.weight}}</span>
     </div>
     <ul>
       {{#each data.inventory.logistics.items}}
@@ -121,7 +121,7 @@
           <div class="item-name drop">{{this.name}}</div>
           <div class="item-quantity drop">{{#this.hasQty}}Qty: {{this.data.qty}}{{/this.hasQty}}</div>
           <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
-          <div class="item-slots drop">slots: {{this.slots}}</div>
+          <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
             <div><a class="event-item-delete" title="Delete"><i class="fas fa-trash"></i></a></div>

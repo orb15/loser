@@ -75,12 +75,12 @@ export default class LoserActorSheetBase extends ActorSheet {
 
     //prepare an organized inventory
     const inventory = {
-      "weapon": {"slots": 0,"items": [],"type": "weapon"},
-      "armor": {"slots": 0,"items": [],"type": "armor"},
-      "equipment": {"slots": 0,"items": [],"type": "equipment"},
-      "loot": {"slots": 0,"items": [],"type": "loot"},
-      "currency": {"slots": 0,"items": [],"type": "currency"},
-      "logistics": {"slots": 0,"items": [],"type": "logistic"},
+      "weapon": {"weight": 0,"items": [],"type": "weapon"},
+      "armor": {"weight": 0,"items": [],"type": "armor"},
+      "equipment": {"weight": 0,"items": [],"type": "equipment"},
+      "loot": {"weight": 0,"items": [],"type": "loot"},
+      "currency": {"weight": 0,"items": [],"type": "currency"},
+      "logistics": {"weight": 0,"items": [],"type": "logistic"},
     };
 
     allItems.map(item => {
@@ -88,21 +88,21 @@ export default class LoserActorSheetBase extends ActorSheet {
       switch(item.type) {
         case "weapon":
           inventory.weapon.items.push(item);
-          item.slots = Utils.calcSlots(item);
-          inventory.weapon.slots += item.slots;
+          item.weight = Utils.calcSlots(item);
+          inventory.weapon.weight += item.weight;
           break;
         case "armor":
           inventory.armor.items.push(item);
-          item.slots = Utils.calcSlots(item, this.dataCache.data.className);
-          inventory.armor.slots +=item.slots;
+          item.weight = Utils.calcSlots(item, this.dataCache.data.className);
+          inventory.armor.weight +=item.weight;
           break;
         case "equipment":
           inventory.equipment.items.push(item);
-          item.slots = Utils.calcSlots(item);
-          inventory.equipment.slots += item.slots
+          item.weight = Utils.calcSlots(item);
+          inventory.equipment.weight += item.weight
 
           //note if this item has a resource die associated with it
-          if (item.data.resourceDie > 0) {
+          if (item.data.resourceDie >= 0) {
             item.hasResourceDie = true
           } else {
             item.hasResourceDie = false
@@ -111,23 +111,22 @@ export default class LoserActorSheetBase extends ActorSheet {
           break;
         case "loot":
           inventory.loot.items.push(item);
-          item.slots = Utils.calcSlots(item);
-          inventory.loot.slots += item.slots;
+          item.weight = Utils.calcSlots(item);
+          inventory.loot.weight += item.weight;
           break;
         case "currency":
           inventory.currency.items.push(item);
-          item.slots = Utils.calcSlots(item);
-          inventory.currency.slots += item.slots;
+          item.weight = Utils.calcSlots(item);
+          inventory.currency.weight += item.weight;
           break;
         case "logistic":
-          inventory.logistics.items.push(item);
-          item.slots = Utils.calcSlots(item);
-          inventory.logistics.slots += item.slots;
+          weight = Utils.calcSlots(item);
+          inventory.logistics.weight += item.weight;
           break;
       }
     })
 
-    //sort the various arrays by slots used then by name
+    //sort the various arrays by weight used then by name
     inventory.weapon.items.sort(this._inventorySorter)
     inventory.armor.items.sort(this._inventorySorter)
     inventory.equipment.items.sort(this._inventorySorter)
@@ -138,14 +137,14 @@ export default class LoserActorSheetBase extends ActorSheet {
     return inventory
   }
   
-  //sort by slots then name
+  //sort by weight then name
   _inventorySorter(a, b) {
     
-    const aSlots = a.slots;
-    const bSlots = b.slots;
+    const aWeight = a.weight;
+    const bWeight = b.weight;
 
-    if (aSlots > bSlots) {return -1;}
-    if (bSlots > aSlots) {return 1;}
+    if (aWeight > bWeight) {return -1;}
+    if (bWeight > aWeight) {return 1;}
     
     const lcNameA = a.name.toLowerCase();
     const lcNameB = b.name.toLowerCase();

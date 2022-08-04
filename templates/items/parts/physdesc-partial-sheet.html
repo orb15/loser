@@ -6,34 +6,22 @@
     <input class="itemname" name="name" type="text" value="{{item.name}}" placeholder="Name"/>
     <div class="flexrow iteminfo">
       <span>Type: {{data.itemType}}</span>
-      {{#data.hasSlots}}
-        <span class="slots">Slots: {{data.slots}}</span>
-      {{/data.hasSlots}}
+        <span class="slots">Weight: {{data.totalWeight}}</span>
     </div>
   </div>    
 </div>
 
 <div class="flexrow phys-desc">
-  {{#data.hasSlots}}
     <div class="flexcol phys-stack">
-      <div class="flexrow phys-detail">
-        {{#data.usesUnitSlot}}
-          <span>Unit Slots</span>
-          <input name="data.unitSlot" type="number" value="{{data.unitSlot}}" placeholder="1" data-dtype="Number" min="0"/>
-        {{/data.usesUnitSlot}} 
-      </div>
       <div class="flexrow phys-detail">
         <span>Qty</span>
         <input name="data.qty" type="number" value="{{data.qty}}" placeholder="1" data-dtype="Number" min="0"/> 
       </div>
       <div class="flexrow phys-detail">
-        {{#data.usesQtyPerSlot}}
-        <span>Qty Per Slot</span>
-        <input name="data.qtyPerSlot" type="number" value="{{data.qtyPerSlot}}" placeholder="1" data-dtype="Number" min="1"/>
-        {{/data.usesQtyPerSlot}} 
+        <span>Weight Each</span>
+        <input name="data.weight" type="number" value="{{data.weight}}" placeholder="1" data-dtype="Number" min="1"/>
       </div>
    </div>
-  {{/data.hasSlots}}
   <div class="desc-detail">
     {{editor content=data.description target="data.description" button=true owner=true editable=true}}
   </div>

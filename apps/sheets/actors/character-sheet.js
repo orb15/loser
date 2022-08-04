@@ -53,13 +53,15 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     //prep the inventory - divide by catagory and sort appropriately
     const inventory = this._prepareInventory(allItems)
 
-    //total slots carried by a character
-    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
-    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
+    //total weight carried by a character
+    data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
+    inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
     data.data.inventory = inventory;
 
-    //warn on excessive slots used
-    this._warnOnExcessiveSlotsUsed();
+    //unencumbered limit, encumbered limit
+    const physScore = data.data["ability-scores"].phys.value
+    data.data.unencumberedLimit = CONFIG.LOSER.ClassDetails[data.data.className].baseCarry + (CONFIG.LOSER.WeightChangePerPhysMod * CONFIG.LOSER.PhysBonus[physScore]);
+    data.data.encumberedLimit = data.data.unencumberedLimit * 2;
 
     //total amount of currency carried by character
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
@@ -130,11 +132,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     let validType = true;
     let msg = "";
     switch(item.type) {
-
-      case "armor":
-        validType = this._hasPhysForArmorType(item.data.properties);
-        msg = "Insufficient PHYS to carry this item"
-        break;
 
       case "logistic":
         validType = false; //logistics are never allowed on characters
@@ -548,68 +545,28 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     return spellList === actualList;
   }
 
-  //returns true if this character has high enough PHYS to carry the armor
-  _hasPhysForArmorType(armorProps) {
-    const phys = this.dataCache.data["ability-scores"].phys.value;
-    const isShield = armorProps[0];
-
-    //quick exit
-    if(phys >= 9 || isShield) {
-      return true;
-    }
-
-    //check the details
-    const isLight = armorProps[1];
-    const isMedium = armorProps[2];
-    const isHeavy = armorProps[3];
-
-    if(isLight && phys >= 4) {
-      return true
-    }
-    if (isMedium && phys >= 6) {
-      return true;
-    }
-    if (isHeavy && phys >= 9) {
-      return true;
-    }
-
-    return false;
-  }
-
   //calculates movement rates based on all factors
   _calculateMovement() {
     let moveRates = [];
 
-    const totalSlots = this.dataCache.data.totalSlots;
-    let breakPoint1 = 9;
-    let breakPoint2 = 10;
-    let breakPoint3 = 15;
+    const totalWeightCarried = this.dataCache.data.totalWeightCarried;
+    const className = this.dataCache.data.className;
+    let tactical = CONFIG.LOSER.ClassDetails[className].baseTactical;
+    let overland = CONFIG.LOSER.ClassDetails[className].baseOverland;
 
-    //fighter gets 2 extra slots in each catagory
-    if(this.dataCache.data.className === "fighter") {
-      breakPoint1 +=2;
-      breakPoint2 +=2;
-      breakPoint3 +=2;
-    }
-    
-    let tactical = 0;
-    let overland = 0;
-    if(totalSlots <= breakPoint1) {
-      tactical = 40;
-      overland = 25;
-    } else if(totalSlots == breakPoint2) {
-      tactical = 30;
-      overland = 20;
-    } else if(totalSlots <= breakPoint3) {
-      tactical = 20;
-      overland = 15;
+    if(totalWeightCarried <= this.dataCache.data.unencumberedLimit) {
+      tactical = tactical
+      overland = overland
+    } else if (totalWeightCarried <= this.dataCache.data.encumberedLimit){
+      tactical = Math.floor(tactical / 2);
+      overland = Math.floor(overland / 2);
     } else {
-      tactical = 10;
-      overland = 10;
+      tactical = 0;
+      overland = 0;
     }
 
     //fighter gets a move bump
-    if(this.dataCache.data.className === "fighter") {
+    if(className === "fighter" && tactical > 0) {
       tactical += 5;
     }
     
@@ -617,33 +574,13 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     return moveRates;
   }
 
-  //prints a warning and chatlog message if character is overloaded
-  _warnOnExcessiveSlotsUsed() {
-    const totalSlots = this.dataCache.data.totalSlots;
-    const className = this.dataCache.data.className;
-
-    let needsWarning = false;
-    let msg = "";
-
-    if(className === "fighter" && totalSlots > 27) {
-      needsWarning = true;
-      msg = "Exceeded maximum allowed slots for a fighter (27)"
-    } else if(className === "heflin" && totalSlots > 12) {
-      needsWarning = true;
-      msg = "Exceeded maximum allowed slots for a heflin (12)";
-    } else if(totalSlots > 25) {
-      needsWarning = true;
-      msg = "Exceeded maximum allowed slots for any character (25)";
-    }
-
-    if(needsWarning) {
-      ui.notifications.warn(`${msg}`);
-      this.displayGeneralChatMessage(msg);
-    }
-  }
-
   //performs a Resource Die test
   async _makResourceDieTest(itemName, item, currentDieSize) {
+
+    //if the resource is fully consumed, skip
+    if (currentDieSize <= 0) {
+      return
+    }
     
     const dieFormula = "1d" + currentDieSize;
     let r = new Roll(dieFormula);

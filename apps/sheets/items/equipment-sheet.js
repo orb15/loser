@@ -21,6 +21,9 @@ export default class LoserEquipmentItemSheet extends LoserItemSheetBase {
     
     //add the LOSER config to make building select boxes easy
     data.data.config = CONFIG.LOSER;
+
+    //note if this item uses a resource die
+    data.data.hasResourceDie = data.data.resourceDie >= 0
     
     return data;
   }

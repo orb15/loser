@@ -34,9 +34,9 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     //prep the inventory - divide by catagory and sort appropriately
     const inventory = this._prepareInventory(allItems)
 
-    //total slots carried by a character
-    data.data.totalSlots = inventory.armor.slots + inventory.currency.slots + inventory.equipment.slots + 
-    inventory.loot.slots + inventory.weapon.slots + inventory.logistics.slots;
+    //total weight carried by a monster
+    data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
+    inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
     data.data.inventory = inventory;
 
     //total amount of currency carried by character

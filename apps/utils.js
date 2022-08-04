@@ -1,3 +1,4 @@
+import {LOSER} from "../config.js";
 
 //Utils is a collection of helper functions
 export default class Utils {
@@ -16,33 +17,9 @@ export default class Utils {
         //prevent negative qty
         const qty = data.qty >= 0 ? data.qty : 0
 
-        //unit slots are default calculation if set
-        let raw = 0;
-        if (data.unitSlot >= 1) {
-          raw = data.unitSlot * qty;
-        } else { //otherwise slots are based on qty carried and the slots occupied by a qty of the items
-          //prevent div by 0
-          const qtyPerSlot = data.qtyPerSlot >= 1 ? data.qtyPerSlot : 1
-          raw = qty / qtyPerSlot;
-        }
-      
-        let finalSlots =  Math.ceil(raw);
-
-        //handle racial special armor issues
-        if(item.type === "armor") {
-
-          //dwarves get a discount for wearing medium or heavy armor
-          if(className === "dwarf" && (data.properties[2] || data.properties[3])) {
-            finalSlots -= 1;
-          }
-
-          //elves pay a penalty for wearing heavy armor
-          if(className === "elf" && data.properties[3]) {
-            finalSlots += 2;
-          }
-        }
-
-        return finalSlots;
+        //calc total weight based on base weight and quantity held
+        let totalWeight = data.weight * qty;
+        return totalWeight;
 
       //currency weight is based on increments of 50 coins and 100 gems both rounded down
       case "currency":
@@ -50,10 +27,10 @@ export default class Utils {
         const gems = data.gems.sp10 +  data.gems.sp25 +  data.gems.sp50 + 
         data.gems.sp100 +  data.gems.sp250 +  data.gems.sp500 + 
         data.gems.sp1000 +  data.gems.sp2500 +  data.gems.sp5000;
-        return Math.floor(coins / 50) + Math.floor(gems / 100);
+        return Math.floor(coins / LOSER.CoinWeight.coinsPerPound) + Math.floor(gems / LOSER.CoinWeight.gemsPerPound);
 
       case "logistic":
-        return data.reservedSlots;
+        return data.reservedWeight;
 
       default:
         return 0

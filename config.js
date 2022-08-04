@@ -16,6 +16,8 @@ ________________________`
 
 LOSER.MaxSpellMemorizeCount = 5;
 
+LOSER.WeightChangePerPhysMod = 20;
+
 //---------------------------------------------------------------
 // Character Basics
 //---------------------------------------------------------------
@@ -246,72 +248,108 @@ LOSER.ClassDetails = {
     "alignment": "True Neutral",
     "vision": "Normal",
     "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "beast-master": {
     "isSpellcaster": false,
     "alignment": "Neutral",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "druid": {
     "isSpellcaster": true,
     "alignment": "True Neutral",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "dwarf": {
     "isSpellcaster": false,
     "alignment": "Neutral",
     "vision": "Darkvision",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 90,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "elf": {
     "isSpellcaster": true,
     "alignment": "Chaotic",
     "vision": "Low Light",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 50,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "fighter": {
     "isSpellcaster": false,
     "alignment": "Neutral",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "heflin": {
     "isSpellcaster": false,
     "alignment": "Neutral",
     "vision": "Low Light",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 40,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "illusionist": {
     "isSpellcaster": true,
     "alignment": "Chaotic",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "normal-human": {
     "isSpellcaster": false,
     "alignment": "Neutral",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "paladin": {
     "isSpellcaster": true,
     "alignment": "Lawful",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "warpriest": {
     "isSpellcaster": true,
     "alignment": "Lawful",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   },
   "wizard": {
     "isSpellcaster": true,
     "alignment": "Chaotic",
     "vision": "Normal",
-    "size": "Medium"
+    "size": "Medium",
+    "baseCarry": 60,
+    "baseOverland": 30,
+    "baseTactical": 30
   }
 };
 
@@ -488,22 +526,22 @@ LOSER.Alignments = {
 LOSER.Abilities = {
 
   "phys": {
-    "3": "Melee Modifier: -3|Thrown Weapon Modifier: -3|HP per Die: -3|Armor Allowed: Shield only",
-    "4": "Melee Modifier: -2|Thrown Weapon Modifier: -2|HP per Die: -2|Armor Allowed: Light armor",
-    "5": "Melee Modifier: -2|Thrown Weapon Modifier: -2|HP per Die: -2|Armor Allowed: Light armor",
-    "6": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Armor Allowed: Medium armor",
-    "7": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Armor Allowed: Medium armor",
-    "8": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Armor Allowed: Medium armor",
-    "9": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Armor Allowed: Heavy armor",
-    "10": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Armor Allowed: Heavy armor",
-    "11": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Armor Allowed: Heavy armor",
-    "12": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Armor Allowed: Heavy armor",
-    "13": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Armor Allowed: Heavy armor",
-    "14": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Armor Allowed: Heavy armor",
-    "15": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Armor Allowed: Heavy armor",
-    "16": "Melee Modifier: +2|Thrown Weapon Modifier: +2|HP per Die: +2|Armor Allowed: Heavy armor",
-    "17": "Melee Modifier: +2|Thrown Weapon Modifier: +2|HP per Die: +2|Armor Allowed: Heavy armor",
-    "18": "Melee Modifier: +3|Thrown Weapon Modifier: +3|HP per Die: +3|Armor Allowed: Heavy armor"
+    "3": "Melee Modifier: -3|Thrown Weapon Modifier: -3|HP per Die: -3|Encumbrance Modifier: -3",
+    "4": "Melee Modifier: -2|Thrown Weapon Modifier: -2|HP per Die: -2|Encumbrance Modifier: -2",
+    "5": "Melee Modifier: -2|Thrown Weapon Modifier: -2|HP per Die: -2|Encumbrance Modifier: -2",
+    "6": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Encumbrance Modifier: -1",
+    "7": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Encumbrance Modifier: -1",
+    "8": "Melee Modifier: -1|Thrown Weapon Modifier: -1|HP per Die: -1|Encumbrance Modifier: -1",
+    "9": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Encumbrance Modifier: 0",
+    "10": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Encumbrance Modifier: 0",
+    "11": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Encumbrance Modifier: 0",
+    "12": "Melee Modifier: 0|Thrown Weapon Modifier: 0|HP per Die: 0|Encumbrance Modifier: 0",
+    "13": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Encumbrance Modifier: +1",
+    "14": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Encumbrance Modifier: +1",
+    "15": "Melee Modifier: +1|Thrown Weapon Modifier: +1|HP per Die: +1|Encumbrance Modifier: +1",
+    "16": "Melee Modifier: +2|Thrown Weapon Modifier: +2|HP per Die: +2|Encumbrance Modifier: +2",
+    "17": "Melee Modifier: +2|Thrown Weapon Modifier: +2|HP per Die: +2|Encumbrance Modifier: +2",
+    "18": "Melee Modifier: +3|Thrown Weapon Modifier: +3|HP per Die: +3|Encumbrance Modifier: +3",
   },
 
   "dex": {
@@ -564,6 +602,25 @@ LOSER.Abilities = {
   }
 };
 
+LOSER.PhysBonus = {
+  "3": -3,
+  "4": -2,
+  "5": -2,
+  "6": -1,
+  "7": -1,
+  "8": -1,
+  "9":  0,
+  "10": 0,
+  "11": 0,
+  "12": 0,
+  "13": 1,
+  "14": 1,
+  "15": 1,
+  "16": 2,
+  "17": 2,
+  "18": 3
+};
+
 //---------------------------------------------------------------
 // Features
 //---------------------------------------------------------------
@@ -585,4 +642,12 @@ LOSER.ResourceDice = {
   "8": "8",
   "10":"10",
   "12":"12"
+};
+
+//---------------------------------------------------------------
+// Loot Coins + Gems Weight
+//---------------------------------------------------------------
+LOSER.CoinWeight = {
+  "coinsPerPound": 50,
+  "gemsPerPound": 100
 };

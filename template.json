@@ -102,8 +102,7 @@
     "templates": {
       "physicalItem": {
         "qty": 1,
-        "qtyPerSlot": 1,
-        "unitSlot": 1
+        "weight": 1
       },
       "describable": {
         "description": "An item's description goes here"
@@ -163,7 +162,7 @@
     "logistic": {
       "templates": ["describable"],
       "investment": 0,
-      "reservedSlots":0
+      "reservedWeight":0
     }
   }
 }

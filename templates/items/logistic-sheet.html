@@ -8,9 +8,7 @@
       <input class="itemname" name="name" type="text" value="{{item.name}}" placeholder="Name"/>
       <div class="flexrow iteminfo">
         <span>Type: {{data.itemType}}</span>
-        {{#data.hasSlots}}
-          <span class="slots">Slots: {{data.slots}}</span>
-        {{/data.hasSlots}}
+        <span class="slots">Weight: {{data.totalWeight}}</span>
       </div>
     </div>
         
@@ -23,8 +21,8 @@
   </div>
 
   <div class="flexrow details">
-    <span class="title">Slots Reserved</span>
-    <input name="data.reservedSlots" type="number" value="{{data.reservedSlots}}" data-dtype="Number" min="0"/>
+    <span class="title">Reserved Weight</span>
+    <input name="data.reservedWeight" type="number" value="{{data.reservedWeight}}" data-dtype="Number" min="0"/>
     <span class="title right currency">Currency Invested (sp)</span>
     <input name="data.investment" type="number" value="{{data.investment}}" data-dtype="Number" min="0"/>
   </div>
