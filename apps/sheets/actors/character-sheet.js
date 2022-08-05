@@ -32,8 +32,8 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //note the character's class and level for use elsewhere
     let className = data.data.class.name.value;
-    data.data.className = className;
     className = this._normalizeClassName(className);
+    data.data.className = className;
     const classLevel = data.data.class.level.value;
     const isSpellcaster = this._isSpellcaster(className);
     data.data.isSpellcaster = isSpellcaster;

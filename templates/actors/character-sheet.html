@@ -70,9 +70,16 @@
           <li class="attribute movement">
               <h4 class="attribute-name box-title">Movement</h4>
               <div class="attribute-value multiple">
+                {{#unless data.isMonster}}
                   <input type="text" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft" readonly>
                   <span class="sep"> / </span>
                   <input type="text" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP" readonly>
+                {{/unless}}
+                {{#data.isMonster}}
+                <input type="number" name="data.moveTactical" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft">
+                <span class="sep"> / </span>
+                <input type="number" name="data.moveOverland" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP">
+                {{/data.isMonster}}
               </div>
               <footer class="attribute-footer">
                 <span>ft</span>

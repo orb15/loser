@@ -120,7 +120,8 @@ export default class LoserActorSheetBase extends ActorSheet {
           inventory.currency.weight += item.weight;
           break;
         case "logistic":
-          weight = Utils.calcSlots(item);
+          inventory.logistics.items.push(item);
+          item.weight = Utils.calcSlots(item);
           inventory.logistics.weight += item.weight;
           break;
       }

@@ -91,6 +91,8 @@
       "loyalty": {
         "value": 0
       },
+      "moveTactical": 0,
+      "moveOverland": 0,
       "isNPC": false,
       "isMonster": true,
       "isPC": false

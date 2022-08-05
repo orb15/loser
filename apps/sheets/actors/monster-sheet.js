@@ -39,10 +39,10 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
     data.data.inventory = inventory;
 
-    //total amount of currency carried by character
+    //total amount of currency carried by monster
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
-    //build "capabilities" data - everything but core inventory
+    //build "capabilities" data - basically Features and Spells as everything else is Inventory
     data.data.capabilities = this._buildCapabilities(data.actor.items);
 
     return data;
