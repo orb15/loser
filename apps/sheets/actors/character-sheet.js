@@ -61,6 +61,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     const physScore = data.data["ability-scores"].phys.value
     data.data.unencumberedLimit = CONFIG.LOSER.ClassDetails[data.data.className].baseCarry + (CONFIG.LOSER.WeightChangePerPhysMod * CONFIG.LOSER.PhysBonus[physScore]);
     data.data.encumberedLimit = data.data.unencumberedLimit * 2;
+    if(data.data.encumberedLimit <= 0) {
+      data.data.encumberedLimit = 30;
+    }
 
     //tooltip for encumbrance limits
     data.data.encumbranceTooltip = "Unencumbered up to: " + data.data.unencumberedLimit + " Max Carry: " + data.data.encumberedLimit + " lbs";
@@ -558,18 +561,20 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     const totalWeightCarried = this.dataCache.data.totalWeightCarried;
     const className = this.dataCache.data.className;
-    let tactical = CONFIG.LOSER.ClassDetails[className].baseTactical;
-    let overland = CONFIG.LOSER.ClassDetails[className].baseOverland;
+    const baseTactical = CONFIG.LOSER.ClassDetails[className].baseTactical;
+    const baseOverland = CONFIG.LOSER.ClassDetails[className].baseOverland;
+
+    let tactical = 0;
+    let overland = 0;
 
     if(totalWeightCarried <= this.dataCache.data.unencumberedLimit) {
-      tactical = tactical
-      overland = overland
+      tactical = baseTactical;
+      overland = baseOverland;
     } else if (totalWeightCarried <= this.dataCache.data.encumberedLimit){
-      tactical = Math.floor(tactical / 2);
-      overland = Math.floor(overland / 2);
-    } else {
-      tactical = 0;
-      overland = 0;
+
+      //cut available move in half
+      tactical = Utils.calcHalfTacticalMovement(baseTactical)
+      overland = Math.floor(baseOverland / 2);
     }
 
     //fighter gets a move bump

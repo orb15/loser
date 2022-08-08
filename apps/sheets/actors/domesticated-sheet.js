@@ -1,4 +1,5 @@
 import LoserActorSheetBase from "./base-sheet.js";
+import Utils from "../../utils.js"
 
 // This class provides core functionality for the Character and NPC
 // Character Sheets
@@ -166,15 +167,10 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
     if(totalWeightCarried <= baseCarry) {
       tactical = baseTactical
       overland = baseOverland
-    } else if (totalWeightCarried <= baseCarry * 2){
-      tactical = Math.floor(baseTactical / 2);
-      if(tactical % 5 != 0) {
-        const r = tactical % 10;
-        if(r < 5) {
-          tactical = Math.trunc(tactical / 10) * 10;
-        }
-      }
+    } else if (totalWeightCarried <= baseCarry * 2) {
 
+      //cut available move in half
+      tactical = Utils.calcHalfTacticalMovement(baseTactical)
       overland = Math.floor(baseOverland / 2);
     }
    

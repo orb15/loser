@@ -37,6 +37,20 @@ export default class Utils {
     }
   }
 
+  //returns half tactical movement rounded down to the nearest 5ft move increment
+  static calcHalfTacticalMovement(baseMovement) {
+    let tactical = Math.floor(baseMovement / 2);
+    if(tactical % 5 != 0) {
+      const r = tactical % 10;
+      if(r < 5) {
+        tactical = Math.trunc(tactical / 10) * 10;
+      } else {
+        tactical = (Math.trunc(tactical / 10) + .5) * 10;
+      }
+    }
+    return tactical;
+  }
+
 }
 
    
