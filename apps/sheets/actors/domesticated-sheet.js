@@ -38,6 +38,11 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
     inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
     data.data.inventory = inventory;
 
+    //calculate movement
+    const moveData = this._calculateMovement();
+    data.data.moveTactical = moveData[0];
+    data.data.moveOverland = moveData[1];
+
     //total amount of currency carried by monster
     data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
@@ -71,15 +76,18 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
    //@Override <Unknown - undocumented API?>
    async _onDropItemCreate(item) {
 
+
+    let msg = "";
+
     //prevent the character from going over the weight limit
     const itemWeight = item.data.weight;
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.encumberedLimit) {
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.baseCarry * 2) {
       msg = "This item would exceed the beast's max carry limit";
       return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
 
-    //friendly reminder that the character is Encumbered but not yet at limit
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.unencumberedLimit) {
+    //friendly reminder that the beast is Encumbered but not yet at limit
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.baseCarry) {
       ui.notifications.warn(`Carrying this item will make the beast Encumbered!`);
     }
 
@@ -130,7 +138,7 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
     return 0;
   }
 
-    /* -------------------------------------------------------------
+  /* -------------------------------------------------------------
     Event Handlers
   ----------------------------------------------------------------*/
   _onSpellCast(event) {
@@ -139,6 +147,39 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
+  }
+
+  /* -------------------------------------------------------------
+    Utility and Helper Methods
+  ----------------------------------------------------------------*/
+  _calculateMovement() {
+    let moveRates = [];
+
+    const totalWeightCarried = this.dataCache.data.totalWeightCarried;
+    const baseTactical = this.dataCache.data.baseMoveTactical;
+    const baseOverland = this.dataCache.data.baseMoveOverland;
+    const baseCarry = this.dataCache.data.baseCarry;
+
+    let tactical = 0;
+    let overland = 0;
+
+    if(totalWeightCarried <= baseCarry) {
+      tactical = baseTactical
+      overland = baseOverland
+    } else if (totalWeightCarried <= baseCarry * 2){
+      tactical = Math.floor(baseTactical / 2);
+      if(tactical % 5 != 0) {
+        const r = tactical % 10;
+        if(r < 5) {
+          tactical = Math.trunc(tactical / 10) * 10;
+        }
+      }
+
+      overland = Math.floor(baseOverland / 2);
+    }
+   
+    moveRates = [tactical,overland];
+    return moveRates;
   }
 
 }

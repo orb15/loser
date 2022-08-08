@@ -54,7 +54,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //total weight carried by a character
     data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
-    inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
+    inventory.loot.weight + inventory.weapon.weight;
     data.data.inventory = inventory;
 
     //unencumbered limit, encumbered limit

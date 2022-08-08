@@ -102,8 +102,9 @@
     "domesticated": {
       "templates": ["playable", "creature"],
       "bab": 0,
-      "moveTactical": 0,
-      "moveOverland": 0,
+      "baseMoveTactical": 0,
+      "baseMoveOverland": 0,
+      "baseCarry": 0,
       "isNPC": false,
       "isMonster": false,
       "isPC": false,
@@ -176,7 +177,7 @@
     "logistic": {
       "templates": ["describable"],
       "investment": 0,
-      "reservedWeight":0
+      "weight":0
     }
   }
 }

@@ -563,6 +563,16 @@
   margin-right: 4px;
 }
 
+.loser.sheet.actor.playable .logistics-partial .logistics-base-input {
+  margin-top: 4px;
+  max-height: 60px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-base-input input {
+  width: 60px;
+  margin-left: 3px;
+}
+
 .loser.sheet.actor.playable .logistics-partial .logistics-list .header {
   border-bottom: 2px groove #eeede0;
   font-size: 18px;

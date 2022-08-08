@@ -30,7 +30,7 @@ export default class Utils {
         return Math.floor(coins / LOSER.CoinWeight.coinsPerPound) + Math.floor(gems / LOSER.CoinWeight.gemsPerPound);
 
       case "logistic":
-        return data.reservedWeight;
+        return data.weight;
 
       default:
         return 0
