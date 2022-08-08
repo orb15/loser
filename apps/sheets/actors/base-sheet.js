@@ -44,10 +44,13 @@ export default class LoserActorSheetBase extends ActorSheet {
     //add the LOSER config to make building select boxes easy
     data.data.config = CONFIG.LOSER;
 
+    //define some booleans useful for templating
+    this._setTemplateBooleans(data)
+
     return data;
   }
 
-    //Establish listeners for events on the character sheet
+  //Establish listeners for events on the character sheet
   //@Override Application
   activateListeners(html) {
     
@@ -65,6 +68,32 @@ export default class LoserActorSheetBase extends ActorSheet {
     //establish default listeners
     super.activateListeners(html);
   }
+
+   //hanlder when an item is dropped on this sheet
+   //@Override <Unknown - undocumented API?>
+   async _onDropItemCreate(item) {
+
+    //check dragged item type and conditionally reject it
+    let validType = true;
+    let msg = "";
+    switch(item.type) {
+
+      case "feature":
+        if(item.data.category === undefined || item.data.category === "") {
+          validType = false; //invalid item setup!
+          msg = "This feature is missing a category";
+        }
+        break;
+    }
+
+    //prevent monster from adding an invalid type of item
+    if(!validType) {
+      return ui.notifications.warn(`Cannot carry this item: ${msg}`);
+    }
+
+    //default to the handler to create the embedded document
+    super._onDropItemCreate(item);
+   }
 
   /* -------------------------------------------------------------
    Inventory Methods
@@ -211,19 +240,20 @@ export default class LoserActorSheetBase extends ActorSheet {
   }
 
   _onShowItem(event) {
+    event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     
-    const featName = item.data.name;
+    const theName = item.data.name;
     let description = "";
     const image = item.data.img;
     let msgContent = "";
 
     if(event.ctrlKey) {
       description = item.data.data.description;
-      msgContent = featName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
+      msgContent = theName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
     } else {
-      msgContent = featName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;">`;
+      msgContent = theName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;">`;
     }
 
     this.displayGeneralChatMessage(msgContent);
@@ -327,6 +357,21 @@ export default class LoserActorSheetBase extends ActorSheet {
     return title;
   }
 
+   //sets booleans to make templating easier
+ _setTemplateBooleans(data) {
+  data.data.showClassControls = data.data.isPC || data.data.isNPC;
+  data.data.hasEditableAlignment = data.data.isMonster || data.data.isDomesticated;
+  data.data.hasSecondarySkill = data.data.isPC || data.data.isNPC;
+  data.data.hasReadOnlyMovement = data.data.isPC || data.data.isNPC || data.data.isDomesticated;
+  data.data.hasOtherAttributes = data.data.isPC || data.data.isNPC;
+  data.data.hasLoyalty = data.data.isNPC;
+  data.data.hasBAB = data.data.isMonster || data.data.isDomesticated;
+  data.data.hasAbilityScores = data.data.isPC || data.data.isNPC;
+  data.data.hasPCInventory = data.data.isPC || data.data.isNPC;
+  data.data.hasCapabilities = data.data.isMonster || data.data.isDomesticated;
+  data.data.hasLogistics = data.data.isDomesticated;
+}
+
   //displays a chat message dedicated to a spell being cast (or uncast)
   displayChatMessageForSpellcasting(spellItem, uncast, withDescription) {
 
@@ -363,8 +408,6 @@ export default class LoserActorSheetBase extends ActorSheet {
       user: game.user._id,
       speaker: ChatMessage.getSpeaker(),
       content: msgContent};
-
-
 
     ChatMessage.create(chatData);
  }

@@ -2,7 +2,7 @@ import LoserActorSheetBase from "./base-sheet.js";
 
 // This class provides core functionality for the Character and NPC
 // Character Sheets
-export default class LoserMonsterSheet extends LoserActorSheetBase {
+export default class LoserDomesticatedSheet extends LoserActorSheetBase {
   
   constructor(...args) {
     super(...args);
@@ -19,7 +19,7 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     options.classes.push("playable")
     return options;
   }
-  
+
   //Returns data to the template (character sheet HTML and CSS) for rendering
   //@Override LoserActorSheetBase
   getData() {
@@ -35,7 +35,7 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
 
     //total weight carried by a monster
     data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
-    inventory.loot.weight + inventory.weapon.weight;
+    inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
     data.data.inventory = inventory;
 
     //total amount of currency carried by monster
@@ -48,18 +48,21 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
   }
   
   //returns the path to the HTML-based character sheet.
-  //@Override LoserActorSheetBase
+  //@Override LoserMonsterSheetBase
   get template(){
     return "systems/loser/templates/actors/character-sheet.html";
   }
-  
+
   //Establish listeners for events on the character sheet
   //@Override Application
   activateListeners(html) {
-      
+
     //Capabilities - Click
     html.find(".event-capability-img").click(this._onShowItem.bind(this));
 
+    //Logistics - Click
+    html.find(".event-logistics-img").click(this._onShowItem.bind(this));
+      
     //establish default listeners
     super.activateListeners(html);
   }
@@ -68,25 +71,21 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
    //@Override <Unknown - undocumented API?>
    async _onDropItemCreate(item) {
 
-    //check dragged item type and conditionally reject it
-    let validType = true;
-    let msg = "";
-    switch(item.type) {
-
-      case "logistic":
-        validType = false; //logistics are never allowed on monsters
-        msg = "This type not allowed on Monsters";
-        break;
+    //prevent the character from going over the weight limit
+    const itemWeight = item.data.weight;
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.encumberedLimit) {
+      msg = "This item would exceed the beast's max carry limit";
+      return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
 
-    //prevent monster from adding an invalid type of item
-    if(!validType) {
-      return ui.notifications.warn(`Cannot carry this item: ${msg}`);
+    //friendly reminder that the character is Encumbered but not yet at limit
+    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.unencumberedLimit) {
+      ui.notifications.warn(`Carrying this item will make the beast Encumbered!`);
     }
 
     //default to the handler to create the embedded document
     super._onDropItemCreate(item);
-   }
+  }
 
   /* -------------------------------------------------------------
     Capabilities
@@ -131,8 +130,15 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
     return 0;
   }
 
-  /* -------------------------------------------------------------
-    Utility and Helper Methods
+    /* -------------------------------------------------------------
+    Event Handlers
   ----------------------------------------------------------------*/
+  _onSpellCast(event) {
+    event.preventDefault();
+
+    const li = event.currentTarget.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
+  }
 
 }

@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "npc", "monster"],
+    "types": ["character", "npc", "monster", "domesticated"],
     "templates": {
       
       "playable": {
@@ -73,7 +73,8 @@
       },
       "isNPC": false,
       "isMonster": false,
-      "isPC": true
+      "isPC": true,
+      "isDomesticated": false
     },
     
     "npc": {
@@ -83,19 +84,30 @@
       },
       "isNPC": true,
       "isMonster": false,
-      "isPC": false
+      "isPC": false,
+      "isDomesticated": false
     },
     
     "monster": {
       "templates": ["playable", "creature"],
-      "loyalty": {
-        "value": 0
-      },
+      "bab": 0,
       "moveTactical": 0,
       "moveOverland": 0,
       "isNPC": false,
       "isMonster": true,
-      "isPC": false
+      "isPC": false,
+      "isDomesticated": false
+    },
+
+    "domesticated": {
+      "templates": ["playable", "creature"],
+      "bab": 0,
+      "moveTactical": 0,
+      "moveOverland": 0,
+      "isNPC": false,
+      "isMonster": false,
+      "isPC": false,
+      "isDomesticated": true
     }
   },
 

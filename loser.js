@@ -1,5 +1,6 @@
 import LoserCharacterSheet from "./apps/sheets/actors/character-sheet.js";
 import LoserMonsterSheet from "./apps/sheets/actors/monster-sheet.js";
+import LoserDomesticatedSheet from "./apps/sheets/actors/domesticated-sheet.js";
 import LoserEquipmentItemSheet from "./apps/sheets/items/equipment-sheet.js";
 import LoserWeaponItemSheet from "./apps/sheets/items/weapon-sheet.js";
 import LoserArmorItemSheet from "./apps/sheets/items/armor-sheet.js";
@@ -52,6 +53,13 @@ Hooks.once("init", function(){
     makeDefault: true,
     label: "Monster Character Sheet"
   });
+
+    //register Domesticated sheet
+    Actors.registerSheet("loser", LoserDomesticatedSheet, {
+      types: ["domesticated"],
+      makeDefault: true,
+      label: "Monster Character Sheet"
+    });
   
   //register all the item sheets
   Items.unregisterSheet("core", ItemSheet);

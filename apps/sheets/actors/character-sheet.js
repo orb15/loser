@@ -10,7 +10,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     super(...args);
   }
   
-
   /* -------------------------------------------------------------
     Overrides and Core Methods
   ----------------------------------------------------------------*/
@@ -127,7 +126,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     super.activateListeners(html);
   }
 
-  //hanlder when an item is dropped on this sheet
+   //hanlder when an item is dropped on this sheet
    //@Override <Unknown - undocumented API?>
    async _onDropItemCreate(item) {
 
@@ -141,14 +140,6 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
         msg = "This type not allowed on Characters";
         break;
 
-      case "feature":
-        if(item.data.category === undefined || item.data.category === "") {
-          validType = false; //invalid item setup!
-          msg = "This feature is missing a category";
-        }
-
-        break;
-      
       case "spell":
         if(!this.dataCache.data.isSpellcaster) {
           validType = false;
@@ -354,7 +345,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       //note last spell cast - prevent uncasting wrong spell
       this.lastSpellCastId = item.id;
 
-       this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
+      this.displayChatMessageForSpellcasting(item, false, event.ctrlKey);
     }
   }
 

@@ -9,6 +9,7 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/loser/templates/actors/parts/actor-features.html",
     "systems/loser/templates/actors/parts/actor-notes.html",
     "systems/loser/templates/actors/parts/actor-capabilities.html",
+    "systems/loser/templates/actors/parts/actor-logistics.html",
 
 
     // Item Sheet Partials

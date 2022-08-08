@@ -206,9 +206,11 @@
   text-align: center;
   padding-bottom: 12px;
 }
+
 .loser.sheet.actor.playable ul.attributes li.attribute:last-child {
   margin: 0;
 }
+
 .loser.sheet.actor.playable ul.attributes li.attribute .attribute-value {
   display: flex;
   justify-content: center;
@@ -219,13 +221,16 @@
   font-size: 20px;
   font-weight: 700;
 }
+
 .loser.sheet.actor.playable ul.attributes li.attribute .attribute-value > * {
   font-weight: 400;
   font-size: 24px;
 }
+
 .loser.sheet.actor.playable ul.attributes li.attribute .attribute-value.multiple input {
   flex: 0 0 33%;
 }
+
 .loser.sheet.actor.playable ul.attributes li.attribute .attribute-footer {
   flex: 0 0 18px;
   margin-top: -1px;
@@ -256,6 +261,10 @@
 }
 
 .loser.sheet.actor.playable .other-attributes .loyalty {
+  width: 30px;
+}
+
+.loser.sheet.actor.playable .other-attributes .bab {
   width: 30px;
 }
 
@@ -518,7 +527,7 @@
   max-height: 40px;
 }
 
-.loser.sheet.actor.playable .capabilities-partiall .features-list .features-list .item {
+.loser.sheet.actor.playable .capabilities-partial .features-list .item {
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -541,6 +550,53 @@
 }
 
 .loser.sheet.actor.playable .capabilities-partial .features-list .item-name {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+/* ----------------------------------------- */
+/* Partial - Logistics                        */
+
+.loser.sheet.actor.playable .logistics-partial {
+  margin-left: 8px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-list .header {
+  border-bottom: 2px groove #eeede0;
+  font-size: 18px;
+  max-height: 40px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .header .slots {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.loser.sheet.actor.playable .logistics-partiall .logistics-list .item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-list .drop {
+  margin-top: 6px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-list .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-list .item-image:hover {
+  cursor: pointer;
+  background-size: 40px;
+}
+
+.loser.sheet.actor.playable .logistics-partial .logistics-list .item-name {
   flex: 1 0 150px;
   min-width: 150px;
 }

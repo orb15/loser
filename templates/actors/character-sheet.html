@@ -8,27 +8,31 @@
       <input class="charname" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
       
       <div class="flexrow basics">
-          {{#unless data.isMonster}}
-          <select class="charclass" name="data.class.name.value">
-            {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Class --"}}
-          </select>
-          <select class="charlevel" name="data.class.level.value">
-            {{selectOptions data.config.CharacterLevels selected=data.class.level.value blank="-- Level --"}}
-          </select>
-          <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
-          
-          <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
-          {{/unless}}
-          {{#data.isMonster}}
-          <select class="charalign" name="data.alignment">
-            {{selectOptions data.config.Alignments selected=data.alignment blank="-- Alignment --"}}
-          </select>
-          {{/data.isMonster}}
-          {{#unless data.isMonster}}
-          <select class="charsecskill" name="data.secondary-skill.name">
-            {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Secondary Skill --"}}
-          </select>
-          {{/unless}}
+
+          {{#data.showClassControls}}
+            <select class="charclass" name="data.class.name.value">
+              {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Class --"}}
+            </select>
+            <select class="charlevel" name="data.class.level.value">
+              {{selectOptions data.config.CharacterLevels selected=data.class.level.value blank="-- Level --"}}
+            </select>
+            <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
+            
+            <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
+          {{/data.showClassControls}}
+
+          {{#data.hasEditableAlignment}}
+            <select class="charalign" name="data.alignment">
+              {{selectOptions data.config.Alignments selected=data.alignment blank="-- Alignment --"}}
+            </select>
+          {{/data.hasEditableAlignment}}
+
+          {{#data.hasSecondarySkill}}
+            <select class="charsecskill" name="data.secondary-skill.name">
+              {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Secondary Skill --"}}
+            </select>
+          {{/data.hasSecondarySkill}}
+
       </div>
      
       <div class="flexrow">
@@ -70,16 +74,16 @@
           <li class="attribute movement">
               <h4 class="attribute-name box-title">Movement</h4>
               <div class="attribute-value multiple">
-                {{#unless data.isMonster}}
+                {{#data.hasReadOnlyMovement}}
                   <input type="text" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft" readonly>
                   <span class="sep"> / </span>
                   <input type="text" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP" readonly>
-                {{/unless}}
-                {{#data.isMonster}}
+                {{/data.hasReadOnlyMovement}}
+                {{^data.hasReadOnlyMovement}}
                 <input type="number" name="data.moveTactical" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft">
                 <span class="sep"> / </span>
                 <input type="number" name="data.moveOverland" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP">
-                {{/data.isMonster}}
+                {{/data.hasReadOnlyMovement}}
               </div>
               <footer class="attribute-footer">
                 <span>ft</span>
@@ -88,15 +92,19 @@
               </footer>
           </li>         
         </ul>
-        {{#unless data.isMonster}}
+        
         <div class="flexcol other-attributes">
-          <span>Vision Type: {{data.vision}}</span>
-          <span>BAB: {{data.bab}}</span>
-          {{#data.isNPC}}
-          <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
-          {{/data.isNPC}}
+          {{#data.hasOtherAttributes}}
+            <span>Vision Type: {{data.vision}}</span>
+            <span>BAB: {{data.bab}}</span>
+            {{#data.data.hasLoyalty}}
+              <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
+            {{/data.data.hasLoyalty}}
+            {{/data.hasOtherAttributes}}
+          {{#data.hasBAB}}
+            <span>BAB: <input class="bab" name="data.bab" type="number" min="0" value="{{data.bab}}" placeholder="0" data-dtype="Number" title="Base Attack"></span>
+          {{/data.hasBAB}}
         </div>
-        {{/unless}}
       </div>
     </div>
   </div>
@@ -105,14 +113,17 @@
   <nav class="sheet-navigation tabs" data-group="primary">
       <a class="item active" data-tab="core">Basics</a>
       <a class="item" data-tab="inventory">Inventory</a>
-      {{#unless data.isMonster}}
+      {{#data.hasPCInventory}}
       <a class="item" data-tab="features">Features</a>
       <a class="item" data-tab="spells">Spellbook</a>
       <a class="item" data-tab="notes">Notes</a>
-      {{/unless}}
-      {{#data.isMonster}}
+      {{/data.hasPCInventory}}
+      {{#data.hasCapabilities}}
       <a class="item" data-tab="capabilities">Capabilities</a>
-      {{/data.isMonster}}
+      {{/data.hasCapabilities}}
+      {{#data.hasLogistics}}
+      <a class="item" data-tab="logistics">Logistics</a>
+      {{/data.hasLogistics}}
   </nav>
   
   
@@ -125,7 +136,7 @@
 
       <div class="flexrow sst">
       
-        {{#unless data.isMonster}}
+        {{#data.hasAbilityScores}}
         <ul class="flexcol ability-scores">
           <li class="flexrow ability-score phys">
             <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
@@ -164,7 +175,7 @@
             </ul>
           </li>
         </ul>
-        {{/unless}}
+        {{/data.hasAbilityScores}}
         
         <ul class="flexcol saves">
           <li class="flexrow save poison">
@@ -222,6 +233,11 @@
     {{!-- Capabilities Tab --}}
     <div class="tab capabilities flexcol" data-group="primary" data-tab="capabilities">
         {{> "systems/loser/templates/actors/parts/actor-capabilities.html"}}
+    </div>
+
+    {{!-- Logistics Tab --}}
+    <div class="tab capabilities flexcol" data-group="primary" data-tab="logistics">
+        {{> "systems/loser/templates/actors/parts/actor-logistics.html"}}
     </div>
     
   </section>
