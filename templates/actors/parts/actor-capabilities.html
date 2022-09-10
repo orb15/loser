@@ -6,7 +6,7 @@
       <span>Features</span>
     </div>
     <ul>
-      {{#each data.capabilities.feature.features}}
+      {{#each capabilities.feature.features}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-capability-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
@@ -21,7 +21,7 @@
       <span>Spells</span>
     </div>
     <ul>
-      {{#each data.capabilities.spell.spells}}
+      {{#each capabilities.spell.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-capability-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>

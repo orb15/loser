@@ -24,27 +24,34 @@ export default class LoserMonsterSheet extends LoserActorSheetBase {
   //@Override LoserActorSheetBase
   getData() {
     
-    //start with baseline data
-    const data = super.getData()
-
-    //note the items carried by the character for use elsewhere
-    let allItems = data.actor.items;
+    //load the dataCache, which will be the context object from the base class, accessible via this.dataCache after
+    //the call below this comment
+    super.getData()
 
     //prep the inventory - divide by catagory and sort appropriately
+    const allItems = this.dataCache.source.items;
     const inventory = this._prepareInventory(allItems)
 
     //total weight carried by a monster
-    data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
+    const totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
     inventory.loot.weight + inventory.weapon.weight;
-    data.data.inventory = inventory;
 
     //total amount of currency carried by monster
-    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+    const totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
     //build "capabilities" data - basically Features and Spells as everything else is Inventory
-    data.data.capabilities = this._buildCapabilities(data.actor.items);
+    const capabilities = this._buildCapabilities(allItems);
 
-    return data;
+    //add additional items to the context
+    foundry.utils.mergeObject(this.dataCache, {
+      inventory: inventory,
+      totalWeightCarried: totalWeightCarried,
+      totalCurrency: totalCurrency,
+      capabilities: capabilities
+    });
+    
+    //return the dataCache, which is an context object enhanced by the calcs in this method and potentially elsewhere
+    return this.dataCache;
   }
   
   //returns the path to the HTML-based character sheet.

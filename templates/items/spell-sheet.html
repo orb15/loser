@@ -2,30 +2,30 @@
 
   <div class="flexrow core-details">
     
-    <img class="pic" src="{{item.img}}" title="{{item.name}}" data-edit="img"/>
+    <img class="pic" src="{{source.img}}" title="{{source.name}}" data-edit="img"/>
     
     <div class="flexcol basics">
-      <input class="itemname" name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+      <input class="itemname" name="name" type="text" value="{{source.name}}" placeholder="Name"/>
       <div class="flexrow iteminfo">
-        <span>Type: {{data.itemType}}</span>
+        <span>Type: {{itemType}}</span>
       </div>
     </div>       
   </div>
 
   <div class="phys-desc">
     <div class="desc-detail">
-      {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+      {{editor system.description target="system.description" button=true owner=true editable=true}}
     </div>
   </div>
 
   <div class="flexrow details">
     <span class="title">Spell List</span>
-    <select name="data.spellList">
-      {{selectOptions data.config.SpellLists selected=data.spellList blank="-- Required --"}}
+    <select name="system.spellList">
+      {{selectOptions config.SpellLists selected=system.spellList blank="-- Required --"}}
     </select>
     <span class="title right">Level</span>
-    <select name="data.level">
-      {{selectOptions data.config.SpellLevels selected=data.level blank="-- Required --"}}
+    <select name="system.level">
+      {{selectOptions config.SpellLevels selected=system.level blank="-- Required --"}}
     </select>
   </div>
 

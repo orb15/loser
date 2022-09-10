@@ -18,13 +18,18 @@ export default class LoserFeatureItemSheet extends LoserItemSheetBase {
   //@Override LoserItemSheetBase
   async getData(options) {
     
-    //get base item data
-    const data = await super.getData(options);
-
+    //get base context - everything needed to render any item
+    const context = await super.getData(options);
+       
     //add the LOSER config to make building select boxes easy
-    data.data.config = CONFIG.LOSER;
-    
-    return data;
+    const config = CONFIG.LOSER;
+
+    //add additional items to the context
+    foundry.utils.mergeObject(context, {
+      config: config
+    });
+
+    return context;
   }
   
   //returns the path to the HTML-based character sheet.

@@ -2,36 +2,36 @@
 
   {{!-- core details --}}
   <div class="flexrow core-details">
-    <img class="pic" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
+    <img class="pic" src="{{source.img}}" title="{{source.name}}" data-edit="img"/>
     <div class="flexcol facts">
     
-      <input class="charname" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+      <input class="charname" name="name" type="text" value="{{source.name}}" placeholder="Name"/>
       
       <div class="flexrow basics">
 
-          {{#data.showClassControls}}
-            <select class="charclass" name="data.class.name.value">
-              {{selectOptions data.config.Classes selected=data.class.name.value blank="-- Class --"}}
+          {{#showClassControls}}
+            <select class="charclass" name="system.class.name.value">
+              {{selectOptions config.Classes selected=system.class.name.value blank="-- Class --"}}
             </select>
-            <select class="charlevel" name="data.class.level.value">
-              {{selectOptions data.config.CharacterLevels selected=data.class.level.value blank="-- Level --"}}
+            <select class="charlevel" name="system.class.level.value">
+              {{selectOptions config.CharacterLevels selected=system.class.level.value blank="-- Level --"}}
             </select>
-            <input class="charxp" name="data.class.xp.value" type="number" value="{{data.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
+            <input class="charxp" name="system.class.xp.value" type="number" value="{{system.class.xp.value}}" min="0" placeholder="0" data-dtype="Number"/>
             
-            <input class="charalign" type="text" value="{{data.alignment}}" placeholder="Alignment" readonly/>
-          {{/data.showClassControls}}
+            <input class="charalign" type="text" value="{{alignment}}" placeholder="Alignment" readonly/>
+          {{/showClassControls}}
 
-          {{#data.hasEditableAlignment}}
-            <select class="charalign" name="data.alignment">
-              {{selectOptions data.config.Alignments selected=data.alignment blank="-- Alignment --"}}
+          {{#hasEditableAlignment}}
+            <select class="charalign" name="system.alignment">
+              {{selectOptions config.Alignments selected=system.alignment blank="-- Alignment --"}}
             </select>
-          {{/data.hasEditableAlignment}}
+          {{/hasEditableAlignment}}
 
-          {{#data.hasSecondarySkill}}
-            <select class="charsecskill" name="data.secondary-skill.name">
-              {{selectOptions data.config.Backgrounds selected=data.secondary-skill.name blank="-- Secondary Skill --"}}
+          {{#hasSecondarySkill}}
+            <select class="charsecskill" name="system.secondary-skill.name">
+              {{selectOptions config.Backgrounds selected=system.secondary-skill.name blank="-- Secondary Skill --"}}
             </select>
-          {{/data.hasSecondarySkill}}
+          {{/hasSecondarySkill}}
 
       </div>
      
@@ -40,12 +40,12 @@
           <li class="attribute health">
               <h4 class="attribute-name box-title">Hit Points</h4>
               <div class="attribute-value multiple">
-                  <input name="data.combat.hp.value" type="number"
-                         value="{{data.combat.hp.value}}" placeholder="10"
+                  <input name="system.combat.hp.value" type="number"
+                         value="{{system.combat.hp.value}}" placeholder="10"
                          data-dtype="Number" min="0" title="Current Hit Points">
                   <span class="sep"> / </span>
-                  <input name="data.combat.hp.max" type="number" min="0"
-                         value="{{data.combat.hp.max}}" placeholder="10" 
+                  <input name="system.combat.hp.max" type="number" min="0"
+                         value="{{system.combat.hp.max}}" placeholder="10" 
                          data-dtype="Number" title="Max Hit Points">
               </div>
               <footer class="attribute-footer">
@@ -57,12 +57,12 @@
           <li class="attribute armorclass">
               <h4 class="attribute-name box-title">AC</h4>
               <div class="attribute-value multiple">
-                  <input name="data.combat.ac.value" type="number" min="0"
-                         value="{{data.combat.ac.value}}" placeholder="10"
+                  <input name="system.combat.ac.value" type="number" min="0"
+                         value="{{system.combat.ac.value}}" placeholder="10"
                          data-dtype="Number" title="Base AC">
                   <span class="sep"> / </span>
-                  <input name="data.combat.ac.other-value" type="number" min="0"
-                         value="{{data.combat.ac.other-value}}" placeholder="10" 
+                  <input name="system.combat.ac.other-value" type="number" min="0"
+                         value="{{system.combat.ac.other-value}}" placeholder="10" 
                          data-dtype="Number" title="Other AC">
               </div>
               <footer class="attribute-footer">
@@ -74,16 +74,16 @@
           <li class="attribute movement">
               <h4 class="attribute-name box-title">Movement</h4>
               <div class="attribute-value multiple">
-                {{#data.hasReadOnlyMovement}}
-                  <input type="text" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft" readonly>
+                {{#hasReadOnlyMovement}}
+                  <input type="text" value="{{moveTactical}}" data-dtype="Number" title="Tactical ft" readonly>
                   <span class="sep"> / </span>
-                  <input type="text" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP" readonly>
-                {{/data.hasReadOnlyMovement}}
-                {{^data.hasReadOnlyMovement}}
-                <input type="number" name="data.moveTactical" value="{{data.moveTactical}}" data-dtype="Number" title="Tactical ft">
+                  <input type="text" value="{{moveOverland}}" data-dtype="Number" title="Overland MP" readonly>
+                {{/hasReadOnlyMovement}}
+                {{^hasReadOnlyMovement}}
+                <input type="number" name="moveTactical" value="{{system.moveTactical}}" data-dtype="Number" title="Tactical ft">
                 <span class="sep"> / </span>
-                <input type="number" name="data.moveOverland" value="{{data.moveOverland}}" data-dtype="Number" title="Overland MP">
-                {{/data.hasReadOnlyMovement}}
+                <input type="number" name="moveOverland" value="{{system.moveOverland}}" data-dtype="Number" title="Overland MP">
+                {{/hasReadOnlyMovement}}
               </div>
               <footer class="attribute-footer">
                 <span>ft</span>
@@ -94,16 +94,16 @@
         </ul>
         
         <div class="flexcol other-attributes">
-          {{#data.hasOtherAttributes}}
-            <span>Vision Type: {{data.vision}}</span>
-            <span>BAB: {{data.bab}}</span>
-            {{#data.data.hasLoyalty}}
-              <span>Loyalty: <input class="loyalty" name="data.loyalty.value" type="number" min="2" value="{{data.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
-            {{/data.data.hasLoyalty}}
-            {{/data.hasOtherAttributes}}
-          {{#data.hasBAB}}
-            <span>BAB: <input class="bab" name="data.bab" type="number" min="0" value="{{data.bab}}" placeholder="0" data-dtype="Number" title="Base Attack"></span>
-          {{/data.hasBAB}}
+          {{#hasOtherAttributes}}
+            <span>Vision Type: {{vision}}</span>
+            <span>BAB: {{bab}}</span>
+            {{#hasLoyalty}}
+              <span>Loyalty: <input class="loyalty" name="system.loyalty.value" type="number" min="2" value="{{system.loyalty.value}}" placeholder="6" data-dtype="Number" title="Loyalty"></span>
+            {{/hasLoyalty}}
+          {{/hasOtherAttributes}}
+          {{#hasBAB}}
+            <span>BAB: <input class="bab" name="system.bab" type="number" min="0" value="{{system.bab}}" placeholder="0" data-dtype="Number" title="Base Attack"></span>
+          {{/hasBAB}}
         </div>
       </div>
     </div>
@@ -113,17 +113,17 @@
   <nav class="sheet-navigation tabs" data-group="primary">
       <a class="item active" data-tab="core">Basics</a>
       <a class="item" data-tab="inventory">Inventory</a>
-      {{#data.hasPCInventory}}
+      {{#hasPCInventory}}
       <a class="item" data-tab="features">Features</a>
       <a class="item" data-tab="spells">Spellbook</a>
       <a class="item" data-tab="notes">Notes</a>
-      {{/data.hasPCInventory}}
-      {{#data.hasCapabilities}}
+      {{/hasPCInventory}}
+      {{#hasCapabilities}}
       <a class="item" data-tab="capabilities">Capabilities</a>
-      {{/data.hasCapabilities}}
-      {{#data.hasLogistics}}
+      {{/hasCapabilities}}
+      {{#hasLogistics}}
       <a class="item" data-tab="logistics">Logistics</a>
-      {{/data.hasLogistics}}
+      {{/hasLogistics}}
   </nav>
   
   
@@ -136,76 +136,76 @@
 
       <div class="flexrow sst">
       
-        {{#data.hasAbilityScores}}
+        {{#hasAbilityScores}}
         <ul class="flexcol ability-scores">
           <li class="flexrow ability-score phys">
             <h4 class="rollable event-ability-name" data-ability="phys">PHYS</h4>
-            <input name="data.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{data.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
+            <input name="system.ability-scores.phys.value" class="event-ability-value" data-ability="phys" type="number" min="3" value="{{system.ability-scores.phys.value}}" placeholder="10" data-dtype="Number">
             <ul class="txt-details">
-              {{#each data.physText}}
+              {{#each physText}}
               <li>{{this}}</li>
               {{/each}}
             </ul>
           </li>
           <li class="flexrow ability-score dex">
             <h4 class="rollable event-ability-name" data-ability="dex">DEX</h4>
-            <input name="data.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{data.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
+            <input name="system.ability-scores.dex.value"  class="event-ability-value" data-ability="dex" type="number" min="3" value="{{system.ability-scores.dex.value}}" placeholder="10" data-dtype="Number">
             <ul class="txt-details">
-              {{#each data.dexText}}
+              {{#each dexText}}
               <li>{{this}}</li>
               {{/each}}
             </ul>
           </li>
           <li class="flexrow ability-score comp">
             <h4 class="rollable event-ability-name" data-ability="comp">COMP</h4>
-            <input name="data.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{data.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
+            <input name="system.ability-scores.comp.value"  class="event-ability-value" data-ability="comp" type="number" min="3" value="{{system.ability-scores.comp.value}}" placeholder="10" data-dtype="Number">
             <ul class="txt-details">
-              {{#each data.compText}}
+              {{#each compText}}
               <li>{{this}}</li>
               {{/each}}
             </ul>
           </li>
           <li class="flexrow ability-score cha">
             <h4 class="rollable event-ability-name" data-ability="cha">CHA</h4>
-            <input name="data.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{data.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
+            <input name="system.ability-scores.cha.value"  class="event-ability-value" data-ability="cha" type="number" min="3" value="{{system.ability-scores.cha.value}}" placeholder="10" data-dtype="Number">
             <ul class="txt-details">
-              {{#each data.chaText}}
+              {{#each chaText}}
               <li>{{this}}</li>
               {{/each}}
             </ul>
           </li>
         </ul>
-        {{/data.hasAbilityScores}}
+        {{/hasAbilityScores}}
         
         <ul class="flexcol saves">
           <li class="flexrow save poison">
             <h4 class="rollable event-saves-name" data-save="pd">Poison / Death</h4>
-            <input name="data.saves.pd.value" class="event-save-value" type="number" min="2" value="{{data.saves.pd.value}}" placeholder="20" data-dtype="Number">
+            <input name="system.saves.pd.value" class="event-save-value" type="number" min="2" value="{{system.saves.pd.value}}" placeholder="20" data-dtype="Number">
           </li>
           <li class="flexrow save petpoly">
             <h4 class="rollable event-saves-name" data-save="pp">Petrify / Polymorph</h4>
-            <input name="data.saves.pp.value" class="event-save-value" type="number" min="2" value="{{data.saves.pp.value}}" placeholder="20" data-dtype="Number">
+            <input name="system.saves.pp.value" class="event-save-value" type="number" min="2" value="{{system.saves.pp.value}}" placeholder="20" data-dtype="Number">
           </li>
           <li class="flexrow save breath">
             <h4 class="rollable event-saves-name" data-save="bw">Breath Weapon</h4>
-            <input name="data.saves.bw.value" class="event-save-value" type="number" min="2" value="{{data.saves.bw.value}}" placeholder="20" data-dtype="Number">
+            <input name="system.saves.bw.value" class="event-save-value" type="number" min="2" value="{{system.saves.bw.value}}" placeholder="20" data-dtype="Number">
           </li>
           <li class="flexrow save law">
             <h4 class="rollable event-saves-name" data-save="lm">Law Magic</h4>
-            <input name="data.saves.lm.value" class="event-save-value" type="number" min="2" value="{{data.saves.lm.value}}" placeholder="20" data-dtype="Number">
+            <input name="system.saves.lm.value" class="event-save-value" type="number" min="2" value="{{system.saves.lm.value}}" placeholder="20" data-dtype="Number">
           </li>
           <li class="flexrow save chaos">
             <h4 class="rollable event-saves-name" data-save="cm">Chaos Magic</h4>
-            <input name="data.saves.cm.value" class="event-save-value" type="number" min="2" value="{{data.saves.cm.value}}" placeholder="20" data-dtype="Number">
+            <input name="system.saves.cm.value" class="event-save-value" type="number" min="2" value="{{system.saves.cm.value}}" placeholder="20" data-dtype="Number">
           </li>
         </ul>
 
       </div>
 
       <div class="flexcol button-town">
-        {{#data.isSpellcaster}}
+        {{#isSpellcaster}}
         <a class="rollable event-recover-spells">Recover Spells</a>
-        {{/data.isSpellcaster}}
+        {{/isSpellcaster}}
       </div>
 
     </div>

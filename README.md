@@ -34,4 +34,5 @@ This Changelog will be periodically updated to reflect the latest version of FVT
 
 | Tagged Version | Foundry Compatibility | Notes |
 |----------------|-----------------------|-------|
+| v1.0.0         | FVTT v10 Build  285   |       | 
 | v0.1.0         | FVTT v9 Build 269     | inital version |

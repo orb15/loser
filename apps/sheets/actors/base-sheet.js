@@ -25,29 +25,32 @@ export default class LoserActorSheetBase extends ActorSheet {
   //@Override Application
   getData(options) {
 
-    const data = {};
+    //get base data for item and load it into a 'context' - a construct for holding all
+    //needed info for the template
+    const context = super.getData(options);
 
-    // The Actor's data
-    const actorData = this.actor.data.toObject(false);
-    const source = this.actor.data._source.data;
-    data.actor = actorData;
-    data.data = actorData.data;
-
-    //common data code for all sheets
-
-    //cache all of this data in the charsheet object for easy reference in any charsheet
-    this.dataCache = data;
-
-    // Note the use of data.data here. Data.data is sent to the template, where it is de-referenced
-    // as just 'data' to access what is stored here
+    //obtain the base actor (for access to anything  on the actor object)
+    const actor = context.actor;
 
     //add the LOSER config to make building select boxes easy
-    data.data.config = CONFIG.LOSER;
+    const config = CONFIG.LOSER;
 
-    //define some booleans useful for templating
-    this._setTemplateBooleans(data)
+    //add additional items to the context
+    foundry.utils.mergeObject(context, {
+      system: actor.system, //this is the data from the template!
+      source: actor,
+      config: config,
+    });
 
-    return data;
+    //use info in context to define some booleans useful for templating
+    this._setTemplateBooleans(context)
+
+    //add the entire context as base data so subclasses can use and extend it during rules processing and template prep
+    this.dataCache = context;
+
+    //this object will be passed to the template for handlebars rendering. Note that the handlesbars reference
+    //is to the _properties_ of context, not context iteself
+    return context;
   }
 
   //Establish listeners for events on the character sheet
@@ -79,14 +82,14 @@ export default class LoserActorSheetBase extends ActorSheet {
     switch(item.type) {
 
       case "feature":
-        if(item.data.category === undefined || item.data.category === "") {
+        if(item.system.category === undefined || item.system.category === "") {
           validType = false; //invalid item setup!
           msg = "This feature is missing a category";
         }
         break;
     }
 
-    //prevent monster from adding an invalid type of item
+    //prevent adding an invalid type of item
     if(!validType) {
       return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
@@ -122,7 +125,7 @@ export default class LoserActorSheetBase extends ActorSheet {
           break;
         case "armor":
           inventory.armor.items.push(item);
-          item.weight = Utils.calcSlots(item, this.dataCache.data.className);
+          item.weight = Utils.calcSlots(item, this.dataCache.className);
           inventory.armor.weight +=item.weight;
           break;
         case "equipment":
@@ -131,7 +134,7 @@ export default class LoserActorSheetBase extends ActorSheet {
           inventory.equipment.weight += item.weight
 
           //note if this item has a resource die associated with it
-          if (item.data.resourceDie >= 0) {
+          if (item.system.resourceDie >= 0) {
             item.hasResourceDie = true
           } else {
             item.hasResourceDie = false
@@ -192,31 +195,33 @@ export default class LoserActorSheetBase extends ActorSheet {
       return 0;
     } 
     
-    let allItems =  currencyItems.reduce(function (sum, item) {
-      let i = item.data;
-      sum.data.coins.gp += i.coins.gp;
-      sum.data.coins.sp += i.coins.sp;
-      sum.data.coins.cp += i.coins.cp;
+    const allCurrencyItemsCounter =  currencyItems.reduce(function (sum, item) {
+      let i = item.system;
+      sum.coins.gp += i.coins.gp;
+      sum.coins.sp += i.coins.sp;
+      sum.coins.cp += i.coins.cp;
 
-      sum.data.gems.sp10 += i.gems.sp10;
-      sum.data.gems.sp25 += i.gems.sp25;
-      sum.data.gems.sp50 += i.gems.sp50;
+      sum.gems.sp10 += i.gems.sp10;
+      sum.gems.sp25 += i.gems.sp25;
+      sum.gems.sp50 += i.gems.sp50;
 
-      sum.data.gems.sp100 += i.gems.sp100;
-      sum.data.gems.sp250 += i.gems.sp250;
-      sum.data.gems.sp500 += i.gems.sp500;
+      sum.gems.sp100 += i.gems.sp100;
+      sum.gems.sp250 += i.gems.sp250;
+      sum.gems.sp500 += i.gems.sp500;
 
-      sum.data.gems.sp1000 += i.gems.sp1000;
-      sum.data.gems.sp2500 += i.gems.sp2500;
-      sum.data.gems.sp5000 += i.gems.sp5000;
+      sum.gems.sp1000 += i.gems.sp1000;
+      sum.gems.sp2500 += i.gems.sp2500;
+      sum.gems.sp5000 += i.gems.sp5000;
 
       return sum;
     })
 
-    let total = (allItems.data.coins.gp * 10) + (allItems.data.coins.sp) + (allItems.data.coins.cp / 10);
-    total += (allItems.data.gems.sp10 * 10) + (allItems.data.gems.sp25 * 25) + (allItems.data.gems.sp50 * 50);
-    total += (allItems.data.gems.sp100 * 100) + (allItems.data.gems.sp250 * 250) + (allItems.data.gems.sp50 * 500);
-    total += (allItems.data.gems.sp1000 * 1000) + (allItems.data.gems.sp2500 * 2500) + (allItems.data.gems.sp5000 * 5000);
+    const aci = allCurrencyItemsCounter.system;
+
+    let total = (aci.coins.gp * 10) + (aci.coins.sp) + (aci.coins.cp / 10);
+    total += (aci.gems.sp10 * 10) + (aci.gems.sp25 * 25) + (aci.gems.sp50 * 50);
+    total += (aci.gems.sp100 * 100) + (aci.gems.sp250 * 250) + (aci.gems.sp50 * 500);
+    total += (aci.gems.sp1000 * 1000) + (aci.gems.sp2500 * 2500) + (aci.gems.sp5000 * 5000);
     
     return total;
   }
@@ -244,13 +249,13 @@ export default class LoserActorSheetBase extends ActorSheet {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     
-    const theName = item.data.name;
+    const theName = item.name;
     let description = "";
-    const image = item.data.img;
+    const image = item.img;
     let msgContent = "";
 
     if(event.ctrlKey) {
-      description = item.data.data.description;
+      description = item.system.description;
       msgContent = theName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
     } else {
       msgContent = theName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;">`;
@@ -354,22 +359,22 @@ export default class LoserActorSheetBase extends ActorSheet {
       default:
         title = saveOrAbilityName;
     }
-    return title;
+    return this.actor.name + ": " + title;
   }
 
    //sets booleans to make templating easier
- _setTemplateBooleans(data) {
-  data.data.showClassControls = data.data.isPC || data.data.isNPC;
-  data.data.hasEditableAlignment = data.data.isMonster || data.data.isDomesticated;
-  data.data.hasSecondarySkill = data.data.isPC || data.data.isNPC;
-  data.data.hasReadOnlyMovement = data.data.isPC || data.data.isNPC || data.data.isDomesticated;
-  data.data.hasOtherAttributes = data.data.isPC || data.data.isNPC;
-  data.data.hasLoyalty = data.data.isNPC;
-  data.data.hasBAB = data.data.isMonster || data.data.isDomesticated;
-  data.data.hasAbilityScores = data.data.isPC || data.data.isNPC;
-  data.data.hasPCInventory = data.data.isPC || data.data.isNPC;
-  data.data.hasCapabilities = data.data.isMonster || data.data.isDomesticated;
-  data.data.hasLogistics = data.data.isDomesticated;
+ _setTemplateBooleans(context) {
+  context.showClassControls = context.system.isPC || context.system.isNPC;
+  context.hasEditableAlignment = context.system.isMonster || context.system.isDomesticated;
+  context.hasSecondarySkill = context.system.isPC || context.system.isNPC;
+  context.hasReadOnlyMovement = context.system.isPC || context.system.isNPC || context.system.isDomesticated;
+  context.hasOtherAttributes = context.system.isPC || context.system.isNPC;
+  context.hasLoyalty = context.system.isNPC;
+  context.hasBAB = context.system.isMonster || context.system.isDomesticated;
+  context.hasAbilityScores = context.system.isPC || context.system.isNPC;
+  context.hasPCInventory = context.system.isPC || context.system.isNPC;
+  context.hasCapabilities = context.system.isMonster || context.system.isDomesticated;
+  context.hasLogistics = context.system.isDomesticated;
 }
 
   //displays a chat message dedicated to a spell being cast (or uncast)
@@ -388,19 +393,19 @@ export default class LoserActorSheetBase extends ActorSheet {
     }
 
     const casterName = spellItem.actor.name;
-    const spellName = spellItem.data.name;
+    const spellName = spellItem.name;
     let description = "";
-    const image = spellItem.data.img;
+    const image = spellItem.img;
     let msgContent = "";
 
     if(withDescription) {
-      description = spellItem.data.data.description;
+      description = spellItem.system.description;
     }
 
     if(uncast) {
-      msgContent = casterName + ` UNCASTS a spell: ` + spellName;
+      msgContent = casterName + `: UNCASTS the spell ` + spellName;
     } else {
-      msgContent = casterName + ` casts a spell: ` + spellName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
+      msgContent = casterName + `: casts the spell ` + spellName + `<hr><br>` + `<img src="` + image + `" style="height:45px;border:none;margin-top:-18px;"><br>` + description;
     }
 
     const chatData = {
@@ -414,6 +419,8 @@ export default class LoserActorSheetBase extends ActorSheet {
 
  //displays a generic chat message
  displayGeneralChatMessage(msg) {
+
+  msg = this.actor.name + ": " + msg;
   const chatData = {
     type: CONST.CHAT_MESSAGE_TYPES.IC,
     user: game.user._id,

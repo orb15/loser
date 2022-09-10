@@ -5,9 +5,9 @@
   {{!-- Armor Properties --}}
   <div class="flexrow form-group stacked item-properties">
       <label>Armor Properties</label>
-      {{#each data.propertyNames as |name prop|}}
+      {{#each propertyNames as |name prop|}}
       <label class="checkbox">
-        <input type="checkbox" name="data.properties.{{prop}}" {{checked (lookup ../data.properties prop)}}/> {{ name }}
+        <input type="checkbox" name="system.properties.{{prop}}" {{checked (lookup ../system.properties prop)}}/> {{ name }}
       </label>
       {{/each}}
   </div>

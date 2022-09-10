@@ -2,23 +2,23 @@
   
   {{!-- Header --}}
   <div class="flexrow header">
-    Available Currency: {{data.totalCurrency}}sp
-    <span class="slots" title="{{data.encumbranceTooltip}}">Total Weight: {{data.totalWeightCarried}}</span>
+    Available Currency: {{totalCurrency}}sp
+    <span class="slots" title="{{encumbranceTooltip}}">Total Weight: {{totalWeightCarried}}</span>
   </div>
 
   <div class="inventory-lists">
     
     <div class="header flexrow">
       Weapons
-      <span class="slots">Weight: {{data.inventory.weapon.weight}}</span>
+      <span class="slots">Weight: {{inventory.weapon.weight}}</span>
     </div>
     <ul>
-      {{#each data.inventory.weapon.items}}
+      {{#each inventory.weapon.items}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
-          <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
-          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-quantity drop">Qty: {{this.system.qty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.system.resourceDie}}{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
@@ -30,15 +30,15 @@
 
     <div class="header flexrow">
       Armor
-      <span class="slots">Weight: {{data.inventory.armor.weight}}</span>
+      <span class="slots">Weight: {{inventory.armor.weight}}</span>
     </div>
     <ul>
-      {{#each data.inventory.armor.items}}
+      {{#each inventory.armor.items}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
-          <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
-          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-quantity drop">Qty: {{this.system.qty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.system.resourceDie}}{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
@@ -50,15 +50,15 @@
 
     <div class="header flexrow">
       Equipment
-      <span class="slots">Weight: {{data.inventory.equipment.weight}}</span>
+      <span class="slots">Weight: {{inventory.equipment.weight}}</span>
     </div>
     <ul>
-      {{#each data.inventory.equipment.items}}
+      {{#each inventory.equipment.items}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
-          <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
-          <div class="item-resource-die drop rollable event-resourcedie-value">{{#this.hasResourceDie}}<a>die: {{this.data.resourceDie}}</a>{{/this.hasResourceDie}}</div>
+          <div class="item-quantity drop">Qty: {{this.system.qty}}</div>
+          <div class="item-resource-die drop rollable event-resourcedie-value">{{#this.hasResourceDie}}<a>die: {{this.system.resourceDie}}</a>{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
@@ -71,15 +71,15 @@
 
     <div class="header flexrow">
       Loot
-      <span class="slots">Weight: {{data.inventory.loot.weight}}</span>
+      <span class="slots">Weight: {{inventory.loot.weight}}</span>
     </div>
     <ul>
-      {{#each data.inventory.loot.items}}
+      {{#each inventory.loot.items}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
-          <div class="item-quantity drop">Qty: {{this.data.qty}}</div>
-          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-quantity drop">Qty: {{this.system.qty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.system.resourceDie}}{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>
@@ -91,15 +91,15 @@
   
     <div class="header flexrow">
       Currency
-      <span class="slots">Weight: {{data.inventory.currency.weight}}</span>
+      <span class="slots">Weight: {{inventory.currency.weight}}</span>
     </div>
     <ul>
-      {{#each data.inventory.currency.items}}
+      {{#each inventory.currency.items}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-inventory-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
-          <div class="item-quantity drop">{{#this.hasQty}}Qty: {{this.data.qty}}{{/this.hasQty}}</div>
-          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.data.resourceDie}}{{/this.hasResourceDie}}</div>
+          <div class="item-quantity drop">{{#this.hasQty}}Qty: {{this.system.qty}}{{/this.hasQty}}</div>
+          <div class="item-resource-die drop">{{#this.hasResourceDie}}die: {{this.system.resourceDie}}{{/this.hasResourceDie}}</div>
           <div class="item-slots drop">Weight: {{this.weight}}</div>
           <div class="item-control flexrow drop">
             <div><a class="event-item-edit" title="Edit"><i class="fas fa-edit"></i></a></div>

@@ -18,10 +18,11 @@ export default class LoserLootItemSheet extends LoserItemSheetBase {
   //@Override LoserItemSheetBase
   async getData(options) {
     
-    //get base item data
-    const data = await super.getData(options);
+    //get base context - everything needed to render any item
+    const context = await super.getData(options);
     
-    return data;
+    //no loot-specific data is required, so return the base context
+    return context;
   }
   
   //returns the path to the HTML-based character sheet.

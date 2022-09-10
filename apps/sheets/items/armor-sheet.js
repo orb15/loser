@@ -19,12 +19,18 @@ export default class LoserArmorItemSheet extends LoserItemSheetBase {
   //@Override LoserItemSheetBase
   async getData(options) {
     
-    //get base item data
-    const data = await super.getData(options);
-    
+    //get base context - everything needed to render any item
+    const context = await super.getData(options);
+       
     //establish armor properties names - this is... inelegant but should work for now
-    data.data.propertyNames = ["Shield", "Light", "Medium", "Heavy"];
-    return data;
+    const propertyNames = ["Shield", "Light", "Medium", "Heavy"];
+
+    //add additional items to the context
+    foundry.utils.mergeObject(context, {
+      propertyNames: propertyNames
+    });
+
+    return context;
   }
   
   //returns the path to the HTML-based character sheet.

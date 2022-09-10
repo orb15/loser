@@ -1,10 +1,10 @@
 <div class= "spells-partial flexcol">
 
-  {{#data.isSpellcaster}}
+  {{#isSpellcaster}}
 
   {{!-- Header --}}
   <div class="flexrow header">
-    Spell List: {{data.spellbook.list}}
+    Spell List: {{spellbook.list}}
   </div>
 
   <div class="spell-list">
@@ -12,26 +12,26 @@
     <div class="header flexrow">
       <span>Level 1</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.1.memorized}} / {{data.spellbook.1.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.1.memorized}} / {{spellbook.1.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.1.remaining}} / {{data.spellbook.1.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.1.remaining}} / {{spellbook.1.maxUses}}</span>
     </div>
     <ul>
-      {{#each data.spellbook.1.spells}}
+      {{#each spellbook.1.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -46,26 +46,26 @@
     <div class="header flexrow">
       <span>Level 2</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.2.memorized}} / {{data.spellbook.2.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.2.memorized}} / {{spellbook.2.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.2.remaining}} / {{data.spellbook.2.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.2.remaining}} / {{spellbook.2.maxUses}}</span>
     </div>
     <ul>
-      {{#each data.spellbook.2.spells}}
+      {{#each spellbook.2.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -80,26 +80,26 @@
     <div class="header flexrow">
       <span>Level 3</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.3.memorized}} / {{data.spellbook.3.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.3.memorized}} / {{spellbook.3.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.3.remaining}} / {{data.spellbook.3.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.3.remaining}} / {{spellbook.3.maxUses}}</span>
     </div>
     <ul>
-      {{#each data.spellbook.3.spells}}
+      {{#each spellbook.3.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -114,26 +114,26 @@
     <div class="header flexrow">
       <span>Level 4</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.4.memorized}} / {{data.spellbook.4.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.4.memorized}} / {{spellbook.4.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.4.remaining}} / {{data.spellbook.4.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.4.remaining}} / {{spellbook.4.maxUses}}</span>
     </div>    
     <ul>
-      {{#each data.spellbook.4.spells}}
+      {{#each spellbook.4.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -148,26 +148,26 @@
     <div class="header flexrow">
       <span>Level 5</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.5.memorized}} / {{data.spellbook.5.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.5.memorized}} / {{spellbook.5.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.5.remaining}} / {{data.spellbook.5.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.5.remaining}} / {{spellbook.5.maxUses}}</span>
     </div>
     <ul>
-      {{#each data.spellbook.5.spells}}
+      {{#each spellbook.5.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -182,26 +182,26 @@
     <div class="header flexrow">
       <span>Level 6</span>
       <span>Memorized:
-        {{#data.spellbook.mustMemorize}} 
-          {{data.spellbook.6.memorized}} / {{data.spellbook.6.maxUses}}
-        {{/data.spellbook.mustMemorize}}
-        {{^data.spellbook.mustMemorize}} 
+        {{#spellbook.mustMemorize}} 
+          {{spellbook.6.memorized}} / {{spellbook.6.maxUses}}
+        {{/spellbook.mustMemorize}}
+        {{^spellbook.mustMemorize}} 
           NA
-        {{/data.spellbook.mustMemorize}}
+        {{/spellbook.mustMemorize}}
         </span>
-      <span>Remaining Spells: {{data.spellbook.6.remaining}} / {{data.spellbook.6.maxUses}}</span>
+      <span>Remaining Spells: {{spellbook.6.remaining}} / {{spellbook.6.maxUses}}</span>
     </div>
     <ul>
-      {{#each data.spellbook.6.spells}}
+      {{#each spellbook.6.spells}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-spell-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
           <div class="range drop memorize">
-            {{#this.data.mustMemorize}}
-            <span class="times-mem">{{this.data.timesMemorized}}</span>
+            {{#this.system.mustMemorize}}
+            <span class="times-mem">{{this.system.timesMemorized}}</span>
             <a class="spell-mem event-spell-mem" title="Memorize"><i class="fas fa-plus"></i></a>
             <a class="spell-demem event-spell-demem" title="Unmemorize"><i class="fas fa-minus"></i></a>
-            {{/this.data.mustMemorize}}
+            {{/this.system.mustMemorize}}
           </div>
           <div class="uncast drop">
             <a class="rollable event-uncast-spell">Uncast</a>
@@ -217,7 +217,7 @@
 
   {{else}}
   No spellcasting capabilities
-  {{/data.isSpellcaster}}
+  {{/isSpellcaster}}
 
 
 </div>

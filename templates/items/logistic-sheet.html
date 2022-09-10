@@ -2,13 +2,13 @@
 
   <div class="flexrow core-details">
     
-    <img class="pic" src="{{item.img}}" title="{{item.name}}" data-edit="img"/>
+    <img class="pic" src="{{source.img}}" title="{{source.name}}" data-edit="img"/>
     
     <div class="flexcol basics">
-      <input class="itemname" name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+      <input class="itemname" name="name" type="text" value="{{source.name}}" placeholder="Name"/>
       <div class="flexrow iteminfo">
-        <span>Type: {{data.itemType}}</span>
-        <span class="slots">Weight: {{data.totalWeight}}</span>
+        <span>Type: {{itemType}}</span>
+        <span class="slots">Weight: {{totalWeight}}</span>
       </div>
     </div>
         
@@ -16,15 +16,15 @@
 
   <div class="phys-desc">
     <div class="desc-detail">
-      {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+      {{editor system.description target="system.description" button=true owner=true editable=true}}
     </div>
   </div>
 
   <div class="flexrow details">
     <span class="title">Reserved Weight</span>
-    <input name="data.weight" type="number" value="{{data.weight}}" data-dtype="Number" min="0"/>
+    <input name="system.weight" type="number" value="{{system.weight}}" data-dtype="Number" min="0"/>
     <span class="title right currency">Currency Invested (sp)</span>
-    <input name="data.investment" type="number" value="{{data.investment}}" data-dtype="Number" min="0"/>
+    <input name="system.investment" type="number" value="{{system.investment}}" data-dtype="Number" min="0"/>
   </div>
 
 </form>

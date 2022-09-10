@@ -2,11 +2,16 @@
   "name": "loser",
   "title": "LoseR - Lou's OSE Revised",
   "description": "A system for playing Lou's Revised OSE Rules on FoundryVTT",
-  "author": "orb15",
+  "authors": [    {
+    "name": "orb15"
+  }],
   
   "version": "0.1.0",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
+  "compatibility": {
+    "minimum": 10,
+    "verified": 10.285,
+    "maximum": 10
+  },
 
   "scripts": [],
   "esmodules": ["loser.js"],

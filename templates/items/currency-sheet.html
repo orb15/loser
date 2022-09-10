@@ -2,13 +2,13 @@
 
   <div class="flexrow core-details">
     
-    <img class="pic" src="{{item.img}}" title="{{item.name}}" data-edit="img"/>
+    <img class="pic" src="{{source.img}}" title="{{source.name}}" data-edit="img"/>
     
     <div class="flexcol basics">
-      <input class="itemname" name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+      <input class="itemname" name="name" type="text" value="{{source.name}}" placeholder="Name"/>
       <div class="flexrow iteminfo">
-        <span>Type: {{data.itemType}}</span>
-          <span class="slots">Weight: {{data.totalWeight}}</span>
+        <span>Type: {{itemType}}</span>
+          <span class="slots">Weight: {{totalWeight}}</span>
       </div>
     </div>
         
@@ -16,7 +16,7 @@
 
   <div class="phys-desc">
     <div class="desc-detail">
-      {{editor content=data.description target="data.description" button=true owner=true editable=true}}
+      {{editor system.description target="system.description" button=true owner=true editable=true}}
     </div>
   </div>
 
@@ -26,11 +26,11 @@
 
     <div class="flexrow coins">
       <span class="denom-title">GP</span>
-      <input class="gp" name="data.coins.gp" type="number" value="{{data.coins.gp}}" placeholder="0"/>
+      <input class="gp" name="system.coins.gp" type="number" value="{{system.coins.gp}}" placeholder="0"/>
       <span class="denom-title mid">SP</span>
-      <input class="sp" name="data.coins.sp" type="number" value="{{data.coins.sp}}" placeholder="0"/>
+      <input class="sp" name="system.coins.sp" type="number" value="{{system.coins.sp}}" placeholder="0"/>
       <span class="denom-title mid">CP</span>
-      <input class="cp" name="data.coins.cp" type="number" value="{{data.coins.cp}}" placeholder="0"/>
+      <input class="cp" name="system.coins.cp" type="number" value="{{system.coins.cp}}" placeholder="0"/>
     </div>
 
     <div class="flexcol gems">
@@ -39,30 +39,30 @@
 
       <div class="flexrow gems1">
         <span class="denom-title">10 SP</span>
-        <input class="sp10" name="data.gems.sp10" type="number" value="{{data.gems.sp10}}" placeholder="0"/>
+        <input class="sp10" name="system.gems.sp10" type="number" value="{{system.gems.sp10}}" placeholder="0"/>
         <span class="denom-title">25 SP</span>
-        <input class="sp25" name="data.gems.sp25" type="number" value="{{data.gems.sp25}}" placeholder="0"/>
+        <input class="sp25" name="system.gems.sp25" type="number" value="{{system.gems.sp25}}" placeholder="0"/>
         <span class="denom-title">50 SP</span>
-        <input class="sp50" name="data.gems.sp50" type="number" value="{{data.gems.sp50}}" placeholder="0"/>
+        <input class="sp50" name="system.gems.sp50" type="number" value="{{system.gems.sp50}}" placeholder="0"/>
       </div>
 
       <div class="flexrow gems2">
         <span class="denom-title">100 SP</span>
-        <input class="sp100" name="data.gems.sp100" type="number" value="{{data.gems.sp100}}" placeholder="0"/>
+        <input class="sp100" name="system.gems.sp100" type="number" value="{{system.gems.sp100}}" placeholder="0"/>
         <span class="denom-title">250 SP</span>
-        <input class="sp250" name="data.gems.sp250" type="number" value="{{data.gems.sp250}}" placeholder="0"/>
+        <input class="sp250" name="system.gems.sp250" type="number" value="{{system.gems.sp250}}" placeholder="0"/>
         <span class="denom-title">500 SP</span>
-        <input class="sp500" name="data.gems.sp500" type="number" value="{{data.gems.sp500}}" placeholder="0"/>
+        <input class="sp500" name="system.gems.sp500" type="number" value="{{system.gems.sp500}}" placeholder="0"/>
       </div>
 
       
       <div class="flexrow gems3">
         <span class="denom-title">1000 SP</span>
-        <input class="sp1000" name="data.gems.sp1000" type="number" value="{{data.gems.sp1000}}" placeholder="0"/>
+        <input class="sp1000" name="system.gems.sp1000" type="number" value="{{system.gems.sp1000}}" placeholder="0"/>
         <span class="denom-title">2500 SP</span>
-        <input class="sp2500" name="data.gems.sp2500" type="number" value="{{data.gems.sp2500}}" placeholder="0"/>
+        <input class="sp2500" name="system.gems.sp2500" type="number" value="{{system.gems.sp2500}}" placeholder="0"/>
         <span class="denom-title">5000 SP</span>
-        <input class="sp5000" name="data.gems.sp5000" type="number" value="{{data.gems.sp5000}}" placeholder="0"/>
+        <input class="sp5000" name="system.gems.sp5000" type="number" value="{{system.gems.sp5000}}" placeholder="0"/>
       </div>
 
     </div>

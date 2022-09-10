@@ -24,33 +24,38 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
   //Returns data to the template (character sheet HTML and CSS) for rendering
   //@Override LoserActorSheetBase
   getData() {
-    
-    //start with baseline data
-    const data = super.getData()
 
-    //note the items carried by the character for use elsewhere
-    let allItems = data.actor.items;
+    //load the dataCache, which will be the context object from the base class, accessible via this.dataCache after
+    //the call below this comment
+    super.getData()
 
     //prep the inventory - divide by catagory and sort appropriately
+    const allItems = this.dataCache.source.items;
     const inventory = this._prepareInventory(allItems)
 
     //total weight carried by a monster
-    data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
+    const totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
     inventory.loot.weight + inventory.weapon.weight + inventory.logistics.weight;
-    data.data.inventory = inventory;
-
-    //calculate movement
-    const moveData = this._calculateMovement();
-    data.data.moveTactical = moveData[0];
-    data.data.moveOverland = moveData[1];
 
     //total amount of currency carried by monster
-    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+    const totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
     //build "capabilities" data - basically Features and Spells as everything else is Inventory
-    data.data.capabilities = this._buildCapabilities(data.actor.items);
+    const capabilities = this._buildCapabilities(allItems);
 
-    return data;
+    //add additional items to the context
+    foundry.utils.mergeObject( this.dataCache, {
+      inventory: inventory,
+      totalWeightCarried: totalWeightCarried,
+      totalCurrency: totalCurrency,
+      capabilities: capabilities
+    });
+
+    //use info in context to calculate movement
+    this._calculateMovement();
+    
+    //return the dataCache, which is an context object enhanced by the calcs in this method and potentially elsewhere
+    return this.dataCache;
   }
   
   //returns the path to the HTML-based character sheet.
@@ -80,15 +85,15 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
 
     let msg = "";
 
-    //prevent the character from going over the weight limit
-    const itemWeight = item.data.weight;
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.baseCarry * 2) {
+    //prevent the beast from going over the weight limit
+    const itemWeight = item.system.weight;
+    if (itemWeight + this.dataCache.totalWeightCarried > this.dataCache.system.baseCarry * 2) {
       msg = "This item would exceed the beast's max carry limit";
       return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
 
     //friendly reminder that the beast is Encumbered but not yet at limit
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.baseCarry) {
+    if (itemWeight + this.dataCache.totalWeightCarried > this.dataCache.system.baseCarry) {
       ui.notifications.warn(`Carrying this item will make the beast Encumbered!`);
     }
 
@@ -120,14 +125,14 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
 
     });
 
-    //sort the spells
+    //sort the features and spells independently
     capabilities["feature"].features.sort(this._capabilitySorter);
     capabilities["spell"].spells.sort(this._capabilitySorter);
 
     return capabilities;
   }
 
-  //sort spells by name
+  //sort capability by name
   _capabilitySorter(a,b) {
 
     const aName = a.name.toLowerCase();
@@ -156,10 +161,10 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
   _calculateMovement() {
     let moveRates = [];
 
-    const totalWeightCarried = this.dataCache.data.totalWeightCarried;
-    const baseTactical = this.dataCache.data.baseMoveTactical;
-    const baseOverland = this.dataCache.data.baseMoveOverland;
-    const baseCarry = this.dataCache.data.baseCarry;
+    const totalWeightCarried = this.dataCache.totalWeightCarried;
+    const baseTactical = this.dataCache.system.baseMoveTactical;
+    const baseOverland = this.dataCache.system.baseMoveOverland;
+    const baseCarry = this.dataCache.system.baseCarry;
 
     let tactical = 0;
     let overland = 0;
@@ -174,8 +179,8 @@ export default class LoserDomesticatedSheet extends LoserActorSheetBase {
       overland = Math.floor(baseOverland / 2);
     }
    
-    moveRates = [tactical,overland];
-    return moveRates;
+    this.dataCache.moveTactical = tactical;
+    this.dataCache.moveOverland = overland;
   }
 
 }

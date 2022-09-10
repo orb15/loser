@@ -19,10 +19,11 @@ export default class LoserLogisticItemSheet extends LoserItemSheetBase {
   //@Override LoserItemSheetBase
   async getData(options) {
     
-    //get base item data
-    const data = await super.getData(options);
-
-    return data;
+    //get base context - everything needed to render any item
+    const context = await super.getData(options);
+    
+    //no logistic-specific data is required, so return the base context
+    return context;
   }
   
   //returns the path to the HTML-based character sheet.

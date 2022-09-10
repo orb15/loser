@@ -2,14 +2,14 @@
   
   {{> "systems/loser/templates/items/parts/physdesc-partial-sheet.html" }}
   
-  {{#data.hasResourceDie}}
+  {{#hasResourceDie}}
   <div class="flexrow resource-die equipment">
     <span class="title">Resource Die</span>
     <span class="d1">1d</span>
-    <select class="die-size" name="data.resourceDie">
-      {{selectOptions data.config.ResourceDice selected=data.resourceDie blank="8"}}
+    <select class="die-size" name="system.resourceDie">
+      {{selectOptions config.ResourceDice selected=system.resourceDie blank="8"}}
     </select>
   </div>
-  {{/data.hasResourceDie}}
+  {{/hasResourceDie}}
   
 </form>

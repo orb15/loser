@@ -6,7 +6,7 @@
       <span>Class Features</span>
     </div>
     <ul>
-      {{#each data.features.class.features}}
+      {{#each features.class.features}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-feature-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
@@ -21,7 +21,7 @@
       <span>Language Features</span>
     </div>
     <ul>
-      {{#each data.features.language.features}}
+      {{#each features.language.features}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-feature-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>
@@ -36,7 +36,7 @@
       <span>Other Features</span>
     </div>
     <ul>
-      {{#each data.features.other.features}}
+      {{#each features.other.features}}
         <li class="item flexrow" data-item-id='{{this._id}}'>
           <div class="item-image event-feature-img" role="button" aria-label="{{this.name}}" style="background-image: url('{{this.img}}')"></div>
           <div class="item-name drop">{{this.name}}</div>

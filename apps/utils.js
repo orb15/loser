@@ -6,7 +6,7 @@ export default class Utils {
   //returns the number of slots consumed by an item
   static calcSlots(item, className) {
 
-    const data = item.data
+    const data = item.system;
 
     //non-currency items use unit weight first, or if this value is 0, base total slots on quantitity and qty per slot
     switch (item.type) {

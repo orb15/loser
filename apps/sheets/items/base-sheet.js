@@ -21,24 +21,31 @@ export default class LoserItemSheetBase extends ItemSheet {
   //@Override Application
   async getData(options) {
     
-    //get base item data - this is whack. I am using the 5e approach here
-    //data.data seems to work for other documents but items need this weird treatment
-    //also see return below
-    const data = super.getData(options);
-    const itemData = data.data;
-       
+    //get base data for item and load it into a 'context' - a construct for holding all
+    //needed info for the template
+    const context = super.getData(options);
+
+    //obtain the base item (for access to item.img and item.name and anything else on the item object)
+    const item = context.item;
+
     //note this item type
-    itemData.data.itemType =itemData.type.titleCase();
+    const itemType = item.type.titleCase();
 
     //calc weight of this item (if any)
-    itemData.data.totalWeight =  Utils.calcSlots(itemData);
+    const totalWeight =  Utils.calcSlots(item);
 
+    //add additional items to the context
+    foundry.utils.mergeObject(context, {
+      system: item.system, //this is the data from the template!
+      source: item,
+      itemType: itemType,
+      totalWeight: totalWeight
+    });
 
-    // Re-define the template data references (backwards compatible)
-    // more 5e weirdness copied from the 5e 'sheet.js' base class
-    data.item = itemData;
-    data.data = itemData.data;
-    return data;
+    //this object will be passed to the template for handlebars rendering. Note that the handlesbars reference
+    //is to the _properties_ of context, not context iteself. So to display the item qty (a LoseR-specific value
+    //defined in the Loser template.json file), handlebars needs to refer to system.qty and not context.system.qty
+    return context;
   }
 
 }

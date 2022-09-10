@@ -90,6 +90,7 @@
     
     "monster": {
       "templates": ["playable", "creature"],
+      "alignment": "chaotic",
       "bab": 0,
       "moveTactical": 0,
       "moveOverland": 0,
@@ -101,6 +102,7 @@
 
     "domesticated": {
       "templates": ["playable", "creature"],
+      "alignment": "neutral",
       "bab": 0,
       "baseMoveTactical": 0,
       "baseMoveOverland": 0,

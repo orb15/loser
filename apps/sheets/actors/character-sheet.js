@@ -26,72 +26,98 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   //@Override LoserActorSheetBase
   getData() {
     
-    //start with baseline data
-    const data = super.getData()
+    //load the dataCache, which will be the context object from the base class, accessible via this.dataCache after
+    //the call below this comment
+    super.getData()
 
-    //note the character's class and level for use elsewhere
-    let className = data.data.class.name.value;
-    className = this._normalizeClassName(className);
-    data.data.className = className;
-    const classLevel = data.data.class.level.value;
-    const isSpellcaster = this._isSpellcaster(className);
-    data.data.isSpellcaster = isSpellcaster;
+    //note the character's class if that class is a Spellcaster
+    let rawClassName = this.dataCache.system.class.name.value;
+    if(this._noClassDefined(rawClassName)) {
+      rawClassName = "normal human"
+    }
+    const sysClassName = this._toSysClassName(rawClassName);
+    const isSpellcaster = this._isSpellcaster(sysClassName);
+
+    //note level for use in various calcs
+    const classLevel = this.dataCache.system.class.level.value;
+
+    //set some specifics based on character class and level
+    const vision = this._getVision(sysClassName);
+    const alignment = this._getAlignment(sysClassName);
+    const size = this._getSize(sysClassName);
+    const bab = this._getBab(sysClassName, classLevel);
 
     //note the items carried by the character for use elsewhere
-    let allItems = data.actor.items;
-    
+    let allItems = this.dataCache.source.items;
+
     //build this character's feature list - features are just Items, handled like Inventory
-    data.data.features = this._buildFeatures(allItems);
-
-    //set some specifics based on character class
-    data.data.vision = this._getVision(className);
-    data.data.alignment = this._getAlignment(className);
-    data.data.size = this._getSize(className);
-    data.data.bab = this._getBab(className, classLevel);
-
+    const features = this._buildFeatures(allItems);
+    
     //prep the inventory - divide by catagory and sort appropriately
     const inventory = this._prepareInventory(allItems)
 
     //total weight carried by a character
-    data.data.totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
+    const totalWeightCarried = inventory.armor.weight + inventory.currency.weight + inventory.equipment.weight + 
     inventory.loot.weight + inventory.weapon.weight;
-    data.data.inventory = inventory;
 
     //unencumbered limit, encumbered limit
-    const physScore = data.data["ability-scores"].phys.value
-    data.data.unencumberedLimit = CONFIG.LOSER.ClassDetails[data.data.className].baseCarry + (CONFIG.LOSER.WeightChangePerPhysMod * CONFIG.LOSER.PhysBonus[physScore]);
-    data.data.encumberedLimit = data.data.unencumberedLimit * 2;
-    if(data.data.encumberedLimit <= 0) {
-      data.data.encumberedLimit = 30;
+    const physScore =this.dataCache.system["ability-scores"].phys.value
+    const unencumberedLimit = CONFIG.LOSER.ClassDetails[sysClassName].baseCarry + (CONFIG.LOSER.WeightChangePerPhysMod * CONFIG.LOSER.PhysBonus[physScore]);
+    const encumberedLimit = unencumberedLimit * 2;
+    if(encumberedLimit <= 0) {
+      encumberedLimit = 30;
     }
 
     //tooltip for encumbrance limits
-    data.data.encumbranceTooltip = "Unencumbered up to: " + data.data.unencumberedLimit + " Max Carry: " + data.data.encumberedLimit + " lbs";
+    const encumbranceTooltip = "Unencumbered up to: " + unencumberedLimit + " Max Carry: " + encumberedLimit + " lbs";
 
     //total amount of currency carried by character
-    data.data.totalCurrency = this._countTotalCurrency(inventory.currency.items);
+    const totalCurrency = this._countTotalCurrency(inventory.currency.items);
 
     //build spellbook
+    let spellbook = null;
     if(isSpellcaster) {
-      data.data.spellbook = this._buildSpellbook(className, classLevel, allItems);
+      spellbook = this._buildSpellbook(sysClassName, classLevel, allItems);
     }
 
-    //calculate movement
-    const moveData = this._calculateMovement();
-    data.data.moveTactical = moveData[0];
-    data.data.moveOverland = moveData[1];
+  //set ability score text
+    let rawTxt = CONFIG.LOSER.Abilities.phys[this.dataCache.system["ability-scores"].phys.value];
+    const physText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.dex[this.dataCache.system["ability-scores"].dex.value];
+    const dexText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.comp[this.dataCache.system["ability-scores"].comp.value];
+    const compText = this._parseAbilityText(rawTxt);
+    rawTxt = CONFIG.LOSER.Abilities.cha[this.dataCache.system["ability-scores"].cha.value];
+    const chaText = this._parseAbilityText(rawTxt);
 
-    //set ability score text
-    let rawTxt = CONFIG.LOSER.Abilities.phys[data.data["ability-scores"].phys.value];
-    data.data.physText = this._parseAbilityText(rawTxt);
-    rawTxt = CONFIG.LOSER.Abilities.dex[data.data["ability-scores"].dex.value];
-    data.data.dexText = this._parseAbilityText(rawTxt);
-    rawTxt = CONFIG.LOSER.Abilities.comp[data.data["ability-scores"].comp.value];
-    data.data.compText = this._parseAbilityText(rawTxt);
-    rawTxt = CONFIG.LOSER.Abilities.cha[data.data["ability-scores"].cha.value];
-    data.data.chaText = this._parseAbilityText(rawTxt);
+    //add additional items to the dataCache
+    foundry.utils.mergeObject(this.dataCache, {
+      rawClassName: rawClassName,
+      sysClassName: sysClassName,
+      isSpellcaster: isSpellcaster,
+      vision: vision,
+      alignment: alignment,
+      size: size,
+      bab: bab,
+      features: features,
+      inventory: inventory,
+      totalWeightCarried: totalWeightCarried,
+      unencumberedLimit: unencumberedLimit,
+      encumberedLimit: encumberedLimit,
+      encumbranceTooltip: encumbranceTooltip,
+      totalCurrency: totalCurrency,
+      spellbook: spellbook,
+      physText: physText,
+      dexText: dexText,
+      compText: compText,
+      chaText: chaText
+    });
 
-    return data;
+    //use info in context to calculate movement
+    this._calculateMovement();
+        
+    //return the dataCache, which is an context object enhanced by the calcs in this method and potentially elsewhere
+    return this.dataCache;
   }
   
   //returns the path to the HTML-based character sheet.
@@ -144,11 +170,11 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
         break;
 
       case "spell":
-        if(!this.dataCache.data.isSpellcaster) {
+        if(!this.dataCache.isSpellcaster) {
           validType = false;
           msg = "This character is not a spellcaster";
         } else {
-          validType = this._usesSpellList(item.data.spellList);
+          validType = this._usesSpellList(item.system.spellList);
           msg = "This spell is from the wrong spell list";
         }
         break;
@@ -160,14 +186,14 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     }
 
     //prevent the character from going over the weight limit
-    const itemWeight = item.data.weight;
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.encumberedLimit) {
+    const itemWeight = item.system.weight;
+    if (itemWeight + this.dataCache.totalWeightCarried > this.dataCache.encumberedLimit) {
       msg = "This item would exceed the character's max carry limit";
       return ui.notifications.warn(`Cannot carry this item: ${msg}`);
     }
 
     //friendly reminder that the character is Encumbered but not yet at limit
-    if (itemWeight + this.dataCache.data.totalWeightCarried > this.dataCache.data.unencumberedLimit) {
+    if (itemWeight + this.dataCache.totalWeightCarried > this.dataCache.unencumberedLimit) {
       ui.notifications.warn(`Carrying this item will make the character Encumbered!`);
     }
 
@@ -189,7 +215,11 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     allItems.map(item => {
 
       if(item.type === "feature") {
-        allFeatures[item.data.category].features.push(item);
+        let cat = item.system.category;
+        if (cat === "monster") {
+          cat = "other";
+        }
+        allFeatures[cat].features.push(item);
       }
 
     });
@@ -236,10 +266,10 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     allItems.map(item => {
 
       if(item.type === "spell") {
-        item.data.mustMemorize = spellbook.mustMemorize;
-        spellbook[item.data.level].spells.push(item);
-        spellbook[item.data.level].memorized += item.data.timesMemorized;
-        spellbook[item.data.level].cast += item.data.timesCast;
+        item.system.mustMemorize = spellbook.mustMemorize;
+        spellbook[item.system.level].spells.push(item);
+        spellbook[item.system.level].memorized += item.system.timesMemorized;
+        spellbook[item.system.level].cast += item.system.timesCast;
       }
     });
 
@@ -299,12 +329,12 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    const level = item.data.data.level
+    const level = item.system.level
     const remaining = this._spellsRemainingForSpellLevel(level);
-    const memorized = this._spellsMemorizedForSpellLevel(item.data.data.level);
-    if(item.data.data.timesMemorized < CONFIG.LOSER.MaxSpellMemorizeCount &&
+    const memorized = this._spellsMemorizedForSpellLevel(level);
+    if(item.system.timesMemorized < CONFIG.LOSER.MaxSpellMemorizeCount &&
       memorized < remaining) {
-      item.update({"data.timesMemorized": item.data.data.timesMemorized + 1});
+      item.update({"system.timesMemorized": item.system.timesMemorized + 1});
     }
 
   }
@@ -313,8 +343,8 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    if(item.data.data.timesMemorized > 0) {
-     item.update({"data.timesMemorized": item.data.data.timesMemorized - 1});
+    if(item.system.timesMemorized > 0) {
+     item.update({"system.timesMemorized": item.system.timesMemorized - 1});
     }
   }
 
@@ -323,14 +353,14 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    const level = item.data.data.level
+    const level = item.system.level
     const remaining = this._spellsRemainingForSpellLevel(level);
 
     //determine if we even cast the spell
     let spellWasCast = false;
-    if(this.dataCache.data.spellbook.mustMemorize) {
-      if(item.data.data.timesMemorized > 0 && remaining > 0) {
-        item.update({"data.timesMemorized": item.data.data.timesMemorized - 1});
+    if(this.dataCache.spellbook.mustMemorize) {
+      if(item.system.timesMemorized > 0 && remaining > 0) {
+        item.update({"system.timesMemorized": item.system.timesMemorized - 1});
         spellWasCast = true;
       }
     } else {
@@ -341,9 +371,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
     //bookkeeping on spell being cast
     if(spellWasCast) {
-      item.update({"data.timesCast": item.data.data.timesCast + 1});
-      this.dataCache.data.spellbook[level].cast += 1;
-      this.dataCache.data.spellbook[level].remaining = this.dataCache.data.spellbook[level].maxUses - this.dataCache.data.spellbook[level].cast;
+      item.update({"system.timesCast": item.system.timesCast + 1});
+      this.dataCache.spellbook[level].cast += 1;
+      this.dataCache.spellbook[level].remaining = this.dataCache.spellbook[level].maxUses - this.dataCache.spellbook[level].cast;
       
       //note last spell cast - prevent uncasting wrong spell
       this.lastSpellCastId = item.id;
@@ -355,7 +385,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   _onSpellUncast(event) {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    const level = item.data.data.level
+    const level = item.system.level
     const remaining = this._spellsRemainingForSpellLevel(level);
     const maxUses = this._maxSpellsForSpellLevel(level);
     const uncastSpellId = item.id;
@@ -365,14 +395,16 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       return;
     }
 
+    //prevent cornercases like repeated uncasts
     if(remaining >= 0 && remaining < maxUses) {
-      if(this.dataCache.data.spellbook.mustMemorize) {
-        item.update({"data.timesMemorized": item.data.data.timesMemorized + 1});
+      if(this.dataCache.spellbook.mustMemorize) {
+        item.update({"system.timesMemorized": item.system.timesMemorized + 1});
       }
-      item.update({"data.timesCast": item.data.data.timesCast - 1});
-      this.dataCache.data.spellbook[level].cast -= 1;
-      this.dataCache.data.spellbook[level].remaining = maxUses - this.dataCache.data.spellbook[level].cast;
+      item.update({"system.timesCast": item.system.timesCast - 1});
+      this.dataCache.spellbook[level].cast -= 1;
+      this.dataCache.spellbook[level].remaining = maxUses - this.dataCache.spellbook[level].cast;
 
+      //note that we just uncast a spell - no spell has been cast (this is set in _onSpellCast)
       this.lastSpellCastId = null;
 
       this.displayChatMessageForSpellcasting(item, true);
@@ -384,7 +416,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
 
-    const resourceDieValue = item.data.data.resourceDie;
+    const resourceDieValue = item.system.resourceDie;
     const itemName = item.name;
 
     //safety
@@ -392,7 +424,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       return;
     }
 
-    //inform the room on empty resource use - naughty player :)
+    //inform the room on attempted empty resource use - naughty player :)
     if(resourceDieValue === "0") {
       const msg = "Item: " + itemName + " has 0 Resource Die uses available and should not have been used!"
       ui.notifications.warn(`${msg}`); 
@@ -407,41 +439,41 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     event.preventDefault();
 
     //safety
-    if(!this.dataCache.data.isSpellcaster) {
+    if(!this.dataCache.isSpellcaster) {
       return;
     }
 
-    const spellbook = this.dataCache.data.spellbook;
+    const spellbook = this.dataCache.spellbook;
 
     spellbook["1"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
     spellbook["2"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
     spellbook["3"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
     spellbook["4"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
     spellbook["5"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
     spellbook["6"].spells.map(spell => {
       const item = this.actor.items.get(spell._id);
-      item.update({"data.timesMemorized": 0});
-      item.update({"data.timesCast": 0});
+      item.update({"system.timesMemorized": 0});
+      item.update({"system.timesCast": 0});
     })
 
     this.displayGeneralChatMessage("Recovering Spells");
@@ -461,17 +493,17 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //returns max spells allowed to be used at given level
   _maxSpellsForSpellLevel(level) {
-    return this.dataCache.data.spellbook[level].maxUses;
+    return this.dataCache.spellbook[level].maxUses;
   }
 
   //returns the count of spells used at given level
   _spellsMemorizedForSpellLevel(level) {
-    return this.dataCache.data.spellbook[level].memorized;
+    return this.dataCache.spellbook[level].memorized;
   }
 
   //returns the count of spells remaining at given level
   _spellsRemainingForSpellLevel(level) {
-    return this.dataCache.data.spellbook[level].remaining;
+    return this.dataCache.spellbook[level].remaining;
   }
 
   //looks up spells available based on class and level
@@ -511,7 +543,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
   }
 
   //standardizes class name
-  _normalizeClassName(className) {
+  _toSysClassName(className) {
 
     className = className.toLowerCase();
 
@@ -547,30 +579,28 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
 
   //returns true if this character uses the supplied spell list
   _usesSpellList(spellList) {
-    if(!this.dataCache.data.isSpellcaster) {
+    if(!this.dataCache.isSpellcaster) {
       return false;
     }
 
-    const actualList = CONFIG.LOSER.Spellcasters[this.dataCache.data.className].spellList;
+    const actualList = CONFIG.LOSER.Spellcasters[this.dataCache.sysClassName].spellList;
     return spellList === actualList;
   }
 
   //calculates movement rates based on all factors
   _calculateMovement() {
-    let moveRates = [];
-
-    const totalWeightCarried = this.dataCache.data.totalWeightCarried;
-    const className = this.dataCache.data.className;
+    const totalWeightCarried = this.dataCache.totalWeightCarried;
+    const className = this.dataCache.sysClassName;
     const baseTactical = CONFIG.LOSER.ClassDetails[className].baseTactical;
     const baseOverland = CONFIG.LOSER.ClassDetails[className].baseOverland;
 
     let tactical = 0;
     let overland = 0;
 
-    if(totalWeightCarried <= this.dataCache.data.unencumberedLimit) {
+    if(totalWeightCarried <= this.dataCache.unencumberedLimit) {
       tactical = baseTactical;
       overland = baseOverland;
-    } else if (totalWeightCarried <= this.dataCache.data.encumberedLimit){
+    } else if (totalWeightCarried <= this.dataCache.encumberedLimit){
 
       //cut available move in half
       tactical = Utils.calcHalfTacticalMovement(baseTactical)
@@ -581,9 +611,9 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     if(className === "fighter" && tactical > 0) {
       tactical += 5;
     }
-    
-    moveRates = [tactical,overland];
-    return moveRates;
+
+    this.dataCache.moveTactical = tactical;
+    this.dataCache.moveOverland = overland;
   }
 
   //performs a Resource Die test
@@ -626,9 +656,11 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
       }
     }
 
+    const titleText = item.actor.name + ": " + "Resource Test for " + itemName;
+
     //prep the template data and render the template
     const chatTemplateData = {
-      titleText: "Resource Test for " + itemName,
+      titleText: titleText,
       dieResult: r.total,
       isStable: isStable,
       isExpended: isExpended,
@@ -646,7 +678,7 @@ export default class LoserCharacterSheet extends LoserActorSheetBase {
     await r.toMessage(chatData);
     
     //note the change if any
-    item.update({"data.resourceDie": newDieSize});
+    item.update({"system.resourceDie": newDieSize});
 
     return r;
   }
